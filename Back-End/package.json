@@ -16,7 +16,8 @@
     "cros": "^1.0.1",
     "express": "^4.18.0",
     "mongodb": "^4.5.0",
-    "mongoose": "^6.3.1"
+    "mongoose": "^6.3.1",
+    "multer": "^1.4.4"
   },
   "devDependencies": {
     "joi": "^17.6.0",

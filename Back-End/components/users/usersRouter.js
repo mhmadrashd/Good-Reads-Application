@@ -4,7 +4,7 @@ const customeError = require("../../assets/helpers/customError");
 const countersModel = require("../../assets/db/countersModel");
 const UserModel = require("./usersModel");
 const schema = require("./validator");
-
+const Upload = require("../../assets/helpers/Images")
 // const defaultStatus = ["Read", "Reading", "Want-To-Read"];
 
 async function getUserID() {
@@ -42,7 +42,7 @@ userRouter.get("/:id", async (req, res, next) => {
 });
 
 //Edit user by ID
-userRouter.patch("/", async (req, res, next) => {
+userRouter.patch("/",async (req, res, next) => {
   const { id, fName, lName, email, password, img } = req.body;
   try {
     //Check valid Data
@@ -69,29 +69,28 @@ userRouter.patch("/", async (req, res, next) => {
 });
 
 //Add new user
-userRouter.post("/", async (req, res, next) => {
-  const { fName, lName, email, password, img } = req.body;
-
+userRouter.post("/", Upload.single("img"), async (req, res, next) => {
+  const { fName, lName, email, password } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
-      fName: fName,
-      lName: lName,
-      email: email,
-      password: password,
-      img: img,
+      fName,
+      lName,
+      email,
+      password,
+      img:req.file.filename,
     });
 
     //Add user data to userTable
-    await UserModel.create({
+    await UserModel.create ({
       _id: await getUserID(),
-      fName: fName,
-      lName: lName,
-      email: email,
-      password: password,
-      img: img,
+      fName,
+      lName,
+      email,
+      password,
+      img:req.file.filename,
+    
     });
-
     //Increment Users ID Counter in countersID table
     await countersModel.findByIdAndUpdate(1, {
       $inc: {
