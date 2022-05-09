@@ -17,8 +17,7 @@ const authorsSchema = new mongoose.Schema({
     type: Date,
   },
   img: {
-    data: Buffer,
-    contentType: String,
+    type: String,
   },
   created_by: {
     type: String,

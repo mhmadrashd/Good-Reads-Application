@@ -4,6 +4,7 @@ const customeError = require("../../assets/helpers/customError");
 const countersModel = require("../../assets/db/countersModel");
 const AuthorModel = require("./authorsModel");
 const schema = require("./validator");
+const Upload = require("../../assets/helpers/Images")
 
 async function getAuthID() {
   try {
@@ -66,8 +67,8 @@ authorsRouter.patch("/", async (req, res, next) => {
 });
 
 //Add new Auth
-authorsRouter.post("/", async (req, res, next) => {
-  const { fName, lName, DOB, img, admin } = req.body;
+authorsRouter.post("/", Upload.single("img") ,async (req, res, next) => {
+  const { fName, lName, DOB, created_by } = req.body;
 
   try {
     //Check valid Data
@@ -75,6 +76,7 @@ authorsRouter.post("/", async (req, res, next) => {
       fName: fName,
       lName: lName,
       DOB: DOB,
+      img: req.file.filename,
     });
 
     //Add Auth data to AuthTable
@@ -83,9 +85,9 @@ authorsRouter.post("/", async (req, res, next) => {
       fName: fName,
       lName: lName,
       DOB: DOB,
-      img: img,
+      img: req.file.filename,
       created_at: new Date().toGMTString(),
-      created_by: admin,
+      created_by: created_by,
     });
 
     //Increment Auths ID Counter in countersID table
