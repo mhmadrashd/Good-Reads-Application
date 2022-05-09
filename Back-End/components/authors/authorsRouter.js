@@ -40,8 +40,8 @@ authorsRouter.get("/:id", async (req, res, next) => {
 });
 
 //Edit Auth by ID
-authorsRouter.patch("/", async (req, res, next) => {
-  const { id, fName, lName, DOB, img, admin } = req.body;
+authorsRouter.patch("/", Upload.single("img"), async (req, res, next) => {
+  const { id, fName, lName, DOB, updated_by } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -49,15 +49,16 @@ authorsRouter.patch("/", async (req, res, next) => {
       fName: fName,
       lName: lName,
       DOB: DOB,
+      img:req.file.filename,
     });
     await AuthorModel.findByIdAndUpdate(id, {
       $set: {
         fName: fName,
         lName: lName,
         DOB: DOB,
-        img: img,
+        img: req.file.filename,
         updated_at: new Date().toGMTString(),
-        updated_by: admin,
+        updated_by: updated_by,
       },
     });
     res.send({ success: true });
