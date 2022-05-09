@@ -42,8 +42,8 @@ userRouter.get("/:id", async (req, res, next) => {
 });
 
 //Edit user by ID
-userRouter.patch("/",async (req, res, next) => {
-  const { id, fName, lName, email, password, img } = req.body;
+userRouter.patch("/", Upload.single("img"), async (req, res, next) => {
+  const { id, fName, lName, email, password, updated_by } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -52,6 +52,8 @@ userRouter.patch("/",async (req, res, next) => {
       lName: lName,
       email: email,
       password: password,
+      img: req.file.filename,
+
     });
     await UserModel.findByIdAndUpdate(id, {
       $set: {
@@ -59,7 +61,8 @@ userRouter.patch("/",async (req, res, next) => {
         lName: lName,
         email: email,
         password: password,
-        img: img,
+        img: req.file.filename,
+        updated_by: updated_by,
       },
     });
     res.send({ success: true });
