@@ -1,67 +1,67 @@
 const express = require("express");
-const userRouter = express.Router();
+const AdminRouter = express.Router();
 const customeError = require("../../assets/helpers/customError");
 const countersModel = require("../../assets/db/countersModel");
-const UserModel = require("./usersModel");
+const AdminsModel = require("./adminsModel");
 const schema = require("./validator");
 const Upload = require("../../assets/helpers/Images")
-// const defaultStatus = ["Read", "Reading", "Want-To-Read"];
 
-async function getUserID() {
+async function getAdminID() {
   try {
     const lastID = await countersModel.findOne({});
-    return lastID.user_ID + 1;
+    console.log(lastID.admin_ID);
+    console.log(lastID);
+    console.log(lastID.admin_ID + 1);
+    return lastID.admin_ID + 1;
   } catch (error) {
     console.log(error);
   }
 }
 
-//Get by fName(Query)
-userRouter.get("/", async (req, res, next) => {
-  const { fName } = req.query;
+//Get by username(Query)
+AdminRouter.get("/", async (req, res, next) => {
+  const { username } = req.query;
   try {
-    const filterdUsers = fName
-      ? await UserModel.find({ fName })
-      : await UserModel.find({});
-    res.send(filterdUsers);
+    const filterdAdmins = username
+      ? await AdminsModel.find({ username })
+      : await AdminsModel.find({});
+    res.send(filterdAdmins);
   } catch (error) {
     next(customeError(422, "VALIDATION_ERROR", error));
   }
 });
 
-//Get user by ID
-userRouter.get("/:id", async (req, res, next) => {
+//Get Admin by ID
+AdminRouter.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     // await schema.validateAsync({ id: id });
-    const user = await UserModel.findById(id);
-    res.send(user);
+    const Admin = await AdminsModel.findById(id);
+    res.send(Admin);
   } catch (error) {
     next(customeError(error.code, "VALIDATION_ERROR", error));
   }
 });
 
-//Edit user by ID
-userRouter.patch("/", Upload.single("img"), async (req, res, next) => {
-  const { id, fName, lName, email, password } = req.body;
+//Edit Admin by ID
+AdminRouter.patch("/", Upload.single("img"), async (req, res, next) => {
+  const { id, username, email, password } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
       id: id,
-      fName: fName,
-      lName: lName,
-      email: email,
-      password: password,
+      username,
+      email,
+      password,
       img: req.file.filename,
     });
-    await UserModel.findByIdAndUpdate(id, {
+    await AdminsModel.findByIdAndUpdate(id, {
       $set: {
         fName: fName,
-        lName: lName,
-        email: email,
-        password: password,
+        username,
+        email,
+        password,
         img: req.file.filename,
-        updated_at: new Date().toGMTString(),
       },
     });
     res.send({ success: true });
@@ -70,33 +70,30 @@ userRouter.patch("/", Upload.single("img"), async (req, res, next) => {
   }
 });
 
-//Add new user
-userRouter.post("/", Upload.single("img"), async (req, res, next) => {
-  const { fName, lName, email, password } = req.body;
+//Add new Admin
+AdminRouter.post("/", Upload.single("img"), async (req, res, next) => {
+  const { username, email, password } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
-      fName,
-      lName,
+      username,
       email,
       password,
       img:req.file.filename,
     });
 
-    //Add user data to userTable
-    await UserModel.create ({
-      _id: await getUserID(),
-      fName,
-      lName,
+    //Add Admin data to AdminTable
+    await AdminsModel.create ({
+      _id: await getAdminID(),
+      username,
       email,
       password,
       img:req.file.filename,
-      created_at: new Date().toGMTString(),
     });
-    //Increment Users ID Counter in countersID table
+    //Increment Admins ID Counter in countersID table
     await countersModel.findByIdAndUpdate(1, {
       $inc: {
-        user_ID: 1,
+        admin_ID: 1,
       },
     });
 
@@ -106,15 +103,15 @@ userRouter.post("/", Upload.single("img"), async (req, res, next) => {
   }
 });
 
-//Delete user by ID
-userRouter.delete("/", async (req, res, next) => {
+//Delete Admin by ID
+AdminRouter.delete("/", async (req, res, next) => {
   const { id } = req.body;
   try {
-    await UserModel.findByIdAndDelete(id);
+    await AdminsModel.findByIdAndDelete(id);
     res.send({ success: true });
   } catch (error) {
     next(customeError(error.code, "VALIDATION_ERROR", error));
   }
 });
 
-module.exports = userRouter;
+module.exports = AdminRouter;

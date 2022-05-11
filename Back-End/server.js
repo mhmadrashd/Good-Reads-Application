@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./components/users/usersRouter");
 const authorsRouter = require("./components/authors/authorsRouter");
+const categoriesRouter = require("./components/categories/categoriesRouter");
+const adminsRouter = require("./components/admins/adminsRouter");
 const app = express();
 const port = 3000;
 /*
@@ -14,11 +16,17 @@ require("./assets/db/dbConnection");
 app.use(express.json());
 app.use(cors());
 
+//Route Authors to categoriesRouter
+app.use("/admin", adminsRouter);
+
 //Route Users to userRouter
 app.use("/user", userRouter);
 
 //Route Authors to authorsRouter
 app.use("/author", authorsRouter);
+
+//Route Authors to categoriesRouter
+app.use("/category", categoriesRouter);
 
 //Error MiddelWare must declared with 4 parameters
 app.use((err, req, res, next) => {

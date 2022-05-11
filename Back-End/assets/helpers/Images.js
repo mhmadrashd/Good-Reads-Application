@@ -5,6 +5,9 @@ const multer = require("multer");
 const Storage = multer.diskStorage({
   destination: (req, file, cb) => {
     switch (req.baseUrl) {
+      case "/admin":
+        cb(null, "./assets/images/admins");
+        break;
       case "/user":
         cb(null, "./assets/images/users");
         break;
