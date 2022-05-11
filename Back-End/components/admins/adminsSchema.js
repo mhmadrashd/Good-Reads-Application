@@ -26,9 +26,14 @@ const adminsSchema = new mongoose.Schema({
   },
 });
 
-adminsSchema.pre(["save", "updateOne"], async function (next) {
+adminsSchema.pre("save", async function (next) {
   const saltRounds = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, saltRounds);
+  next();
+});
+adminsSchema.pre( /^find/, async function (next) {
+  const saltRounds = await bcrypt.genSalt();
+  this._update.$set.password = await bcrypt.hash(this._update.$set.password, saltRounds);
   next();
 });
 module.exports = adminsSchema;

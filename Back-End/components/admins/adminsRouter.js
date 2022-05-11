@@ -9,9 +9,6 @@ const Upload = require("../../assets/helpers/Images")
 async function getAdminID() {
   try {
     const lastID = await countersModel.findOne({});
-    console.log(lastID.admin_ID);
-    console.log(lastID);
-    console.log(lastID.admin_ID + 1);
     return lastID.admin_ID + 1;
   } catch (error) {
     console.log(error);
@@ -57,7 +54,6 @@ AdminRouter.patch("/", Upload.single("img"), async (req, res, next) => {
     });
     await AdminsModel.findByIdAndUpdate(id, {
       $set: {
-        fName: fName,
         username,
         email,
         password,

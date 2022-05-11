@@ -41,4 +41,9 @@ userSchema.pre(["save", "updateOne"], async function (next) {
   this.password = await bcrypt.hash(this.password, saltRounds);
   next();
 });
+userSchema.pre( /^find/, async function (next) {
+  const saltRounds = await bcrypt.genSalt();
+  this._update.$set.password = await bcrypt.hash(this._update.$set.password, saltRounds);
+  next();
+});
 module.exports = userSchema;

@@ -8,6 +8,7 @@ const countersIDSchema = new mongoose.Schema({
   cat_ID: "number",
   usrBook_ID: "number",
   rating_ID: "number",
+  admin_ID: "number"
 });
 module.exports = countersIDSchema;
 
