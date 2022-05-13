@@ -1,6 +1,7 @@
 const express = require("express");
 const CategRouter = express.Router();
-const customeError = require("../../assets/helpers/customError");
+const { customError } = require("../../assets/helpers/customError");
+const { authorizeAdminsPriv } = require("../../assets/helpers/checkPrivilege");
 const countersModel = require("../../assets/db/countersModel");
 const CategModel = require("./categoriesModel");
 const schema = require("./validator");
@@ -23,7 +24,7 @@ CategRouter.get("/", async (req, res, next) => {
       : await CategModel.find({});
     res.send(filterdCategs);
   } catch (error) {
-    next(customeError(422, "VALIDATION_ERROR", error));
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
@@ -35,13 +36,14 @@ CategRouter.get("/:id", async (req, res, next) => {
     const Categ = await CategModel.findById(id);
     res.send(Categ);
   } catch (error) {
-    next(customeError(error.code, "VALIDATION_ERROR", error));
+    next(customError(error.code, "VALIDATION_ERROR", error));
   }
 });
 
 //Edit Categ by ID
-CategRouter.patch("/", async (req, res, next) => {
-  const { id, Name, updated_by } = req.body;
+CategRouter.patch("/:id", authorizeAdminsPriv, async (req, res, next) => {
+  const { id } = req.params;
+  const { Name, updated_by } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -57,12 +59,12 @@ CategRouter.patch("/", async (req, res, next) => {
     });
     res.send({ success: true });
   } catch (error) {
-    next(customeError(422, "VALIDATION_ERROR", error));
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
 //Add new Categ
-CategRouter.post("/", async (req, res, next) => {
+CategRouter.post("/", authorizeAdminsPriv, async (req, res, next) => {
   const { Name, created_by } = req.body;
   try {
     //Check valid Data
@@ -84,18 +86,18 @@ CategRouter.post("/", async (req, res, next) => {
 
     res.send({ success: true });
   } catch (error) {
-    next(customeError(422, "VALIDATION_ERROR", error));
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
 //Delete Categ by ID
-CategRouter.delete("/", async (req, res, next) => {
-  const { id } = req.body;
+CategRouter.delete("/:id", authorizeAdminsPriv, async (req, res, next) => {
+  const { id } = req.params;
   try {
     await CategModel.findByIdAndDelete(id);
     res.send({ success: true });
   } catch (error) {
-    next(customeError(error.code, "VALIDATION_ERROR", error));
+    next(customError(error.code, "VALIDATION_ERROR", error));
   }
 });
 

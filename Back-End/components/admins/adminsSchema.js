@@ -9,6 +9,7 @@ const adminsSchema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, "Please enter an username"],
+    unique: true
   },
   email: {
     type: String,
@@ -26,13 +27,20 @@ const adminsSchema = new mongoose.Schema({
   },
 });
 
-adminsSchema.pre("save", async function (next) {
+//Hash password before create user data in db
+adminsSchema.pre(["save"], async function (next) {
+  //Generate new salt
   const saltRounds = await bcrypt.genSalt();
+  //Hashing password
   this.password = await bcrypt.hash(this.password, saltRounds);
   next();
 });
-adminsSchema.pre( /^find/, async function (next) {
+
+//Hash password before update user data in db
+adminsSchema.pre(["findOneAndUpdate"], async function (next) {
+  //Generate new salt
   const saltRounds = await bcrypt.genSalt();
+  //Hashing password
   this._update.$set.password = await bcrypt.hash(this._update.$set.password, saltRounds);
   next();
 });

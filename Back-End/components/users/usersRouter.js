@@ -1,11 +1,17 @@
 const express = require("express");
 const userRouter = express.Router();
-const customeError = require("../../assets/helpers/customError");
+const { customError, authError } = require("../../assets/helpers/customError");
 const countersModel = require("../../assets/db/countersModel");
 const UserModel = require("./usersModel");
 const schema = require("./validator");
-const Upload = require("../../assets/helpers/Images")
+const Upload = require("../../assets/helpers/Images");
+const util = require("util");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const { authorizeUser } = require('./middlewares');
+
 // const defaultStatus = ["Read", "Reading", "Want-To-Read"];
+const signAsync = util.promisify(jwt.sign);
 
 async function getUserID() {
   try {
@@ -16,34 +22,22 @@ async function getUserID() {
   }
 }
 
-//Get by fName(Query)
-userRouter.get("/", async (req, res, next) => {
-  const { fName } = req.query;
-  try {
-    const filterdUsers = fName
-      ? await UserModel.find({ fName })
-      : await UserModel.find({});
-    res.send(filterdUsers);
-  } catch (error) {
-    next(customeError(422, "VALIDATION_ERROR", error));
-  }
-});
-
 //Get user by ID
-userRouter.get("/:id", async (req, res, next) => {
+userRouter.get("/:id", authorizeUser, async (req, res, next) => {
   const { id } = req.params;
   try {
     // await schema.validateAsync({ id: id });
     const user = await UserModel.findById(id);
     res.send(user);
   } catch (error) {
-    next(customeError(error.code, "VALIDATION_ERROR", error));
+    next(customError(error.code, "VALIDATION_ERROR", error));
   }
 });
 
 //Edit user by ID
-userRouter.patch("/", Upload.single("img"), async (req, res, next) => {
-  const { id, fName, lName, email, password } = req.body;
+userRouter.patch("/:id", authorizeUser, Upload.single("img"), async (req, res, next) => {
+  const { id } = req.params;
+  const { fName, lName, email, password } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -66,7 +60,7 @@ userRouter.patch("/", Upload.single("img"), async (req, res, next) => {
     });
     res.send({ success: true });
   } catch (error) {
-    next(customeError(422, "VALIDATION_ERROR", error));
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
@@ -80,17 +74,17 @@ userRouter.post("/", Upload.single("img"), async (req, res, next) => {
       lName,
       email,
       password,
-      img:req.file.filename,
+      img: req.file.filename,
     });
 
     //Add user data to userTable
-    await UserModel.create ({
+    await UserModel.create({
       _id: await getUserID(),
       fName,
       lName,
       email,
       password,
-      img:req.file.filename,
+      img: req.file.filename,
       created_at: new Date().toGMTString(),
     });
     //Increment Users ID Counter in countersID table
@@ -102,18 +96,49 @@ userRouter.post("/", Upload.single("img"), async (req, res, next) => {
 
     res.send({ success: true });
   } catch (error) {
-    next(customeError(422, "VALIDATION_ERROR", error));
+    next(customError(422, "VALIDATION_ERROR", error));
+  }
+});
+
+//Login user
+userRouter.post("/login", async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    //Find if user exist or not
+    const user = await UserModel.findOne({ email });
+    if (!user) throw authError;
+
+    //Validate password in DB hashed with enterd password
+    const result = await bcrypt.compare(password, user.password);
+    if (!result) throw authError;
+
+    //Create token
+    const token = await signAsync(
+      {
+        id: user.id,
+        name: user.fName + " " + user.lName,
+        admin: false,
+      },
+      process.env.SECRET_KEY
+    );
+
+    //Send token to browser
+    res.cookie("Authorization", token, { httpOnly: true });
+
+    res.send({ success: 200 });
+  } catch (error) {
+    next(error);
   }
 });
 
 //Delete user by ID
-userRouter.delete("/", async (req, res, next) => {
-  const { id } = req.body;
+userRouter.delete("/:id", authorizeUser, async (req, res, next) => {
+  const { id } = req.params;
   try {
     await UserModel.findByIdAndDelete(id);
     res.send({ success: true });
   } catch (error) {
-    next(customeError(error.code, "VALIDATION_ERROR", error));
+    next(customError(error.code, "VALIDATION_ERROR", error));
   }
 });
 

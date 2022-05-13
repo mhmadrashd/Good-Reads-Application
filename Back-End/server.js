@@ -4,17 +4,20 @@ const userRouter = require("./components/users/usersRouter");
 const authorsRouter = require("./components/authors/authorsRouter");
 const categoriesRouter = require("./components/categories/categoriesRouter");
 const adminsRouter = require("./components/admins/adminsRouter");
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 3000;
 /*
 Use require directly when we not export 
 any methods from file(db file in this case)
 */
+require("dotenv").config();
 require("./assets/db/dbConnection");
 
 //Midware to convert json from body
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 //Route Authors to categoriesRouter
 app.use("/admin", adminsRouter);
@@ -34,5 +37,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Good Readings app listening on port ${port}`);
 });

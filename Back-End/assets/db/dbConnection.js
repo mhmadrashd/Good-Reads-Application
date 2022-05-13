@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
 // Connection URI
-const uri =
-  "mongodb+srv://mern:mern145@goodreadsapplication.q1c0m.mongodb.net/GoodReadsApplicationDB?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.CONN_USER_NAME}:${process.env.CONN_PASSWORD}@goodreadsapplication.q1c0m.mongodb.net/GoodReadsApplicationDB?retryWrites=true&w=majority`;
 
 async function run() {
   try {

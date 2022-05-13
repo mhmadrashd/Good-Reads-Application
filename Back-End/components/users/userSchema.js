@@ -36,13 +36,20 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.pre(["save", "updateOne"], async function (next) {
+//Hash password before create user data in db
+userSchema.pre(["save"], async function (next) {
+  //Generate new salt
   const saltRounds = await bcrypt.genSalt();
+  //Hashing password
   this.password = await bcrypt.hash(this.password, saltRounds);
   next();
 });
-userSchema.pre( /^find/, async function (next) {
+
+//Hash password before update user data in db
+userSchema.pre(["findOneAndUpdate"], async function (next) {
+  //Generate new salt
   const saltRounds = await bcrypt.genSalt();
+  //Hashing password
   this._update.$set.password = await bcrypt.hash(this._update.$set.password, saltRounds);
   next();
 });

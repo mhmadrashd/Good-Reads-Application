@@ -1,6 +1,7 @@
 const express = require("express");
 const authorsRouter = express.Router();
-const customeError = require("../../assets/helpers/customError");
+const { customError } = require("../../assets/helpers/customError");
+const { authorizeAdminsPriv } = require("../../assets/helpers/checkPrivilege");
 const countersModel = require("../../assets/db/countersModel");
 const AuthorModel = require("./authorsModel");
 const schema = require("./validator");
@@ -24,7 +25,7 @@ authorsRouter.get("/", async (req, res, next) => {
       : await AuthorModel.find({});
     res.send(filterdAuths);
   } catch (error) {
-    next(customeError(422, "VALIDATION_ERROR", error));
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
@@ -35,13 +36,14 @@ authorsRouter.get("/:id", async (req, res, next) => {
     const Auth = await AuthorModel.findById(id);
     res.send(Auth);
   } catch (error) {
-    next(customeError(error.code, "VALIDATION_ERROR", error));
+    next(customError(error.code, "VALIDATION_ERROR", error));
   }
 });
 
 //Edit Auth by ID
-authorsRouter.patch("/", Upload.single("img"), async (req, res, next) => {
-  const { id, fName, lName, DOB, updated_by } = req.body;
+authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
+  const { id } = req.params;
+  const { fName, lName, DOB, updated_by } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -49,7 +51,7 @@ authorsRouter.patch("/", Upload.single("img"), async (req, res, next) => {
       fName: fName,
       lName: lName,
       DOB: DOB,
-      img:req.file.filename,
+      img: req.file.filename,
     });
     await AuthorModel.findByIdAndUpdate(id, {
       $set: {
@@ -63,12 +65,12 @@ authorsRouter.patch("/", Upload.single("img"), async (req, res, next) => {
     });
     res.send({ success: true });
   } catch (error) {
-    next(customeError(422, "VALIDATION_ERROR", error));
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
 //Add new Auth
-authorsRouter.post("/", Upload.single("img") ,async (req, res, next) => {
+authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
   const { fName, lName, DOB, created_by } = req.body;
 
   try {
@@ -100,18 +102,18 @@ authorsRouter.post("/", Upload.single("img") ,async (req, res, next) => {
 
     res.send({ success: true });
   } catch (error) {
-    next(customeError(422, "VALIDATION_ERROR", error));
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
 //Delete Auth by ID
-authorsRouter.delete("/", async (req, res, next) => {
-  const { id } = req.body;
+authorsRouter.delete("/:id", authorizeAdminsPriv, async (req, res, next) => {
+  const { id } = req.params;
   try {
     await AuthorModel.findByIdAndDelete(id);
     res.send({ success: true });
   } catch (error) {
-    next(customeError(error.code, "VALIDATION_ERROR", error));
+    next(customError(error.code, "VALIDATION_ERROR", error));
   }
 });
 
