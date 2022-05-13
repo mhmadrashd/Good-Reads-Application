@@ -1,7 +1,7 @@
 const express = require("express");
 const authorsRouter = express.Router();
 const { customError } = require("../../assets/helpers/customError");
-const { authorizeAdminsPriv } = require("../../assets/helpers/checkPrivilege");
+const { authorizeAdminsPriv, loginName } = require("../../assets/helpers/checkPrivilege");
 const countersModel = require("../../assets/db/countersModel");
 const AuthorModel = require("./authorsModel");
 const schema = require("./validator");
@@ -43,7 +43,7 @@ authorsRouter.get("/:id", async (req, res, next) => {
 //Edit Auth by ID
 authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
   const { id } = req.params;
-  const { fName, lName, DOB, updated_by } = req.body;
+  const { fName, lName, DOB } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -60,7 +60,7 @@ authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (re
         DOB: DOB,
         img: req.file.filename,
         updated_at: new Date().toGMTString(),
-        updated_by: updated_by,
+        updated_by: await loginName(req),
       },
     });
     res.send({ success: true });
@@ -71,7 +71,7 @@ authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (re
 
 //Add new Auth
 authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
-  const { fName, lName, DOB, created_by } = req.body;
+  const { fName, lName, DOB } = req.body;
 
   try {
     //Check valid Data
@@ -90,7 +90,7 @@ authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, r
       DOB: DOB,
       img: req.file.filename,
       created_at: new Date().toGMTString(),
-      created_by: created_by,
+      created_by: await loginName(req),
     });
 
     //Increment Auths ID Counter in countersID table

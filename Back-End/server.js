@@ -4,7 +4,9 @@ const userRouter = require("./components/users/usersRouter");
 const authorsRouter = require("./components/authors/authorsRouter");
 const categoriesRouter = require("./components/categories/categoriesRouter");
 const adminsRouter = require("./components/admins/adminsRouter");
+const booksRouter = require("./components/books/booksRouter");
 const cookieParser = require('cookie-parser');
+require('express-async-errors');
 const app = express();
 const port = 3000;
 /*
@@ -30,6 +32,9 @@ app.use("/author", authorsRouter);
 
 //Route Authors to categoriesRouter
 app.use("/category", categoriesRouter);
+
+//Route Books to categoriesRouter
+app.use("/book", booksRouter);
 
 //Error MiddelWare must declared with 4 parameters
 app.use((err, req, res, next) => {

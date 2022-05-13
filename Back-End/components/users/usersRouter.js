@@ -10,7 +10,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { authorizeUser } = require('./middlewares');
 
-// const defaultStatus = ["Read", "Reading", "Want-To-Read"];
 const signAsync = util.promisify(jwt.sign);
 
 async function getUserID() {

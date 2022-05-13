@@ -1,7 +1,7 @@
 const express = require("express");
 const CategRouter = express.Router();
 const { customError } = require("../../assets/helpers/customError");
-const { authorizeAdminsPriv } = require("../../assets/helpers/checkPrivilege");
+const { authorizeAdminsPriv, loginName } = require("../../assets/helpers/checkPrivilege");
 const countersModel = require("../../assets/db/countersModel");
 const CategModel = require("./categoriesModel");
 const schema = require("./validator");
@@ -43,7 +43,7 @@ CategRouter.get("/:id", async (req, res, next) => {
 //Edit Categ by ID
 CategRouter.patch("/:id", authorizeAdminsPriv, async (req, res, next) => {
   const { id } = req.params;
-  const { Name, updated_by } = req.body;
+  const { Name } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -54,7 +54,7 @@ CategRouter.patch("/:id", authorizeAdminsPriv, async (req, res, next) => {
       $set: {
         Name,
         updated_at: new Date().toGMTString(),
-        updated_by,
+        updated_by: await loginName(req),
       },
     });
     res.send({ success: true });
@@ -65,7 +65,7 @@ CategRouter.patch("/:id", authorizeAdminsPriv, async (req, res, next) => {
 
 //Add new Categ
 CategRouter.post("/", authorizeAdminsPriv, async (req, res, next) => {
-  const { Name, created_by } = req.body;
+  const { Name } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({ Name });
@@ -75,7 +75,7 @@ CategRouter.post("/", authorizeAdminsPriv, async (req, res, next) => {
       _id: await getCategID(),
       Name,
       created_at: new Date().toGMTString(),
-      created_by,
+      created_by: await loginName(req),
     });
     //Increment Categs ID Counter in countersID table
     await countersModel.findByIdAndUpdate(1, {
