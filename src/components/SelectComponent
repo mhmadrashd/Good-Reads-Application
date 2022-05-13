@@ -1,0 +1,13 @@
+import React from 'react';
+
+const Select = () => {
+  return (
+<select class="form-select form-select-sm" aria-label=".form-select-sm example">
+  <option selected>Want To Read</option>
+  <option value="1">Currently Read</option>
+  <option value="2">Read</option>
+  
+</select>
+);
+};
+export default Select ;

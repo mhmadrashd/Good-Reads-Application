@@ -1,0 +1,86 @@
+/**************************NavBar****************************/
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 10vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 10s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+.form-rounded {
+  border-radius: 1rem;
+}
+.font-size {
+  font-size: 2rem;
+}
+.btn-logOut {
+  height: 5rem;
+}
+.navbar {
+  width: 100%;
+}
+.nav-shadow {
+  box-shadow: 2px 2px 5px 8px #ededed;
+}
+@media only screen and (min-width: 600px) {
+  .btn_logging {
+    width: 10rem;
+  }
+}
+.btn_logging:hover {
+  transform: scaley(1.5);
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/******************************************************/
+
+/* ----------------------------------------------- Home Page Style ---------------------------------- */
+.bg {
+  background-image: url('../public/home.jpg');
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+/******************************************************/
+
+/**************************SideBar****************************/
+
+.side-bar {
+  height: 100vh;
+}
+.side-bar-hover:hover {
+  color: rgb(236, 236, 75);
+}
+
+
+#read{
+  display: block;
+}
