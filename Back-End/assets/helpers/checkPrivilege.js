@@ -14,7 +14,6 @@ const authorizeAdminsPriv = async (req, res, next) => {
         const payload = await verifyAsync(token, process.env.SECRET_KEY);
         //If token is incorrect
         if (payload.admin === false) throw authorizationError;
-        varname = payload.name;
     } catch (error) {
         next(authorizationError);
     }
@@ -28,8 +27,7 @@ const authorizeAdminsPriv = async (req, res, next) => {
 //     const token = req.cookies.Authorization;
 //     try {
 //         const payload = await verifyAsync(token, process.env.SECRET_KEY);
-//         if(payload.admin === true) throw authorizationError;
-//         varname = payload.name;
+//         if(payload.admin === false) throw authorizationError;
 //     }catch (error) {
 //         next(authorizationError)
 //     }
@@ -49,4 +47,15 @@ async function loginName(req, res, next) {
     }
 
 };
-module.exports = { loginName, authorizeAdminsPriv, authorizeUsersPriv }
+
+async function loginID(req, res, next) {
+    try {
+        const token = req.cookies.Authorization;
+        //Get data from token after veify this token
+        const payload = await verifyAsync(token, process.env.SECRET_KEY);
+        return payload.id;
+    } catch (error) {
+        next(error)
+    }
+};
+module.exports = { loginName, authorizeAdminsPriv, loginID }
