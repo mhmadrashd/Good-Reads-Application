@@ -18,6 +18,7 @@ const authorsSchema = new mongoose.Schema({
   },
   Info:{
     type: String,
+    required: [true, "Please enter some information about you"],
   },
   img: {
     type: String,
