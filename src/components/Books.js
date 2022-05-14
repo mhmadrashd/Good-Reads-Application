@@ -3,6 +3,8 @@ import { Card, CardBody, CardTitle } from 'reactstrap';
 import {Link} from "react-router-dom";
 import { LOCALHOST } from '../GLOBAL';
 import '../assets/css/Categories.css'
+import Footer from './Footer';
+import Navcomp from './Navcom';
 function GetBooks() {
     return fetch(LOCALHOST + 'books/')
         .then(response =>
@@ -30,8 +32,9 @@ function GetBooks() {
   render() {
     return (
         <div className="card">
+            <Navcomp></Navcomp>
         <center>
-          <h2 style={{'color':'gray'}}>Books Names</h2> 
+          <h2 style={{'color':'Black'}}>Books Names</h2> 
           {this.state.books.map((book , index) =>
             <div className="thumb" key={index}>
             <Card>
@@ -49,6 +52,7 @@ function GetBooks() {
             </div>
           )}
           </center>
+            <Footer></Footer>
         </div>
     );
   }
