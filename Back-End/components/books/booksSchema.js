@@ -17,10 +17,11 @@ const booksSchema = new mongoose.Schema({
   auhtor: {
     type: mongoose.Schema.Types.Number,
     ref: "auhtor",
-    required: [true, "Please enter a Auhtor"],
+    required: [true, "Please enter an Auhtor"],
   },
   description: {
-    type: String
+    type: String,
+    required: [true, "Please enter a Description"],
   },
   img: {
     type: String,
