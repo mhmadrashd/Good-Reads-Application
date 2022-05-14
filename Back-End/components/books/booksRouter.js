@@ -197,7 +197,7 @@ booksRouter.post("/userBook", async (req, res, next) => {
 });
 
 //Edit UserBook state by userBookID
-booksRouter.patch("/userBook/:id", async (req, res, next) => {
+booksRouter.patch("/userBook/state/:id", async (req, res, next) => {
   const { id } = req.params;
   const { state } = req.body;
   try {
@@ -227,6 +227,53 @@ booksRouter.delete("/userBook/:id", async (req, res, next) => {
 
 
 /* ****************start Rating Methods**************** */
+
+
+//Edit UserBook Rating by userBookID
+booksRouter.patch("/userBook/rating/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const { rating } = req.body;
+  try {
+    await userBooksModel.findByIdAndUpdate(id, {
+      $set: {
+        rating,
+        updated_at: new Date().toGMTString(),
+      },
+    });
+    res.send({ success: true });
+  } catch (error) {
+    next(customError(422, "VALIDATION_ERROR", error));
+  }
+});
+
+//Edit UserBook Review by userBookID
+booksRouter.patch("/userBook/review/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const { review } = req.body;
+  try {
+    await userBooksModel.findByIdAndUpdate(id, {
+      $set: {
+        review,
+        updated_at: new Date().toGMTString(),
+      },
+    });
+    res.send({ success: true });
+  } catch (error) {
+    next(customError(422, "VALIDATION_ERROR", error));
+  }
+});
+
+
+//Get userBooks by userID
+booksRouter.get("/userBook/review/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const Book = await userBooksModel.find({ _id:id },"review")
+    res.send(Book);
+  } catch (error) {
+    next(customError(error.code, "VALIDATION_ERROR", error));
+  }
+});
 
 /* ****************End Rating Methods**************** */
 
