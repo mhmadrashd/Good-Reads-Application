@@ -8,8 +8,14 @@ const schema = require("./validator");
 const Upload = require("../../assets/helpers/Images");
 const CategModel = require("../categories/categoriesModel");
 const AuthModel = require("../authors/authorsModel");
+
+//userBooks variables
+const userBooksModel = require("../userBooks/userBooksModel");
+const userBooksValidator = require("../userBooks/validator");
 // const defaultStatus = ["Read", "Reading", "Want-To-Read"];
 
+
+/* ****************Start Books Methods**************** */
 async function getBookID() {
   try {
     const lastID = await countersModel.findOne({});
@@ -119,5 +125,11 @@ booksRouter.delete("/:id", authorizeAdminsPriv, async (req, res, next) => {
     next(customError(error.code, "VALIDATION_ERROR", error));
   }
 });
+/* ****************End Books Methods**************** */
+
+
+/* ****************Start userBooks Methods**************** */
+
+/* ****************End userBooks Methods**************** */
 
 module.exports = booksRouter;
