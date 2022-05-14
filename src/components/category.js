@@ -3,7 +3,7 @@ import NavComp from './Navcom'
 
 import Footer from './Footer';
 import Card from './Card';
-import './category.css'
+import '../assets/css/category.css'
 import StarRating from './Rating'
 
 

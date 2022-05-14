@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBCard, MDBCardBody, MDBCardText, MDBCardImage } from 'mdb-react-ui-kit';
-import './category.css'
+import '../assets/css/category.css'
 
 export default function Card() {
   return (

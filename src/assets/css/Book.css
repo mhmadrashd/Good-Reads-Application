@@ -1,0 +1,27 @@
+.body{
+    display: inline;
+    
+}
+
+.read{
+    display: block;
+    margin-left: 110px;
+    clear: both;
+    
+}
+
+.container{
+    
+    border: solid 1px; 
+    width: fit-content;
+    float: left; 
+    margin: 5px;
+    display: inline;
+
+}
+
+.content{
+    color: rgb(5, 6, 6);
+    float: right;
+    clear: both;
+}

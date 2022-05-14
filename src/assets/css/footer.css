@@ -1,0 +1,48 @@
+.footer {
+  clear: both;
+  text-align: center;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: rgb(180, 176, 168);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+a{
+    color: bisque;
+}
+
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    /* border-radius:50% ; */
+    margin: 5px;
+  }
+  
+  /* Add a hover effect if you want */
+  .fa:hover {
+    opacity: 0.7;
+  }
+  
+  /* Set a specific color for each brand */
+  
+  /* Facebook */
+  .fa-facebook {
+    background: #3B5998;
+    color: white;
+  }
+  
+  /* Twitter */
+  .fa-github {
+    background: #55ACEE;
+    color: white;
+  }
+  .fa-linkedin {
+    background: #55ACEE;
+    color: white;
+  }

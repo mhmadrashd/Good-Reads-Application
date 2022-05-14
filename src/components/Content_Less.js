@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./review.css";
+import "../assets/css/review.css";
   
 const ReadMore = ({ children }) => {
   const text = children;
