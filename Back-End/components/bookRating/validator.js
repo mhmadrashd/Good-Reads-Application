@@ -1,0 +1,11 @@
+const Joi = require("joi");
+
+const ratingSchema = Joi.object({
+    id: Joi.number().integer().min(0),
+    user: Joi.number().integer().min(0),
+    book: Joi.number().integer().min(0),
+    rating: Joi.number().integer().min(0),
+    review: Joi.string().min(0).man(100),
+});
+
+module.exports = ratingSchema;
