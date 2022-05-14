@@ -55,7 +55,7 @@ booksRouter.get("/:id", async (req, res, next) => {
 //Edit Book by ID
 booksRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
   const { id } = req.params;
-  const { title, category, auhtor } = req.body;
+  const { title, category, auhtor, description } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -63,6 +63,7 @@ booksRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req,
       title,
       category,
       auhtor,
+      description,
       img: req.file.filename,
     });
     await booksModel.findByIdAndUpdate(id, {
@@ -70,6 +71,7 @@ booksRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req,
         title,
         category: await CategModel.findOne({ _id: category }),
         auhtor: await AuthModel.findOne({ _id: auhtor }),
+        description,
         img: req.file.filename,
         updated_at: new Date().toGMTString(),
         updated_by: await loginName(req),
@@ -83,7 +85,7 @@ booksRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req,
 
 //Add new Book
 booksRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
-  const { title, category, auhtor } = req.body;
+  const { title, category, auhtor, description} = req.body;
 
   try {
     //Check valid Data
@@ -91,6 +93,7 @@ booksRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res
       title,
       category,
       auhtor,
+      description,
       img: req.file.filename,
     });
 
@@ -100,6 +103,7 @@ booksRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res
       title,
       category: await CategModel.findById({ _id: category }),
       auhtor: await AuthModel.findById({ _id: auhtor }),
+      description,
       img: req.file.filename,
       created_at: new Date().toGMTString(),
       created_by: await loginName(req),

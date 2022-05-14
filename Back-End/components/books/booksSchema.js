@@ -19,6 +19,9 @@ const booksSchema = new mongoose.Schema({
     ref: "auhtor",
     required: [true, "Please enter a Auhtor"],
   },
+  description: {
+    type: String
+  },
   img: {
     type: String,
   },
