@@ -18,12 +18,12 @@ html, body {
 
 body {
     padding-top: 0px;
-    background-image: url( "../images/background.jpg")  ;
+    /* background-image: url( "../images/background.jpg")  ; */
     background-size: auto 100% !important;
     background-repeat: no-repeat !important;
     background-position: left top !important;
 }
 
 img{
-	border-radius: 50%;
+	/* border-radius: 50%; */
 }

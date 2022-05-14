@@ -8,7 +8,6 @@ function GetBooks() {
         .then(response =>
         response.json())
   }
-/******************************************* */
   class Books extends Component {
 
   constructor(props) {
@@ -19,8 +18,6 @@ function GetBooks() {
   }
 
   componentDidMount(){
-
-
 
     GetBooks()
     .then(data => {
