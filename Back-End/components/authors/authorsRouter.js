@@ -43,7 +43,7 @@ authorsRouter.get("/:id", async (req, res, next) => {
 //Edit Auth by ID
 authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
   const { id } = req.params;
-  const { fName, lName, DOB } = req.body;
+  const { fName, lName, DOB, Info } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -51,6 +51,7 @@ authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (re
       fName: fName,
       lName: lName,
       DOB: DOB,
+      Info,
       img: req.file.filename,
     });
     await AuthorModel.findByIdAndUpdate(id, {
@@ -58,6 +59,7 @@ authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (re
         fName: fName,
         lName: lName,
         DOB: DOB,
+        Info,
         img: req.file.filename,
         updated_at: new Date().toGMTString(),
         updated_by: await loginName(req),
@@ -71,7 +73,7 @@ authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (re
 
 //Add new Auth
 authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
-  const { fName, lName, DOB } = req.body;
+  const { fName, lName, DOB, Info } = req.body;
 
   try {
     //Check valid Data
@@ -79,6 +81,7 @@ authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, r
       fName: fName,
       lName: lName,
       DOB: DOB,
+      Info,
       img: req.file.filename,
     });
 
@@ -88,6 +91,7 @@ authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, r
       fName: fName,
       lName: lName,
       DOB: DOB,
+      Info,
       img: req.file.filename,
       created_at: new Date().toGMTString(),
       created_by: await loginName(req),

@@ -16,6 +16,9 @@ const authorsSchema = new mongoose.Schema({
   DOB: {
     type: Date,
   },
+  Info:{
+    type: String,
+  },
   img: {
     type: String,
   },
