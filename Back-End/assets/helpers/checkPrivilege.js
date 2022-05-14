@@ -24,17 +24,19 @@ const authorizeAdminsPriv = async (req, res, next) => {
 /************************** Users Authorization *********************************/
 
 
-const authorizeUsersPriv = async (req, res, next) => {
-    const token = req.cookies.Authorization;
-    try {
-        const payload = await verifyAsync(token, process.env.SECRET_KEY);
-        if(payload.admin === true) throw authorizationError;
-        varname = payload.name;
-    }catch (error) {
-        next(authorizationError)
-    }
-    next();
-};
+// const authorizeUsersPriv = async (req, res, next) => {
+//     const token = req.cookies.Authorization;
+//     try {
+//         const payload = await verifyAsync(token, process.env.SECRET_KEY);
+//         if(payload.admin === true) throw authorizationError;
+//         varname = payload.name;
+//     }catch (error) {
+//         next(authorizationError)
+//     }
+//     next();
+// };
+
+/************************************** Login Authentication ************************/
 
 async function loginName(req, res, next) {
     try {

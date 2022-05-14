@@ -15,6 +15,14 @@ const userBooksSchema = new mongoose.Schema({
     ref: "book",
     required: [true, "Please enter a Book"],
   },
+  rating: {
+    type: Number,
+    required: [true, "Please enter Your rating"]
+    },
+review: {
+    type: String,
+    required: [true, "Please enter Your review"]
+},
   state: {
     type: String,
     required: [true, "Please enter a State"],
