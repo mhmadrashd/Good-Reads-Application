@@ -5,6 +5,7 @@ import { LOCALHOST } from '../GLOBAL';
 import '../assets/css/Categories.css'
 import Footer from './Footer';
 import Navcomp from './Navcom';
+
 function GetBooks() {
     return fetch(LOCALHOST + 'books/')
         .then(response =>
@@ -19,7 +20,7 @@ function GetBooks() {
     };
   }
 
-  componentDidMount(){
+  GetData(){
 
     GetBooks()
     .then(data => {

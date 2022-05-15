@@ -21,7 +21,6 @@ function App() {
     <Route path='/Book' element={<Book/>} />
 
     <Route path='/Books' element={<Books/>} />
-    <Route path='/Books' element={<Footer/>} />
 
 
 
