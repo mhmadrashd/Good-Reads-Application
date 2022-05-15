@@ -5,7 +5,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Header from "./Components/header/header";
 import { CssBaseline } from "@mui/material";
-import SignUp from "./Components/header/SignUp/SignUp";
+import SignUp from "./Components/SignUp/SignUp";
 
 function App() {
   const { mode } = useSelector((state) => state.NavbarReducer);
