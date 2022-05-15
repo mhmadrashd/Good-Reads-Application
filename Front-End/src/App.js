@@ -3,9 +3,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React from "react";
 // import Headers from "./Components/header/header";
 import { useSelector } from "react-redux";
-import Header from "./Components/header/header";
-import { CssBaseline } from "@mui/material";
-import SignUp from "./Components/SignUp/SignUp";
+// import Header from "./Components/header/header";
+// import { CssBaseline } from "@mui/material";
+import SignUp from "./Components/UserForms/SignUp";
 
 function App() {
   const { mode } = useSelector((state) => state.NavbarReducer);
