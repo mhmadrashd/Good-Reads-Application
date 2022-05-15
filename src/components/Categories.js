@@ -1,16 +1,21 @@
 import React , {Component} from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import {Table} from "reactstrap";
-import Link from "react-router-dom/es/Link";
+// import Link from "react-router-dom/es/Link";
+// import Link from "react-router-dom/es/Link";
+
 import '../assets/css/Categories.css'
 import { LOCALHOST } from '../GLOBAL';
+import Footer from './Footer';
+import Navcomp from './Navcom';
 
+const Link = require("react-router-dom").Link;
 
 function GetCategories() {
     return fetch(LOCALHOST + 'categories/')
         .then(response =>
         response.json())
   }
-/******************************************* */  
 export default class Categories extends Component {
 
     constructor(props) {
@@ -33,8 +38,10 @@ export default class Categories extends Component {
     render() {
         
         return (
+            <div>
+              <Navcomp></Navcomp>
             <div className="card" style={{'textAlign': "center"}}>
-
+              
               <Table>
                 <thead>
                 <tr>
@@ -53,6 +60,8 @@ export default class Categories extends Component {
                   </tr>)}
               </thead>
             </Table>
+        </div>
+        <Footer></Footer>
         </div>
 
         );
