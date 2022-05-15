@@ -5,6 +5,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Header from "./Components/header/header";
 import { CssBaseline } from "@mui/material";
+import SignUp from "./Components/header/SignUp/SignUp";
 
 function App() {
   const { mode } = useSelector((state) => state.NavbarReducer);
@@ -16,10 +17,14 @@ function App() {
   });
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header />
+      <SignUp/> 
     </ThemeProvider>
   );
 }
 
 export default App;
+
+
+
+// <CssBaseline />
+// <Header />
