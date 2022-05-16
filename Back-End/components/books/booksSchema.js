@@ -26,6 +26,9 @@ const booksSchema = new mongoose.Schema({
   img: {
     type: String,
   },
+  path: {
+    type: String
+  },
   created_by: {
     type: String,
   },

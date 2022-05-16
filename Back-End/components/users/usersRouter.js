@@ -9,6 +9,8 @@ const util = require("util");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { authorizeUser } = require('./middlewares');
+const { authorizeAdminsPriv } = require("../../assets/helpers/checkPrivilege");
+const { USER_PATH } = require("../../assets/images/imgsPath");
 
 const signAsync = util.promisify(jwt.sign);
 
@@ -30,6 +32,19 @@ userRouter.get("/:id", authorizeUser, async (req, res, next) => {
     res.send(user);
   } catch (error) {
     next(customError(error.code, "VALIDATION_ERROR", error));
+  }
+});
+
+//Edit path
+userRouter.patch("/path", authorizeAdminsPriv, async (req, res, next) => {
+  try {
+    await UserModel.updateMany({}, {
+      path: USER_PATH,
+    }
+    );
+    res.send({ success: true });
+  } catch (error) {
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
@@ -83,6 +98,7 @@ userRouter.post("/", Upload.single("img"), async (req, res, next) => {
       lName,
       email,
       password,
+      path: USER_PATH,
       img: req.file.filename,
       created_at: new Date().toGMTString(),
     });

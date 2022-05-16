@@ -48,6 +48,7 @@ const useStyles = makeStyles({
 
 const pages = ["Home", "Categories", "Books", "Authors"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -72,6 +73,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 }));
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {

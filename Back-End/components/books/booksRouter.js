@@ -11,9 +11,9 @@ const AuthModel = require("../authors/authorsModel");
 
 //userBooks variables
 const userBooksModel = require("../userBooks/userBooksModel");
-const userBookSchema = require("../userBooks/userBooksSchema");
 const userBooksValidator = require("../userBooks/validator");
 const UserModel = require("../users/usersModel");
+const { BOOK_PATH } = require("../../assets/images/imgsPath");
 
 // const defaultStatus = ["Read", "Reading", "Want-To-Read"];
 
@@ -33,8 +33,12 @@ booksRouter.get("/", async (req, res, next) => {
   const { title } = req.query;
   try {
     const filterdBooks = title
-      ? await booksModel.find({ title }).populate({ path: "category", select: "Name" }).populate({ path: "auhtor", select: "fName lName DOB img" }).exec()
-      : await booksModel.find({}).populate({ path: "category", select: "Name" }).populate({ path: "auhtor", select: "fName lName DOB img" }).exec();
+      ? await booksModel.find({ title })
+        .populate({ path: "category", select: "Name" })
+        .populate({ path: "auhtor", select: "fName lName DOB img" }).exec()
+      : await booksModel.find({})
+        .populate({ path: "category", select: "Name" })
+        .populate({ path: "auhtor", select: "fName lName DOB img" }).exec();
     res.send(filterdBooks);
   } catch (error) {
     next(customError(422, "VALIDATION_ERROR", error));
@@ -45,10 +49,25 @@ booksRouter.get("/", async (req, res, next) => {
 booksRouter.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const Book = await booksModel.findById(id).populate({ path: "category", select: "Name" }).populate({ path: "auhtor", select: "fName lName DOB img" }).exec();
+    const Book = await booksModel.findById(id)
+      .populate({ path: "category", select: "Name" })
+      .populate({ path: "auhtor", select: "fName lName DOB img" }).exec();
     res.send(Book);
   } catch (error) {
     next(customError(error.code, "VALIDATION_ERROR", error));
+  }
+});
+
+//Edit path
+booksRouter.patch("/path", authorizeAdminsPriv, async (req, res, next) => {
+  try {
+    await booksModel.updateMany({}, {
+      path: BOOK_PATH,
+    }
+    );
+    res.send({ success: true });
+  } catch (error) {
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
@@ -85,7 +104,7 @@ booksRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req,
 
 //Add new Book
 booksRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
-  const { title, category, auhtor, description} = req.body;
+  const { title, category, auhtor, description } = req.body;
 
   try {
     //Check valid Data
@@ -104,6 +123,7 @@ booksRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res
       category: await CategModel.findById({ _id: category }),
       auhtor: await AuthModel.findById({ _id: auhtor }),
       description,
+      path: BOOK_PATH,
       img: req.file.filename,
       created_at: new Date().toGMTString(),
       created_by: await loginName(req),
@@ -268,7 +288,7 @@ booksRouter.patch("/userBook/review/:id", async (req, res, next) => {
 booksRouter.get("/userBook/review/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const Book = await userBooksModel.find({ _id:id },"review")
+    const Book = await userBooksModel.find({ _id: id }, "review")
     res.send(Book);
   } catch (error) {
     next(customError(error.code, "VALIDATION_ERROR", error));

@@ -16,12 +16,15 @@ const authorsSchema = new mongoose.Schema({
   DOB: {
     type: Date,
   },
-  Info:{
+  Info: {
     type: String,
     required: [true, "Please enter some information about you"],
   },
   img: {
     type: String,
+  },
+  path: {
+    type: String
   },
   created_by: {
     type: String,

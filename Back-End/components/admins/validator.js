@@ -15,6 +15,7 @@ const schema = Joi.object({
     .required(),
   access_token: [Joi.string(), Joi.number()],
   img: Joi.any(),
+  path: Joi.string()
 });
 
 module.exports = schema;

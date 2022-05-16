@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema({
   img: {
     type: String,
   },
+  path: {
+    type: String
+  },
   created_at: {
     type: Date,
   },

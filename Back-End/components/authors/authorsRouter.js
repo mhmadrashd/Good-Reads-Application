@@ -5,7 +5,8 @@ const { authorizeAdminsPriv, loginName } = require("../../assets/helpers/checkPr
 const countersModel = require("../../assets/db/countersModel");
 const AuthorModel = require("./authorsModel");
 const schema = require("./validator");
-const Upload = require("../../assets/helpers/Images")
+const Upload = require("../../assets/helpers/Images");
+const { AUTH_PATH } = require("../../assets/images/imgsPath");
 
 async function getAuthID() {
   try {
@@ -37,6 +38,19 @@ authorsRouter.get("/:id", async (req, res, next) => {
     res.send(Auth);
   } catch (error) {
     next(customError(error.code, "VALIDATION_ERROR", error));
+  }
+});
+
+//Edit path
+authorsRouter.patch("/path", authorizeAdminsPriv, async (req, res, next) => {
+  try {
+    await AuthorModel.updateMany({}, {
+      path: AUTH_PATH,
+    }
+    );
+    res.send({ success: true });
+  } catch (error) {
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
@@ -92,6 +106,7 @@ authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, r
       lName: lName,
       DOB: DOB,
       Info,
+      path: AUTH_PATH,
       img: req.file.filename,
       created_at: new Date().toGMTString(),
       created_by: await loginName(req),

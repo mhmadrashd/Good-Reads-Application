@@ -25,6 +25,9 @@ const adminsSchema = new mongoose.Schema({
   img: {
     type: String,
   },
+  path: {
+    type: String
+  }
 });
 
 //Hash password before create user data in db

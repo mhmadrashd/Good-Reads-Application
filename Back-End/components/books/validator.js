@@ -7,6 +7,7 @@ const authorsSchema = Joi.object({
   auhtor: Joi.any(),
   description: Joi.string().min(3).max(255).required(),
   img: Joi.any(),
+  path: Joi.string()
 });
 
 module.exports = authorsSchema;

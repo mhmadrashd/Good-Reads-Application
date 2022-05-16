@@ -4,6 +4,7 @@ import React from "react";
 // import Headers from "./Components/header/header";
 import { useSelector } from "react-redux";
 import Header from "./Components/header/header";
+import CategoriesSlider from "./Components/categoriesSlider/index";
 import { CssBaseline } from "@mui/material";
 
 function App() {
@@ -14,10 +15,12 @@ function App() {
       mode: mode || "light",
     },
   });
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
+      <CategoriesSlider />
     </ThemeProvider>
   );
 }

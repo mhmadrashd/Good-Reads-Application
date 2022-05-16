@@ -5,11 +5,12 @@ const countersModel = require("../../assets/db/countersModel");
 const AdminsModel = require("./adminsModel");
 const schema = require("./validator");
 const Upload = require("../../assets/helpers/Images");
-
+const { ADMIN_PATH } = require("../../assets/images/imgsPath");
 const util = require("util");
 const jwt = require("jsonwebtoken");
 const { authorizeAdmin } = require('./middlewares');
 const bcrypt = require("bcrypt");
+const { authorizeAdminsPriv } = require("../../assets/helpers/checkPrivilege");
 const signAsync = util.promisify(jwt.sign);
 
 
@@ -31,6 +32,19 @@ AdminRouter.get("/:id", authorizeAdmin, async (req, res, next) => {
     res.send(Admin);
   } catch (error) {
     next(customError(error.code, "VALIDATION_ERROR", error));
+  }
+});
+
+//Edit path
+AdminRouter.patch("/path", authorizeAdminsPriv, async (req, res, next) => {
+  try {
+    await AdminsModel.updateMany({}, {
+      path: ADMIN_PATH,
+    }
+    );
+    res.send({ success: true });
+  } catch (error) {
+    next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
@@ -61,6 +75,7 @@ AdminRouter.patch("/:id", authorizeAdmin, Upload.single("img"), async (req, res,
   }
 });
 
+
 //Add new Admin
 AdminRouter.post("/", Upload.single("img"), async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -79,6 +94,7 @@ AdminRouter.post("/", Upload.single("img"), async (req, res, next) => {
       username,
       email,
       password,
+      path: ADMIN_PATH,
       img: req.file.filename,
     });
     //Increment Admins ID Counter in countersID table

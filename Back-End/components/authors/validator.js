@@ -5,8 +5,9 @@ const authorsSchema = Joi.object({
   fName: Joi.string().alphanum().min(3).max(30).required(),
   lName: Joi.string().alphanum().min(3).max(30).required(),
   DOB: Joi.date().max("1-1-2010").iso(),
-  Info:Joi.string().min(3).max(30).required(),
-  img: Joi.any()
+  Info: Joi.string().min(3).max(30).required(),
+  img: Joi.any(),
+  path: Joi.string()
 });
 
 module.exports = authorsSchema;

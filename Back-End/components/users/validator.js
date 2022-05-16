@@ -15,7 +15,8 @@ const schema = Joi.object({
     .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
     .required(),
   access_token: [Joi.string(), Joi.number()],
-  img:Joi.any(),
+  img: Joi.any(),
+  path: Joi.string()
 });
 
 module.exports = schema;
