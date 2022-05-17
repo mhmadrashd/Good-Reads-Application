@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import styles from "./index.module.scss";
@@ -17,24 +17,25 @@ const Slider = () => {
   const wrapper = {
     transform: `translateX(${slideIndex * -100}vw)`,
   };
-  let BooksData = useRef([]);
+  const [BooksData, setBooksData] = useState([]);
+  const refresh = 0;
   useLayoutEffect(() => {
     axios.get('http://localhost:3000/book/')
       .then((response) => {
-        BooksData.current.values = response.data;
+        setBooksData(...BooksData, response.data);
       })
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+  }, [refresh])
   return (
     <div className={styles.container}>
       <div className={styles.arrowLeft} onClick={() => handleClick("left")}>
         <ArrowLeftOutlined />
       </div>
       <div className={styles.wrapper} style={wrapper}>
-        {BooksData.current.values.map((item) => (
-          <div className={styles.slide} key={item.id}>
+        {BooksData.map((item, index) => (
+          <div className={styles.slide} key={index}>
             <div className={styles.imgContainer}>
               <img src={item.img} alt="" />
             </div>

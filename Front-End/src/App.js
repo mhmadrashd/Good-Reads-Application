@@ -3,9 +3,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React from "react";
 // import Headers from "./Components/header/header";
 import { useSelector } from "react-redux";
-// import Header from "./Components/header/header";
-// import { CssBaseline } from "@mui/material";
-import SignUp from "./Components/UserForms/SignUp";
+
+import Header from "./Components/header/header";
+import { CssBaseline } from "@mui/material";
 
 function App() {
   const { mode } = useSelector((state) => state.NavbarReducer);
@@ -18,14 +18,10 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <SignUp/> 
+      <CssBaseline />
+      <Header />
     </ThemeProvider>
   );
 }
 
 export default App;
-
-
-
-// <CssBaseline />
-// <Header />
