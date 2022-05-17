@@ -9,8 +9,6 @@ const cookieParser = require('cookie-parser');
 require('express-async-errors');
 const app = express();
 const port = 3000;
-const { AUTH_PATH, ADMIN_PATH, BOOK_PATH, USER_PATH } = require("./assets/images/imgsPath");
-const { customError } = require("./assets/helpers/customError");
 /*
 Use require directly when we not export 
 any methods from file(db file in this case)

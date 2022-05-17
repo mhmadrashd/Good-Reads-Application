@@ -5,7 +5,6 @@ const { authorizeAdminsPriv, loginName, loginID } = require("../../assets/helper
 const countersModel = require("../../assets/db/countersModel");
 const booksModel = require("./booksModel");
 const schema = require("./validator");
-const Upload = require("../../assets/helpers/Images");
 const CategModel = require("../categories/categoriesModel");
 const AuthModel = require("../authors/authorsModel");
 
@@ -13,7 +12,6 @@ const AuthModel = require("../authors/authorsModel");
 const userBooksModel = require("../userBooks/userBooksModel");
 const userBooksValidator = require("../userBooks/validator");
 const UserModel = require("../users/usersModel");
-const { BOOK_PATH } = require("../../assets/images/imgsPath");
 
 // const defaultStatus = ["Read", "Reading", "Want-To-Read"];
 
@@ -58,23 +56,10 @@ booksRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-//Edit path
-booksRouter.patch("/path", authorizeAdminsPriv, async (req, res, next) => {
-  try {
-    await booksModel.updateMany({}, {
-      path: BOOK_PATH,
-    }
-    );
-    res.send({ success: true });
-  } catch (error) {
-    next(customError(422, "VALIDATION_ERROR", error));
-  }
-});
-
 //Edit Book by ID
-booksRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
+booksRouter.patch("/:id", authorizeAdminsPriv, async (req, res, next) => {
   const { id } = req.params;
-  const { title, category, auhtor, description } = req.body;
+  const { title, category, auhtor, description, img } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -83,7 +68,7 @@ booksRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req,
       category,
       auhtor,
       description,
-      img: req.file.filename,
+      img,
     });
     await booksModel.findByIdAndUpdate(id, {
       $set: {
@@ -91,7 +76,7 @@ booksRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req,
         category: await CategModel.findOne({ _id: category }),
         auhtor: await AuthModel.findOne({ _id: auhtor }),
         description,
-        img: req.file.filename,
+        img,
         updated_at: new Date().toGMTString(),
         updated_by: await loginName(req),
       },
@@ -103,8 +88,8 @@ booksRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req,
 });
 
 //Add new Book
-booksRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
-  const { title, category, auhtor, description } = req.body;
+booksRouter.post("/", authorizeAdminsPriv, async (req, res, next) => {
+  const { title, category, auhtor, description, img } = req.body;
 
   try {
     //Check valid Data
@@ -113,7 +98,7 @@ booksRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res
       category,
       auhtor,
       description,
-      img: req.file.filename,
+      img,
     });
 
     //Add Book data to BookTable
@@ -123,8 +108,7 @@ booksRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res
       category: await CategModel.findById({ _id: category }),
       auhtor: await AuthModel.findById({ _id: auhtor }),
       description,
-      path: BOOK_PATH,
-      img: req.file.filename,
+      img,
       created_at: new Date().toGMTString(),
       created_by: await loginName(req),
     });
@@ -282,7 +266,6 @@ booksRouter.patch("/userBook/review/:id", async (req, res, next) => {
     next(customError(422, "VALIDATION_ERROR", error));
   }
 });
-
 
 //Get userBooks by userID
 booksRouter.get("/userBook/review/:id", async (req, res, next) => {

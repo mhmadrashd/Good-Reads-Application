@@ -4,13 +4,10 @@ const { customError, authError } = require("../../assets/helpers/customError");
 const countersModel = require("../../assets/db/countersModel");
 const UserModel = require("./usersModel");
 const schema = require("./validator");
-const Upload = require("../../assets/helpers/Images");
 const util = require("util");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { authorizeUser } = require('./middlewares');
-const { authorizeAdminsPriv } = require("../../assets/helpers/checkPrivilege");
-const { USER_PATH } = require("../../assets/images/imgsPath");
 
 const signAsync = util.promisify(jwt.sign);
 
@@ -35,23 +32,10 @@ userRouter.get("/:id", authorizeUser, async (req, res, next) => {
   }
 });
 
-//Edit path
-userRouter.patch("/path", authorizeAdminsPriv, async (req, res, next) => {
-  try {
-    await UserModel.updateMany({}, {
-      path: USER_PATH,
-    }
-    );
-    res.send({ success: true });
-  } catch (error) {
-    next(customError(422, "VALIDATION_ERROR", error));
-  }
-});
-
 //Edit user by ID
-userRouter.patch("/:id", authorizeUser, Upload.single("img"), async (req, res, next) => {
+userRouter.patch("/:id", authorizeUser, async (req, res, next) => {
   const { id } = req.params;
-  const { fName, lName, email, password } = req.body;
+  const { fName, lName, email, password, img } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -60,7 +44,7 @@ userRouter.patch("/:id", authorizeUser, Upload.single("img"), async (req, res, n
       lName: lName,
       email: email,
       password: password,
-      img: req.file.filename,
+      img,
     });
     await UserModel.findByIdAndUpdate(id, {
       $set: {
@@ -68,7 +52,7 @@ userRouter.patch("/:id", authorizeUser, Upload.single("img"), async (req, res, n
         lName: lName,
         email: email,
         password: password,
-        img: req.file.filename,
+        img,
         updated_at: new Date().toGMTString(),
       },
     });
@@ -79,8 +63,8 @@ userRouter.patch("/:id", authorizeUser, Upload.single("img"), async (req, res, n
 });
 
 //Add new user
-userRouter.post("/", Upload.single("img"), async (req, res, next) => {
-  const { fName, lName, email, password } = req.body;
+userRouter.post("/", async (req, res, next) => {
+  const { fName, lName, email, password, img } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -88,7 +72,7 @@ userRouter.post("/", Upload.single("img"), async (req, res, next) => {
       lName,
       email,
       password,
-      img: req.file.filename,
+      img,
     });
 
     //Add user data to userTable
@@ -98,8 +82,7 @@ userRouter.post("/", Upload.single("img"), async (req, res, next) => {
       lName,
       email,
       password,
-      path: USER_PATH,
-      img: req.file.filename,
+      img,
       created_at: new Date().toGMTString(),
     });
     //Increment Users ID Counter in countersID table

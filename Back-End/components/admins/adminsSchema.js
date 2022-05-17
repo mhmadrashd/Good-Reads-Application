@@ -24,9 +24,6 @@ const adminsSchema = new mongoose.Schema({
   },
   img: {
     type: String,
-  },
-  path: {
-    type: String
   }
 });
 

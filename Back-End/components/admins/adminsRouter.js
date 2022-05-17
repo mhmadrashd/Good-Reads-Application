@@ -4,13 +4,10 @@ const { customError, authError } = require("../../assets/helpers/customError");
 const countersModel = require("../../assets/db/countersModel");
 const AdminsModel = require("./adminsModel");
 const schema = require("./validator");
-const Upload = require("../../assets/helpers/Images");
-const { ADMIN_PATH } = require("../../assets/images/imgsPath");
 const util = require("util");
 const jwt = require("jsonwebtoken");
 const { authorizeAdmin } = require('./middlewares');
 const bcrypt = require("bcrypt");
-const { authorizeAdminsPriv } = require("../../assets/helpers/checkPrivilege");
 const signAsync = util.promisify(jwt.sign);
 
 
@@ -35,23 +32,10 @@ AdminRouter.get("/:id", authorizeAdmin, async (req, res, next) => {
   }
 });
 
-//Edit path
-AdminRouter.patch("/path", authorizeAdminsPriv, async (req, res, next) => {
-  try {
-    await AdminsModel.updateMany({}, {
-      path: ADMIN_PATH,
-    }
-    );
-    res.send({ success: true });
-  } catch (error) {
-    next(customError(422, "VALIDATION_ERROR", error));
-  }
-});
-
 //Edit Admin by ID
-AdminRouter.patch("/:id", authorizeAdmin, Upload.single("img"), async (req, res, next) => {
+AdminRouter.patch("/:id", authorizeAdmin, async (req, res, next) => {
   const { id } = req.params;
-  const { username, email, password } = req.body;
+  const { username, email, password, img } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -59,14 +43,14 @@ AdminRouter.patch("/:id", authorizeAdmin, Upload.single("img"), async (req, res,
       username,
       email,
       password,
-      img: req.file.filename,
+      img,
     });
     await AdminsModel.findByIdAndUpdate(id, {
       $set: {
         username,
         email,
         password,
-        img: req.file.filename,
+        img,
       },
     });
     res.send({ success: true });
@@ -75,17 +59,16 @@ AdminRouter.patch("/:id", authorizeAdmin, Upload.single("img"), async (req, res,
   }
 });
 
-
 //Add new Admin
-AdminRouter.post("/", Upload.single("img"), async (req, res, next) => {
-  const { username, email, password } = req.body;
+AdminRouter.post("/", async (req, res, next) => {
+  const { username, email, password, img } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
       username,
       email,
       password,
-      img: req.file.filename,
+      img,
     });
 
     //Add Admin data to AdminTable
@@ -94,8 +77,7 @@ AdminRouter.post("/", Upload.single("img"), async (req, res, next) => {
       username,
       email,
       password,
-      path: ADMIN_PATH,
-      img: req.file.filename,
+      img,
     });
     //Increment Admins ID Counter in countersID table
     await countersModel.findByIdAndUpdate(1, {

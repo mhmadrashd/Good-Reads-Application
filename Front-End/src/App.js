@@ -4,8 +4,8 @@ import React from "react";
 // import Headers from "./Components/header/header";
 import { useSelector } from "react-redux";
 import Header from "./Components/header/header";
-import CategoriesSlider from "./Components/categoriesSlider/index";
 import { CssBaseline } from "@mui/material";
+import UploadImagesComp from "./Components/addimage"
 
 function App() {
   const { mode } = useSelector((state) => state.NavbarReducer);
@@ -20,7 +20,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <CategoriesSlider />
+      <UploadImagesComp />
     </ThemeProvider>
   );
 }

@@ -5,8 +5,6 @@ const { authorizeAdminsPriv, loginName } = require("../../assets/helpers/checkPr
 const countersModel = require("../../assets/db/countersModel");
 const AuthorModel = require("./authorsModel");
 const schema = require("./validator");
-const Upload = require("../../assets/helpers/Images");
-const { AUTH_PATH } = require("../../assets/images/imgsPath");
 
 async function getAuthID() {
   try {
@@ -41,23 +39,10 @@ authorsRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-//Edit path
-authorsRouter.patch("/path", authorizeAdminsPriv, async (req, res, next) => {
-  try {
-    await AuthorModel.updateMany({}, {
-      path: AUTH_PATH,
-    }
-    );
-    res.send({ success: true });
-  } catch (error) {
-    next(customError(422, "VALIDATION_ERROR", error));
-  }
-});
-
 //Edit Auth by ID
-authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
+authorsRouter.patch("/:id", authorizeAdminsPriv, async (req, res, next) => {
   const { id } = req.params;
-  const { fName, lName, DOB, Info } = req.body;
+  const { fName, lName, DOB, info, img } = req.body;
   try {
     //Check valid Data
     await schema.validateAsync({
@@ -65,16 +50,16 @@ authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (re
       fName: fName,
       lName: lName,
       DOB: DOB,
-      Info,
-      img: req.file.filename,
+      info,
+      img,
     });
     await AuthorModel.findByIdAndUpdate(id, {
       $set: {
         fName: fName,
         lName: lName,
         DOB: DOB,
-        Info,
-        img: req.file.filename,
+        info,
+        img,
         updated_at: new Date().toGMTString(),
         updated_by: await loginName(req),
       },
@@ -86,8 +71,8 @@ authorsRouter.patch("/:id", authorizeAdminsPriv, Upload.single("img"), async (re
 });
 
 //Add new Auth
-authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, res, next) => {
-  const { fName, lName, DOB, Info } = req.body;
+authorsRouter.post("/", authorizeAdminsPriv, async (req, res, next) => {
+  const { fName, lName, DOB, info, img } = req.body;
 
   try {
     //Check valid Data
@@ -95,8 +80,8 @@ authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, r
       fName: fName,
       lName: lName,
       DOB: DOB,
-      Info,
-      img: req.file.filename,
+      info,
+      img,
     });
 
     //Add Auth data to AuthTable
@@ -105,9 +90,8 @@ authorsRouter.post("/", authorizeAdminsPriv, Upload.single("img"), async (req, r
       fName: fName,
       lName: lName,
       DOB: DOB,
-      Info,
-      path: AUTH_PATH,
-      img: req.file.filename,
+      info,
+      img,
       created_at: new Date().toGMTString(),
       created_by: await loginName(req),
     });
