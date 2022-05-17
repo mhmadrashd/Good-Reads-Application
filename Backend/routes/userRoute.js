@@ -25,7 +25,7 @@ userRoute.post(
         token: generateToken(user._id),
       });
     } else {
-      res.status(404);
+      res.status(777);
       throw new Error("Invalid user");
     }
   })

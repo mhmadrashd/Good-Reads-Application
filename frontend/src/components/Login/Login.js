@@ -1,62 +1,98 @@
-import React , {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-import { connect } from 'react-redux'
+import React, { useContext, useEffect } from "react";
+// import { BrowserRouter as Router } from "react-router-dom";
+import LoginForm from "./LoginForm";
+import AuthService from "../../services/AuthService";
+import { AuthContext } from "../../store/context";
+import { useNavigate } from "react-router-dom";
+// // import Stack from '@mui/material/Stack';
+// // import Button from "@mui/material/Button";
+// import Button, { ButtonProps } from "@mui/material/Button";
+// import { purple } from "@mui/material/colors";
+// import { styled } from "@mui/material/styles";
+// // import Stack from "@mui/material/Stack";
 
+import "./Login.css";
 
-import React from 'react'
-import  './Login.css'
+const Login = (props) => {
+  const navigate = useNavigate();
+  const { handleChange, handleSubmit, values, resetForm } = LoginForm(submit);
+  const setCurrentUserInfo = useContext(AuthContext);
 
-const Login=({history})=>{
-    const [Username ,setUsername]=useState('');
-    const [password, setpasswod]=useState('');
-    const dispatch=useDispatch();
+  //update
+  function updateMessage(newValue) {
+    props.loginMessage(newValue);
+  }
+  async function submit(values) {
+    try {
+      const response = await AuthService.login(values);
+      const { isAuthenticated, message } = response;
 
+      if (isAuthenticated) {
+        setCurrentUserInfo({
+          type: "LOGIN",
+          payload: response,
+        });
 
-    //check
-    const userLoginDetails = useSelector(state =>state.userLogin);
-    const {loading ,userInfo , error}= userLoginDetails;
-    
-    console.log(loading, userInfo,error);
+        const message = { msgBody: "Welcome to GoodrReads App" };
+        updateMessage(message);
+        navigate("/userpage");
+      } else updateMessage(message);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-    useEffect(()=>{
-        if (userInfo){
-        history.push('/');
+  useEffect(() => {
+    resetForm();
+  }, []);
 
-    } }
-    ,[dispatch,userInfo,history])
+  // const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
+  //   color: theme.palette.getContrastText(purple[500]),
+  //   backgroundColor: purple[500],
+  //   '&:hover': {
+  //     backgroundColor: purple[700],
+  //   },
+  // }));
 
-    //submit
+  return (
+    <div className="container">
+      <form onSubmit={handleSubmit}>
+        <div className="row">
+          <div className="col-5">
+            <input
+              type="text"
+              name="username"
+              value={values.username}
+              onChange={handleChange}
+              className="login-input"
+              placeholder="username"
+            />
 
-    const submitFormHandler =e=>{
-        e.preventDefault();
-        dispatch(loginUser(Username,password));
-        console.log(Username,password);
-    };
-    
+            <br />
+          </div>
+          <div className="col-5">
+            <input
+              type="password"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              className="login-input"
+              placeholder="password"
+            />
 
-
-return (
-<div className='container'>
-<div className='adminForm'>
-<h2>Welcome To Admin Panel</h2>
-<form  onSubmit={submitFormHandler} className='form'>
-<div class="input-icons">
-                <i class="fa fa-user icon">
-              </i>
-    <input className="inputForm"  value={Username} onChange ={e=> setUsername(e.target.value)} type="text" placeholder='Enter Your Username' />
+            <br />
+            <span style={{ color: "#555555" }}>
+              <input type="checkbox" />
+              Remember Me
+            </span>
+            <a href="/" style={{ color: "#555555" }}>
+              Forget it?
+            </a>
+          </div>
+        </div>
+      </form>
     </div>
-    <div class="input-icons">
-                <i class="fa fa-key icon">
-              </i>
-    <input className="inputForm"  value={password} onChange={e=> setpasswod(e.target.value)}  type="password" placeholder='Enter Your Password'/>
-    </div>
-    <div className='btnlogin'>
-<button  type='submit'>Log In </button>
-</div>
-</form>
+  );
+};
 
-</div>
-</div>
-)
-}
-
-export default Login
+export default Login;

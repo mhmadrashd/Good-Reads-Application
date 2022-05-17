@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "node backend/server.js",
+    "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "client" :"npm start "
+    "client": "npm start "
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +18,8 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.5.0",
-    "mongoose": "^6.3.3"
+    "mongoose": "^6.3.3",
+    "react-redux": "^8.0.1",
+    "redux": "^4.2.0"
   }
 }
