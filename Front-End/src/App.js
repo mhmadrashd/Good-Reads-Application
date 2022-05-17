@@ -5,7 +5,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Header from "./Components/header/header";
 import { CssBaseline } from "@mui/material";
-import UploadImagesComp from "./Components/addimage"
 
 function App() {
   const { mode } = useSelector((state) => state.NavbarReducer);
@@ -20,7 +19,6 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <UploadImagesComp />
     </ThemeProvider>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
-import { sliderData } from "./data";
 import styles from "./index.module.scss";
 import axios from "axios";
 
@@ -23,8 +22,6 @@ const Slider = () => {
     axios.get('http://localhost:3000/book/')
       .then((response) => {
         BooksData.current.values = response.data;
-        console.log(BooksData.current.values)
-        console.log(response.data)
       })
       .catch((error) => {
         console.log(error)
