@@ -1,17 +1,13 @@
 import React, { useContext, useEffect } from "react";
-// import { BrowserRouter as Router } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import AuthService from "../../services/AuthService";
 import { AuthContext } from "../../store/context";
 import { useNavigate } from "react-router-dom";
-// import "~mdb-ui-kit/css/mdb.min.css";
-// import * as mdb from "mdb-ui-kit"; // lib
-// import { Input } from "mdb-ui-kit"; // module
-
 import "./Login.css";
 
 const Login = (props) => {
   const navigate = useNavigate();
+
   const { handleChange, handleSubmit, values, resetForm } = LoginForm(submit);
   const setCurrentUserInfo = useContext(AuthContext);
 
@@ -41,7 +37,7 @@ const Login = (props) => {
 
   useEffect(() => {
     resetForm();
-  });
+  }, []);
   return (
     <section className="text-center gradient">
       {/* <!-- BackgroundImage --> */}
@@ -55,7 +51,7 @@ const Login = (props) => {
             {/* <!-- 2 column grid layout with text inputs for the first and last names --> */}
 
             <div className="container">
-              <h2 className="fw-bold mb-5 fwForm">Login</h2>
+              <h2 className="fw-bold mb-5 fwForm">Welcome To Admin Panel</h2>
 
               <form onSubmit={handleSubmit}>
                 <div className="row card  formEdit">
@@ -68,7 +64,9 @@ const Login = (props) => {
                         onChange={handleChange}
                         className="button"
                         placeholder="username"
+                        autoComplete="off"
                       />
+
                       <br />
                     </div>
 
@@ -80,7 +78,15 @@ const Login = (props) => {
                         onChange={handleChange}
                         className="button"
                         placeholder="password"
+                        autoComplete="off"
                       />
+                      <div className="col-2">
+                        <input
+                          type="submit"
+                          value="Sign in"
+                          className="gr-button gr-button--dark login-btn"
+                        />
+                      </div>
                     </div>
                     <br />
                     {/* <!-- Checkbox --> */}
