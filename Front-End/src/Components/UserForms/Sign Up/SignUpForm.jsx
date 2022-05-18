@@ -1,8 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components';
+import './SignUpForm.css'
 import Marginer from '../accountBox/Marginer'
 import { AccountContext } from '../accountBox/AccountContext';
 import { BoldLink, BoxContainer, FormContainer, Input, MutedLink, SubmitBTN } from '../accountBox/Common'
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import axios from '../accountBox/axiosWork';
+
 
 const InputFile = styled.input`
     width: 100%;
@@ -23,16 +28,16 @@ const InputFile = styled.input`
     cursor: pointer;
     color: #fff;
     border-radius: .2em;
-  }
+    }
 
-  &::-ms-browse {
+&::-ms-browse {
     background: rgb(241,196,15);
     border: 0;
     padding: 1em 2em;
     cursor: pointer;
     color: #fff;
     border-radius: .2em;
-  }
+    }
 
     &::placeholder{
         color: rgba(200,200,200,1);
@@ -46,24 +51,229 @@ const InputFile = styled.input`
     }
 `;
 
+const USER_REGEX = /^[A-z][A-z0-9-_]{2,19}$/;
+const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const IMG_REGEX = /\.(jpg|jpeg|png|gif)$/;
+const REGISTER_URL = '/register';
 
 const SignUpForm = () => {
 
     const {switchToSignIn} = useContext(AccountContext)
 
+    /* New Work */
+    const fNameRef = useRef();
+    const errRef = useRef();
+
+    /* First Name Input Validation and Focusing */
+    const [fname, setFname] = useState('');
+    const [validFName, setValidFName] = useState(false);
+    const [fnameFocus, setFnameFocus] = useState(false);
+
+    /* Last Name Input Validation and Focusing */
+    const [lname, setLname] = useState('');
+    const [validLname, setValidLname] = useState(false);
+    const [lnameFocus, setLnameFocus] = useState(false);
+
+    /* E-Mail Input Validation and Focusing */
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [EmailFocus, setEmailFocus] = useState(false);
+
+    /* Password and matchPassword Input Validation and Focusing */
+    const [pwd, setPwd] = useState('');
+    const [validPwd, setValidPwd] = useState(false);
+    const [pwdFocus, setPwdFocus] = useState(false);
+
+    const [matchPwd, setMatchPwd] = useState('');
+    const [validMatch, setValidMatch] = useState(false);
+    const [matchFocus, setMatchFocus] = useState(false);
+
+    /* Image Input Validation and Focusing */
+    const [img, setImg] = useState('');
+    const [validImg, setValidImg] = useState(false);
+    const [ImgFocus, setImgFocus] = useState(false);
+
+    /* Output Message for Success and Error messages */
+    const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false);
+
+    /* Submit Focusing when Component Load */
+    useEffect(() => {
+        fNameRef.current.focus();
+    }, [])
+
+    useEffect(() => {
+        const result = USER_REGEX.test(fname);
+        setValidFName(result);
+    },[fname]);
+
+
+    useEffect(() => {
+        const result = USER_REGEX.test(lname);
+        setValidLname(result);
+    },[lname]);
+
+    useEffect(() => {
+        const result = EMAIL_REGEX.test(email);
+        setValidEmail(result);
+    },[email]);
+
+    useEffect(() => {
+        const result = PWD_REGEX.test(pwd);
+        setValidPwd(result);
+        const match = pwd === matchPwd
+        setValidMatch(match);
+    },[pwd, matchPwd]);
+
+
+    useEffect(() => {
+        const result = IMG_REGEX.test(img);
+        setValidImg(result);
+    },[img]);
+
+    useEffect(() => {
+        setErrMsg('');
+    }, [fname, lname, email, pwd, matchPwd, img])
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // if button enabled with JS hack
+        const FirstName = USER_REGEX.test(fname);
+        const LastName = USER_REGEX.test(lname);
+        const Email = EMAIL_REGEX.test(email);
+        const Password = PWD_REGEX.test(pwd);
+        const Image = IMG_REGEX.test(img);
+
+        if (!FirstName || !LastName || !Email || !Password || !Image) {
+            setErrMsg("Invalid Entry");
+            return;
+        }
+        try {
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({ fname, lname, email, pwd, img }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            setSuccess(true);
+
+            /* clear state and controlled inputs
+             * need value attrib on inputs for this 
+             */
+            
+            setFname('');
+            setLname('');
+            setEmail('');
+            setPwd('');
+            setMatchPwd('');
+            setImg('')
+
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 409) {
+                setErrMsg('Email Taken');
+            } else {
+                setErrMsg('Registration Failed')
+            }
+            errRef.current.focus();
+        }
+    }
+
+    /* Ending of New Work */
 
     return (
         <BoxContainer>
-            <FormContainer>
-                <Input type="text" placeholder="First Name"/>
-                <Input type="text" placeholder="Last Name"/>
-                <Input type="email" placeholder="Enter Your Email"/>
-                <Input type="password" placeholder="Enter Your Password"/>
-                <Input type="password" placeholder="Confirm Your Password"/>
-                <InputFile type="file" placeholder="Upload Your Picture"/>
+            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+            <FormContainer onSubmit={handleSubmit}>
+                <Input  type="text" placeholder="First Name" 
+                        id='fname' 
+                        ref={fNameRef} autoComplete="off" 
+                        onChange={(e)=>setFname(e.target.value)} 
+                        required aria-invalid={validFName ? "false" : "true"} 
+                        aria-describedby="uidnote" onFocus={()=>setFnameFocus(true)} 
+                        onBlur={()=>setFnameFocus(false)} />
+
+                        <p id="uidnote" className={fnameFocus && fname && !validFName ? "instructions" : "offscreen"}>
+                        <FontAwesomeIcon    icon={faInfoCircle} /> 
+                                            3 to 20 characters.<br/>
+                                            Must begin with a letter.<br/>
+                                            Letters, numbers, underscores and hyphens allowed.</p>
+
+                <Input type="text" placeholder="Last Name" 
+                        id='lname' 
+                        autoComplete="off" 
+                        onChange={(e)=>setLname(e.target.value)} 
+                        required aria-invalid={validLname ? "false" : "true"} 
+                        aria-describedby="uidnote" onFocus={()=>setLnameFocus(true)} 
+                        onBlur={()=>setLnameFocus(false)} />                         
+                        
+                        <p id="uidnote" className={lnameFocus && lname && !validLname ? "instructions" : "offscreen"}>
+                        <FontAwesomeIcon    icon={faInfoCircle} /> 
+                                            3 to 20 characters.<br/>
+                                            Must begin with a letter.<br/>
+                                            Letters, numbers, underscores and hyphens allowed.</p>
+
+                <Input type="email" placeholder="Enter Your Email" 
+                        id='email' 
+                        autoComplete="off" 
+                        onChange={(e)=>setEmail(e.target.value)} 
+                        required aria-invalid={validEmail ? "false" : "true"} 
+                        aria-describedby="uidnote" onFocus={()=>setEmailFocus(true)} 
+                        onBlur={()=>setEmailFocus(false)} />
+
+                        <p id="uidnote" className={EmailFocus && email && !validEmail ? "instructions" : "offscreen"}>
+                        <FontAwesomeIcon    icon={faInfoCircle} /> 
+                                Email must be in the form of (aa@aa.aa).</p>
+
+                <Input type="password" placeholder="Enter Your Password" 
+                        id="password"
+                        onChange={(e) => setPwd(e.target.value)}
+                        value={pwd}
+                        required
+                        aria-invalid={validPwd ? "false" : "true"}
+                        aria-describedby="pwdnote"
+                        onFocus={() => setPwdFocus(true)}
+                        onBlur={() => setPwdFocus(false)} />
+
+                        <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                        8 to 24 characters.<br />
+                        Must include uppercase and lowercase letters, a number and a special character.<br />
+                        Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span></p>
+
+                <Input type="password" placeholder="Confirm Your Password"
+                        id="confirm_pwd"
+                        onChange={(e) => setMatchPwd(e.target.value)}
+                        value={matchPwd}
+                        required
+                        aria-invalid={validMatch ? "false" : "true"}
+                        aria-describedby="confirmnote"
+                        onFocus={() => setMatchFocus(true)}
+                        onBlur={() => setMatchFocus(false)} />
+
+                        <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                        Must match the first password input field. </p>
+
+                <InputFile type="file" placeholder="Upload Your Picture" 
+                            id='image' 
+                            autoComplete="off" 
+                            onChange={(e)=>setImg(e.target.value)} 
+                            required aria-invalid={validImg ? "false" : "true"} 
+                            aria-describedby="uidnote" onFocus={()=>setImgFocus(true)} 
+                            onBlur={()=>setImgFocus(false)} />
+
+                            <p id="uidnote" className={ImgFocus && img && !validImg ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon  icon={faInfoCircle} /> 
+                                    Image must be in the form of (jpg, jpeg, png or gif).</p>
+
             </FormContainer>
             <Marginer direction="vertical" margin={5} />
-            <SubmitBTN type="submit">SIGN UP</SubmitBTN>
+            <SubmitBTN type="submit" disabled={ !validFName || !validLname || !validEmail || !validPwd || !validMatch || !validImg ? true : false} >SIGN UP</SubmitBTN>
             <Marginer direction="vertical" margin="1em" />
             <MutedLink href="#" >Already have an account? <BoldLink href='#' onClick={switchToSignIn}>SIGN IN</BoldLink></MutedLink>
         </BoxContainer>

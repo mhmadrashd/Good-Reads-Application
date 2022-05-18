@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+
 export const BoxContainer = styled.div`
     width:100;
     display: flex;
@@ -15,11 +16,12 @@ export const FormContainer = styled.div`
     flex-direction: column;
 `;
 
-export const MutedLink = styled.a`
+export const MutedLink = styled.p`
     font-size:12px;
     color : rgba(200, 200, 200, 0.8);
     font-weight: 500;
     text-decoration: none;
+    cursor: pointer;
 `;
 
 export const BoldLink = styled.a`
@@ -67,6 +69,11 @@ export const SubmitBTN = styled.button`
     background: rgb(241,196,15);
     background: linear-gradient(58deg, rgba(241,196,15,1) 20%, rgba(243,172,18,1) 100%);
     &:hover{
-        filter: brightness(1.03);
+        filter: brightness(1.13);
+    }
+    &:disabled{
+        background: rgba(200,200,200,1);
+        cursor: auto;
+        filter: brightness(1)
     }
 `;
