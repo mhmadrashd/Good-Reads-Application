@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const booksSchema = new mongoose.Schema({
     _id : 'number',
     title: 'string',
-    cat_Id:'number',
-    auth_Id:'number',
+    category:'number',
+    auhtor:'number',
     img:"string",
     created_at:'date',
     created_by:'string',
