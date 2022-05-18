@@ -21,6 +21,8 @@ function GetBooks() {
   }
 
   GetData(){
+    
+    //Handle cookies Here
 
     GetBooks()
     .then(data => {

@@ -25,8 +25,10 @@ export default class Categories extends Component {
         };
     }
 
-    componentDidMount(){
+    GetData(){
       
+    //Handle cookies Here
+
       GetCategories()
       .then(data => {
         this.setState({

@@ -7,6 +7,7 @@ import Categories from './components/Categories';
 import Book from './components/Book';
 import Books from './components/Books';
 import Navcomp from './components/Navcom';
+import Authors from './components/Authors';
 
 
 // lk
@@ -25,6 +26,8 @@ function App() {
     <Route path='/Book' element={<Book/>} />
 
     <Route path='/Books' element={<Books/>} />
+    <Route path='/Authors' element={<Authors/>} />
+
 
 
 
