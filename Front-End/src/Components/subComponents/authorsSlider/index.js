@@ -7,6 +7,7 @@ import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButt
 import { grey, red } from '@mui/material/colors';
 import { useSelector } from "react-redux";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import { useNavigate } from "react-router";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -29,15 +30,18 @@ const responsive = {
 
 
 const AuthorsSlider = () => {
-  const { mode } = useSelector((state) => state.NavbarReducer);
+  const { mode } = useSelector((state) => state.DataReducer);
   let color;
   let fontClr;
+  let btnColor;
   if (mode === "light") {
     color = "linear-gradient(45deg, #FE6B8B 25%, #FF8E53 45%)";
     fontClr = "white";
+    btnColor = 'primary'
   } else {
     color = grey[1000];
     fontClr = "dark";
+    btnColor = "success";
   }
   const [CategoryData, setCategoryData] = useState([]);
   const refresh = 0;
@@ -45,14 +49,14 @@ const AuthorsSlider = () => {
     axios.get('http://localhost:3000/author/')
       .then((response) => {
         setCategoryData(...CategoryData, response.data);
-        console.log(response.data[0].DOB)
       })
       .catch((error) => {
         console.log(error)
       })
-  }, [refresh])
+  }, [refresh]);
+  const navigate = useNavigate();
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} Authors`}>
       <Carousel responsive={responsive}
         className="p-8"
         showDots={true}
@@ -61,7 +65,7 @@ const AuthorsSlider = () => {
           <Card key={index}
             sx={{ maxWidth: 345 }}
             data-aos="fade-down-left"
-            data-aos-offset="630"
+            data-aos-offset="550"
             data-aos-delay={100 * (index * 2)}
             data-aos-duration="1000"
           >
@@ -86,7 +90,12 @@ const AuthorsSlider = () => {
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton aria-label="Show" size="small" color='primary'>
+              <IconButton
+                aria-label="Show"
+                size="small"
+                color={btnColor}
+                onClick={() => navigate(`author/${currItem._id}`)}
+              >
                 <ArrowCircleRightIcon />
                 Show
               </IconButton>

@@ -29,20 +29,24 @@ const BooksSlider = () => {
       })
   }, [refresh])
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} Books`} >
       <div className={styles.arrowLeft} onClick={() => handleClick("left")}>
         <ArrowLeftOutlined />
       </div>
       <div className={styles.wrapper} style={wrapper}>
         {BooksData.map((item, index) => (
-          <div className={styles.slide} key={index}>
+          <div className={styles.slide} key={index}
+            data-aos="zoom-in-left"
+            data-aos-easing="linear"
+            data-aos-duration="700"
+            data-aos-delay={100 * (index * 2)}>
             <div className={styles.imgContainer}>
               <img src={item.img} alt="" />
             </div>
             <div className={styles.infoContainer}>
               <h1 className={styles.title}>{item.title}</h1>
               <p className={styles.desc}>{item.description}</p>
-              <button onClick={() => navigate("show")}>Show Now</button>
+              <button onClick={() => navigate(`book/${item._id}`)}>Show Now</button>
             </div>
           </div>
         ))}

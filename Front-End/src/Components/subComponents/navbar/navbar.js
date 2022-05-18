@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -32,7 +32,9 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { makeStyles } from "@mui/styles";
-import { changeMood } from "../../Redux/navbar/NavbarSlice";
+import { changeMood } from "../../../Redux/DataSlice";
+import { scroller } from "react-scroll";
+
 
 const useStyles = makeStyles({
   navbar: {
@@ -46,8 +48,6 @@ const useStyles = makeStyles({
   },
 });
 
-const pages = ["Home", "Categories", "Books", "Authors"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -91,13 +91,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const ResponsiveAppBar = () => {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  //Git mode state from reduxtoolkit (NavbarStore)
-  const { mode } = useSelector((state) => state.NavbarReducer);
+const Navbar = () => {
+  //View page items depend on user or guest
+  const { isSigned } = useSelector((state) => state.DataReducer);
+  const { userData } = useSelector((state) => state.DataReducer);
+  let pages, settings;
+  if (isSigned === 'true') {
+    pages = ["Books", "Categories", "Authors"];
+    settings = ["Profile", "Account", "Dashboard", "Logout"];
+  } else {
+    pages = ["Home", "Categories", "Books", "Authors"];
+    settings = ["Login"];
+  }
+
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  //Git mode state from reduxtoolkit (DataStore)
+  const { mode } = useSelector((state) => state.DataReducer);
   //Link actions with reducers
   const dispatch = useDispatch();
-
   const theme = useTheme();
   const drawerWidth = 240;
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -109,10 +120,22 @@ const ResponsiveAppBar = () => {
     justifyContent: "flex-start",
   }));
 
-  const [open, setOpen] = React.useState(false);
-  const handleDrawerClose = () => {
+  const [open, setOpen] = useState(false);
+  const handleDrawerClose = (page) => {
     setOpen(false);
+    scrollToSection(page);
   };
+
+  //Go to section after click item from menu in navbar
+  const scrollToSection = (page) => {
+    scroller.scrollTo(page, {
+      duration: 500,
+      delay: 0,
+      offset: -70,
+      smooth: "easeInOutQuart",
+    });
+  };
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -136,7 +159,8 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            Books
+
+            <Typography variant="span">Books</Typography>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -159,18 +183,20 @@ const ResponsiveAppBar = () => {
           >
             Books
           </Typography>
+
           {/*Menu Items */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleDrawerClose}
+                onClick={() => handleDrawerClose(page)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}
               </Button>
             ))}
           </Box>
+          {/* Mode page button */}
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="small"
@@ -182,6 +208,7 @@ const ResponsiveAppBar = () => {
             </IconButton>
           </Box>
 
+          {/* Search box */}
           <Search className="mr-3 max-w-[20%] ">
             <SearchIconWrapper>
               <SearchIcon />
@@ -191,10 +218,11 @@ const ResponsiveAppBar = () => {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="User" src={userData.img || ""} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -221,6 +249,7 @@ const ResponsiveAppBar = () => {
             </Menu>
           </Box>
         </Toolbar>
+
         <Drawer
           sx={{
             width: drawerWidth,
@@ -234,7 +263,7 @@ const ResponsiveAppBar = () => {
           open={open}
         >
           <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
+            <IconButton onClick={() => handleDrawerClose("")}>
               {theme.direction === "ltr" ? (
                 <ChevronLeftIcon />
               ) : (
@@ -293,4 +322,4 @@ const ResponsiveAppBar = () => {
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+export default Navbar;

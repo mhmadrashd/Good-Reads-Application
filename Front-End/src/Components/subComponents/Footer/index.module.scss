@@ -1,0 +1,115 @@
+#root {
+    $background-color: #e0e0e0;
+    $color: black;
+  }
+.Container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 50px 50px 0px 0px;
+    margin-top: 30px;
+    overflow: hidden;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    opacity: .8 !important;
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        max-width: 1240px;
+        margin: auto;
+        width: 100%;
+        padding: 0 15px;
+        @media screen and (max-width:600px) {
+            flex-direction: column;
+        }
+        .title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    
+        .left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            .logo {
+                font-size: 2rem;
+                font-family: cursive;
+                color: #088178;
+                font-weight: 600;
+            }
+    
+            .desc {
+                margin: 20px 0px;
+            }
+    
+            .socailContainer {
+                display: flex;
+    
+                .socailIcon {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-right: 20px;
+                    background-color: red;
+                }
+            }
+        }
+    
+        .center {
+            flex: 1;
+            padding: 20px 20px 20px 15%;
+            @media screen and (max-width:380px) {
+                display: none;
+            }
+            .List {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                display: flex;
+                flex-wrap: wrap;
+                .listItem {
+                    width: 100%;
+                    margin-bottom: 10px;
+                    cursor: pointer;
+                }
+            }
+        }
+    
+        .right {
+            flex: 1;
+            padding: 20px;
+            @media screen and (max-width:380px) {
+                background-color: #fff8f8;
+            }
+            .ContactItem {
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+    .lowerFotter {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        row-gap: 15px;
+        padding: 15px;
+        border-top: 1px solid #eee ;
+        max-width: 1240px;
+        width: 100%;
+        margin: auto;
+        a {
+            color: green;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    }
+}

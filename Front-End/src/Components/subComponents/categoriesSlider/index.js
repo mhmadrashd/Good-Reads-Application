@@ -1,12 +1,12 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import axios from "axios";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import styles from "./index.module.scss";
 import { Card, CardActions, CardContent, IconButton, Typography } from "@mui/material";
-import { grey } from '@mui/material/colors';
 import { useSelector } from "react-redux";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import { useNavigate } from "react-router";
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -28,18 +28,32 @@ const responsive = {
 
 
 const CategoriesSlider = () => {
-  const { mode } = useSelector((state) => state.NavbarReducer);
+  const { mode } = useSelector((state) => state.DataReducer);
+
   let color;
-  let fontClr;
+  let fontColor;
+  let btnColor;
   if (mode === "light") {
-    color = "linear-gradient(45deg, #FE6B8B 25%, #FF8E53 45%)";
-    fontClr = "white";
+    color = "#FAFAFC";
+    fontColor = "rgba(131, 131, 131,1)"
+    btnColor = 'primary'
   } else {
-    color = grey[1000];
-    fontClr = "dark";
+    color = "rgba(33, 35, 41,.8)";
+    fontColor = "rgba(216, 140, 26,1)"
+    btnColor = "success"
   }
+  useEffect(() => {
+    const root = document.documentElement;
+    root?.style.setProperty(
+      "--background-color",
+      mode === "dark" ? "rgba(38, 40, 51, .5)" : "rgba(241, 237, 248, .5)"
+    );
+    root?.style.setProperty("--text-color", mode === "dark" ? "#fff" : "dark");
+  }, [mode])
+
   const [CategoryData, setCategoryData] = useState([]);
   const refresh = 0;
+  const navigate = useNavigate();
   useLayoutEffect(() => {
     axios.get('http://localhost:3000/category/')
       .then((response) => {
@@ -50,7 +64,7 @@ const CategoriesSlider = () => {
       })
   }, [refresh])
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} Categories`}>
       <Carousel responsive={responsive} className="p-8" showDots={true}>
         {CategoryData.map((currItem, index) => (
           <Card
@@ -59,11 +73,13 @@ const CategoriesSlider = () => {
               height: 150,
               alignItems: 'center',
               justifyContent: 'center',
-              background: color,
-              color: fontClr,
               borderRadius: 2,
+              borderColor: 'transparent',
               paddingTop: 3,
               m: 2,
+              backgroundColor: color,
+              color: fontColor,
+              boxShadow: 3
             }}
             key={index}
             variant="outlined"
@@ -79,7 +95,7 @@ const CategoriesSlider = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <IconButton aria-label="Show" size="small" color='primary'>
+              <IconButton aria-label="Show" size="small" color={btnColor} onClick={() => navigate(`category/${currItem._id}`)}>
                 <ArrowCircleRightIcon />
                 Show
               </IconButton>

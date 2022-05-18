@@ -1,0 +1,17 @@
+#root {
+    $background-color: rgba(241, 237, 248, .5);
+    $color: black;
+  }
+.container {
+    width: 100%;
+    height: calc(100vh - 70px);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+
+    background-color: var(--background-color);
+    color: var(--text-color);
+
+
+}

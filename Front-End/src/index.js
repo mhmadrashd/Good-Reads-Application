@@ -1,16 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+import Home from "./Home/Home";
+// import HomeUser from "./HomeUser/HomeUser";
 import { Provider } from "react-redux";
-import NavbarStore from "./Redux/navbar/store";
+import DataStore from "./Redux/store";
 import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={NavbarStore}>
+  <Provider store={DataStore}>
     <BrowserRouter>
-      <App />
+      <Home />
     </BrowserRouter>
   </Provider>
 );
