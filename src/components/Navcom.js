@@ -20,7 +20,7 @@ export default function Navcomp() {
   return (
     <MDBNavbar expand='lg' light bgColor='light'>
       <MDBContainer fluid>
-        <MDBNavbarBrand href='#'>GoodReads</MDBNavbarBrand>
+        <MDBNavbarBrand href='/home'>GoodReads</MDBNavbarBrand>
         <MDBNavbarToggler
           type='button'
           aria-expanded='false'
@@ -37,13 +37,13 @@ export default function Navcomp() {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href='#'>Authors</MDBNavbarLink>
+              <MDBNavbarLink href='/Authors'>Authors</MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href='#'>Category</MDBNavbarLink>
+              <MDBNavbarLink href='/Category'>Category</MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-            <MDBNavbarLink href='#'>Books</MDBNavbarLink>
+            <MDBNavbarLink href='/Books'>Books</MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>
         </MDBCollapse>
