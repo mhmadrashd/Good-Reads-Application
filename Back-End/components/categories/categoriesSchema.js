@@ -9,6 +9,7 @@ const CategSchema = new mongoose.Schema({
   Name: {
     type: String,
     required: [true, "Please enter a category name"],
+    unique: true
   },
   created_by: {
     type: String,

@@ -4,8 +4,11 @@ import React from "react";
 // import Headers from "./Components/header/header";
 import { useSelector } from "react-redux";
 
-import Header from "./Components/header/header";
 import { CssBaseline } from "@mui/material";
+import CategoriesSlider from "./Components/categoriesSlider";
+import AuthorsSlider from "./Components/authorsSlider";
+import ResponsiveAppBar from "./Components/navbar/navbar";
+import BooksSlider from "./Components/Slider";
 
 function App() {
   const { mode } = useSelector((state) => state.NavbarReducer);
@@ -17,9 +20,12 @@ function App() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} className="h-screen">
       <CssBaseline />
-      <Header />
+      <ResponsiveAppBar />
+      <BooksSlider />
+      <CategoriesSlider />
+      <AuthorsSlider />
     </ThemeProvider>
   );
 }

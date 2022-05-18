@@ -4,7 +4,7 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import styles from "./index.module.scss";
 import axios from "axios";
 
-const Slider = () => {
+const BooksSlider = () => {
   const navigate = useNavigate();
   const [slideIndex, setSlideIndex] = useState(0);
   const handleClick = (direction) => {
@@ -54,4 +54,4 @@ const Slider = () => {
   );
 };
 
-export default Slider;
+export default BooksSlider;

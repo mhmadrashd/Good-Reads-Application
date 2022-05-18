@@ -32,7 +32,7 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { makeStyles } from "@mui/styles";
-import { changeMood } from "../../../Redux/navbar/NavbarSlice";
+import { changeMood } from "../../Redux/navbar/NavbarSlice";
 
 const useStyles = makeStyles({
   navbar: {
@@ -127,7 +127,7 @@ const ResponsiveAppBar = () => {
   const classes = useStyles();
 
   return (
-    <AppBar position="static" className={classes.navbar}>
+    <AppBar position="sticky" className={classes.navbar}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
