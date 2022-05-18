@@ -1,57 +1,105 @@
-.container {
-    place-content: center;
-    height: 100vh;
-    display: flex;
-    place-items: center;
-
-}
-
-.adminForm{
-    border: 1px solid;
-    border-radius: 16px;
-    padding: 2em;
-    text-align: center;
-}
-
-.adminForm form{
+.Background{
     
+    height: 100%;
+    }
+    .p-5{
+    padding: 6rem!important;
+    }
+    .Shadow{
+    
+        margin-top: -100px;
+        background: hsla(0, 0%, 100%, 0.8);
+        backdrop-filter: blur(30px);
+        background-color: rgb(198, 185, 197);
+        display: block;
+        
+    }
+
+    .container {
+        margin-top: 20px;
+        place-content: center;
+        height: 100vh;
         display: flex;
-        flex-flow: column;
-        gap: 1em;
-        margin-top: 1em;
+        place-items: center;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: rgb(197, 179, 203);
+        background-clip: border-box;
+        border: 1px solid rgba(107, 127, 133, 0.125);
+        border-radius: 0.5rem;
+        background-image: linear-gradient(to bottom right, rgb(196, 126, 189), rgb(87, 100, 110))
     }
+   
+    /* .inputForm  {
+        width: 300px;
+        height: 30px;
+        border-radius: 9px;
+        padding: 1px 11px;
+        border: 1px solid #eabf65;
+        } */
+        
+        .btnlogin{
+            text-align: center;
+            /* margin: 1em; */
+    border-radius: 0.5em 0.5em 0.5em 0.5em
+        }
+        /* .btnlogi{
+        background-color: #04aa6d;
+        border: 1px solid #04aa6d;
+        padding: 5px 17px;
+        font-size: 15px;
+        border-radius: 7px;
+        cursor: pointer;
+        color: white;
+        box-shadow: 1px 1px 7px -2px black;
+        } */
+        
+        .formEdit{
+            padding: 1em;
+            margin: -5em;
+            place-content: center;
+            background: linear-gradient(223deg, #807c83, #91777700);
+                        box-shadow: 4px -9px 41px;
+        }
 
-.inputForm  {
-    width: 300px;
-    height: 30px;
-    border-radius: 9px;
-    padding: 1px 11px;
-    border: 1px solid #eabf65;
-    }
-    
-    .inputForm:focus-visible {
-    outline: #eabf65;
-    border: 2px solid #eabf65;
-    
+        .gradient{
+            box-shadow: 13px -7px;
+            width: 100;
+        }
+        .icon {
+            padding: 10px;
+            color: green;
+            min-width: 50px;
+            text-align: center;
+        }
+
+.login {
+    /* background-image: linear-gradient(to bottom right, rgb(237, 215, 235), rgb(87, 100, 110)) */
+    background-image: url('https://wallpaperaccess.com/full/3876079.jpg');
+
 }
 
-.btnlogin{
-    text-align: center;
-}
-.btnlogin button{
-background-color: #04aa6d;
-border: 1px solid #04aa6d;
-padding: 5px 17px;
-font-size: 15px;
-border-radius: 7px;
-cursor: pointer;
-color: white;
-box-shadow: 1px 1px 7px -2px black;
-}
+        /* ANIMATIONS */
 
-.icon {
-    padding: 10px;
-    color: green;
-    min-width: 50px;
-    text-align: center;
-}
+/* Simple CSS3 Fade-in-down Animation */
+.fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+
+  .button {
+    border-radius: 0.5em 0.5em;
+  }
+
+
+  .fwForm{
+    padding: 0.5em;
+    margin: -7em;
+  }
