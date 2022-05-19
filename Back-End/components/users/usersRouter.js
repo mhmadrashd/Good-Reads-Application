@@ -123,7 +123,7 @@ userRouter.post("/login", async (req, res, next) => {
     //Send token to browser
     res.cookie("Authorization", token, { httpOnly: true });
 
-    res.send({ success: 200 });
+    res.send({ id: user._id, name: user.fName + " " + user.lName, img: user.img });
   } catch (error) {
     next(error);
   }

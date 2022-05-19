@@ -2,8 +2,6 @@ import React, { useEffect } from 'react'
 import { Facebook, LinkedIn, GitHub, MailOutline, Phone } from '@mui/icons-material'
 import styles from './index.module.scss'
 import { Link, useLocation } from 'react-router-dom'
-import Aos from 'aos'
-import 'aos/dist/aos.css'
 import { useSelector } from 'react-redux'
 import { Typography } from '@mui/material'
 import { scroller } from 'react-scroll/modules'
@@ -27,13 +25,11 @@ const Footer = () => {
             mode === "dark" ? "#262833" : "#e0e0e0"
         );
         root?.style.setProperty("--text-color", mode === "dark" ? "#fff" : "dark");
-        Aos.init({ duration: 1500 });
     }, [mode])
     const location = useLocation()
     const currentLocation = location.pathname === '/login' ? '/login' : location.pathname === '/register' ? '/register' : '/'
     return (
         <div className={styles.Container}
-            data-aos="fade-up"
         >
             <div className={styles.wrapper}>
                 <div className={styles.left}>
@@ -73,7 +69,7 @@ const Footer = () => {
             </div>
             <div className={styles.lowerFotter}>
                 <div className={styles.left}>
-                    @2022 <Link to={currentLocation}>Tam 3</Link> - Reactjs Nodejs MongoDB Readx-Toolkit MUI AOS Tailwindcss Formik
+                    @2022 <Link to={currentLocation}>Team 3</Link> - Reactjs Nodejs MongoDB Readx-Toolkit MUI AOS Tailwindcss Formik
                 </div>
             </div>
         </div>

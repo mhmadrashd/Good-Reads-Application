@@ -17,8 +17,13 @@ require("dotenv").config();
 require("./assets/db/dbConnection");
 
 //Midware to convert json from body
+const corsOptions = {
+  origin: 'http://localhost:3001',
+  credentials: true,
+  optionSuccessStatus: 200,
+}
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 //Route Authors to categoriesRouter

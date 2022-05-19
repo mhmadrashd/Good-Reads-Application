@@ -18,6 +18,8 @@ export const DataSlice = createSlice({
     },
     setUserData: (state, action) => {
       state.userData = action.payload;
+      localStorage.setItem("img", action.payload.img)
+      localStorage.setItem("id", action.payload.id)
     }
   },
 });

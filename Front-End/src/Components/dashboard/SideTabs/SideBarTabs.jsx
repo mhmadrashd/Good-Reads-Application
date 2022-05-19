@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import StickyHeadTable from '../UserTable/UserTable'
+import { CssBaseline } from '@mui/material';
 
 const sideBarStyle = makeStyles({
     sideBar: {
@@ -62,7 +63,15 @@ export default function VerticalTabs() {
     const sideStyle = sideBarStyle({});
 
     return (
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', minHeight: 800, width: "100%", overflow: 'hidden' }} >
+        <Box sx={{
+            flexGrow: 1,
+            bgcolor: 'background.paper',
+            display: 'flex',
+            minHeight: 500,
+            width: "100%",
+            overflow: 'hidden'
+        }} >
+            <CssBaseline />
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
@@ -70,7 +79,6 @@ export default function VerticalTabs() {
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
                 className={`${sideStyle.sideBar}`}
-                textColor='red !important'
 
 
             >

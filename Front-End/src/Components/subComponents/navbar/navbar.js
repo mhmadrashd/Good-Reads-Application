@@ -135,10 +135,12 @@ const Navbar = () => {
       dispatch(setIsSigned(isSigned));
       dispatch(setUserData({}));
       document.cookie = "Authorization=deleted;max-age=0"
+      localStorage.removeItem("img");
+      localStorage.removeItem("id");
       navigate("/");
     }
     else {
-      navigate(page);
+      navigate(`/${page}`);
     }
   };
 
@@ -238,7 +240,7 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User" src={userData.img || ""} />
+                <Avatar alt="User" src={localStorage.getItem("img") || ""} />
               </IconButton>
             </Tooltip>
             <Menu

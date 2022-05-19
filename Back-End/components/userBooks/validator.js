@@ -5,7 +5,7 @@ const authorsSchema = Joi.object({
   user: Joi.number().integer().min(0),
   book: Joi.number().integer().min(0),
   state: Joi.number().integer().min(0).max(2),
-  rating: Joi.number().integer().min(0),
+  rating: Joi.number().min(0),
   review: Joi.string().min(0).max(100),
 });
 

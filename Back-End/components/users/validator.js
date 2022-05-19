@@ -12,7 +12,7 @@ const schema = Joi.object({
     .required(),
   password: Joi.string()
     .min(8)
-    .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
+    .pattern(new RegExp("^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$"))
     .required(),
   access_token: [Joi.string(), Joi.number()],
   img: Joi.string(),

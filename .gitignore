@@ -12,6 +12,7 @@
 /Front-End/coverage
 /Back-End/coverage
 /Back-End/.env
+/Front-End/.env
 
 # production
 /build

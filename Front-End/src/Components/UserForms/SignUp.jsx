@@ -1,6 +1,9 @@
 import React from 'react'
 import AccountBox from './accountBox/AccountBox'
 import styled from 'styled-components';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useSelector } from "react-redux";
+import { CssBaseline } from '@mui/material';
 
 const Container = styled.div`
     width: 100%;
@@ -14,10 +17,19 @@ const Container = styled.div`
 
 
 const SignUp = () => {
+    const { mode } = useSelector((state) => state.DataReducer);
+    const theme = createTheme({
+        palette: {
+            mode: mode || "light",
+        },
+    });
     return (
-        <Container>
-            <AccountBox/>
-        </Container>
+        <ThemeProvider theme={theme} >
+            <CssBaseline />
+            <Container>
+                <AccountBox />
+            </Container>
+        </ThemeProvider>
     )
 }
 
