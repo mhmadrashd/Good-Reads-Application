@@ -30,7 +30,7 @@ const GetReview = (data) => {
 }
 
 const  GetBook = (data) => {
-  return fetch(LOCALHOST + 'books/'+data)
+  return fetch(LOCALHOST + 'Book/'+data)
       .then(response =>
       response.json())
 }
@@ -80,19 +80,21 @@ export default function Book () {
 
   GetBook(BookInfo.bookId).then((data) => {
     console.log(",.,.", data.bookName);
-  console.log("zzzzzzzzz  ", data._id);
+  console.log("zzzzzzzzz  ", data);
    
 
   
 
     setBookInfo({
       bookID: data._id,
-      bookName: data.bookName,
-      author: data.author,
-      category: data.category,
-      reviews: [data.brief],
+      bookName: data.title,
+      author_fname: data.auhtor.fName,
+      author_lname: data.auhtor.lName,
+
+      category: data.category.Name,
+      reviews: data.description,
       rate: data.rating,
-      image: data.photo
+      image: data.img
     });
   })
 
@@ -138,7 +140,7 @@ export default function Book () {
         </div>
         <div class="beside">
           <h3 class="bookname"> {BookInfo.bookName}</h3>
-          <h6 class="authorname"> {BookInfo.author}</h6>
+          <h6 class="authorname"> {BookInfo.author_fname} + {BookInfo.author_lname}</h6>
           <h6 class="category"> {BookInfo.category}</h6>
           <div class="rating">
             <StarRating /> <span class="userRatingnum">  {BookInfo.rate} ratings</span>
