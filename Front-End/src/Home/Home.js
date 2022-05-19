@@ -8,9 +8,11 @@ import AuthorsSlider from "../Components/subComponents/authorsSlider";
 import Navbar from "../Components/subComponents/navbar/navbar";
 import BooksSlider from "../Components/subComponents/booksSlider";
 import Footer from "../Components/subComponents/Footer";
+import Main from "../Components/subComponents/main";
 
 function Home() {
   const { mode } = useSelector((state) => state.DataReducer);
+  const { isSigned } = useSelector((state) => state.DataReducer);
   const theme = createTheme({
     palette: {
       mode: mode || "light",
@@ -21,6 +23,7 @@ function Home() {
     <ThemeProvider theme={theme} >
       <CssBaseline />
       <Navbar />
+      {isSigned === 'false' ? <Main /> : ""}
       <BooksSlider />
       <CategoriesSlider />
       <AuthorsSlider />
