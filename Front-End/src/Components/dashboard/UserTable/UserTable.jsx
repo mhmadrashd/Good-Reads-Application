@@ -51,7 +51,15 @@ const columns = [
 
 const rows = UserBooks.map((book)=>book)
 
+/* Filteration of Users Book-Shelve
 
+const readedBooks = UserBooks.filter((book)=>book.sheleve === 'Read')
+const currentReadingBooks = UserBooks.filter((book)=>book.sheleve === 'Current Reading')
+const wantToReadBooks = UserBooks.filter((book)=>book.sheleve === 'Want to Read')
+
+console.log(wantToReadBooks);
+
+*/
 const shelves = UserBooks.map((book)=>book.sheleve)
 
 
@@ -97,7 +105,7 @@ export default function StickyHeadTable() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                     return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                         {columns.map((column) => {
                             const value = row[column.id];
                             if(column.label === "Average Rating") {
