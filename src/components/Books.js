@@ -35,23 +35,51 @@ function GetBooks() {
 
   render() {
     return (
-        <div className="card">
+        // <div className="card">
+        //     <Navcomp></Navcomp>
+        // <center >
+        //   <h2 style={{'color':'Black'}}>Books Names</h2> 
+        //   {this.state.books.map((book , index) =>
+        //     <div className="Card" key={index}>
+        //     <Card >
+        //      <center> <img style={{width:300, height:300,}}
+        //           //  src={LOCALHOST+book.photo}
+        //           src = "https://wallpaperaccess.com/full/3525258.jpg"
+        //            alt="Card image cap"/>
+                   
+                   
+        //            </center>
+        //       <CardBody>
+        //         <CardTitle>
+        //           <Link to={'/books/'+book._id}>
+        //            <h3>{book.bookName} </h3>
+        //           </Link>
+        //         </CardTitle>
+        //       </CardBody>
+        //     </Card>
+        //     </div>
+        //   )}
+        //   </center>
+        //     {/* <Footer></Footer> */}
+        // </div>
+        <div>
             <Navcomp></Navcomp>
-        <center >
-          <h2 style={{'color':'Black'}}>Books Names</h2> 
+            <div className="card">
+        <center>
+          <h2 style={{'color':'gray'}}>Books Names</h2> 
+          
           {this.state.books.map((book , index) =>
             <div className="Card" key={index}>
-            <Card >
-             <center> <img style={{width:300, height:300,}}
-                  //  src={LOCALHOST+book.photo}
-                  src = "https://wallpaperaccess.com/full/3525258.jpg"
+            <Card>
+             <center>
+             <img style={{width:400, height:400}}
+                //    src={LOCALHOST+author.photo}
+                src = "https://m.media-amazon.com/images/I/41qdsk2J12L.jpg"
                    alt="Card image cap"/>
-                   
-                   
-                   </center>
+             </center>
               <CardBody>
                 <CardTitle>
-                  <Link to={'/books/'+book._id}>
+                <Link to={'/books/'+book._id}>
                    <h3>{book.bookName} </h3>
                   </Link>
                 </CardTitle>
@@ -60,7 +88,8 @@ function GetBooks() {
             </div>
           )}
           </center>
-            {/* <Footer></Footer> */}
+        </div>
+        {/* <Footer></Footer> */}
         </div>
     );
   }
