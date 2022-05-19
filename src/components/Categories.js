@@ -12,9 +12,11 @@ import Navcomp from './Navcom';
 const Link = require("react-router-dom").Link;
 
 function GetCategories() {
-    return fetch(LOCALHOST + 'categories/')
-        .then(response =>
-        response.json())
+  console.log("Data .......");
+
+    return fetch(LOCALHOST + "categories")
+        .then((response) =>response.json()
+        )
   }
 export default class Categories extends Component {
 
@@ -23,18 +25,28 @@ export default class Categories extends Component {
         this.state={
             categories : [],
         };
+
     }
 
-    GetData(){
+    
+
+    componentDidMount(){
       
     //Handle cookies Here
 
       GetCategories()
       .then(data => {
+        console.log("Data" + data);
+
         this.setState({
             categories: data,
-        })
+        }
+        
+        )
+        
+
       });
+      
     }
 
     render() {
@@ -55,8 +67,8 @@ export default class Categories extends Component {
               {this.state.categories.map((category , index) =>
                   <tr>
                       <th key={index}>
-                        <Link to={"/categories/" + category._id + "/" + category.name}>
-                          {category.name}
+                        <Link to={"/categories/" + category._id + "/" + category.categoryName}>
+                          {category.categoryName}
                         </Link>
                       </th>
                   </tr>)}

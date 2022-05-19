@@ -2,7 +2,8 @@ import React ,{Component} from 'react';
 import { Card, CardBody, CardTitle } from 'reactstrap';
 import {Link} from "react-router-dom";
 import { LOCALHOST } from '../GLOBAL';
-import '../assets/css/Categories.css'
+// import '../assets/css/Categories.css'
+import '../assets/css/Books.css'
 import Footer from './Footer';
 import Navcomp from './Navcom';
 
@@ -20,8 +21,8 @@ function GetBooks() {
     };
   }
 
-  GetData(){
-    
+  componentDidMount(){
+
     //Handle cookies Here
 
     GetBooks()
@@ -36,18 +37,22 @@ function GetBooks() {
     return (
         <div className="card">
             <Navcomp></Navcomp>
-        <center>
+        <center >
           <h2 style={{'color':'Black'}}>Books Names</h2> 
           {this.state.books.map((book , index) =>
-            <div className="thumb" key={index}>
-            <Card>
-              <img style={{width:300, height:310}}
-                   src={LOCALHOST+book.photo}
+            <div className="Card" key={index}>
+            <Card >
+             <center> <img style={{width:300, height:300,}}
+                  //  src={LOCALHOST+book.photo}
+                  src = "https://wallpaperaccess.com/full/3525258.jpg"
                    alt="Card image cap"/>
+                   
+                   
+                   </center>
               <CardBody>
                 <CardTitle>
                   <Link to={'/books/'+book._id}>
-                   <h3>{book.name} </h3>
+                   <h3>{book.bookName} </h3>
                   </Link>
                 </CardTitle>
               </CardBody>
@@ -55,7 +60,7 @@ function GetBooks() {
             </div>
           )}
           </center>
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
         </div>
     );
   }

@@ -7,7 +7,7 @@ export default class StarRating extends Component {
     {
         super(props);
 
-        this.state = {Average:5}
+        this.state = {Average:6}
         this.state = {Rate : 5}
 
         this.changeRating = this.changeRating.bind(this)

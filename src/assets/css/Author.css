@@ -5,16 +5,15 @@
 
 .beside {
     float:left;
+    color:rgb(218, 226, 103);
     margin-left:30px;
     text-align: left;
 }
-.cardAndrateAndselect{
+.card{
     float:left;
     margin-bottom: 15px;
 }
 .description{
-    margin-top: 20px;
-    margin: 20px;
     width: 900px;
     height:300px;
     overflow-x: hidden;
@@ -23,21 +22,14 @@
     scrollbar-width: thin;
     border:solid 0.5px;
     border-radius:5px;
-    border-color:rgb(218, 226, 103);
 }
 .description p {
-    color:white;
+    color:rgb(16, 9, 9);
     font-family: "New Century Schoolbook", TeX Gyre Schola, serif;
     font-size: 20px;
     padding-top:25px;
     padding-left: 5px;
 }
-.authorname, .category{
-    color:rgb(184,115,51);
-}
-/* .authorname:hover{
-    color:white;
-} */
 
 .authorbooks{
     
@@ -69,36 +61,4 @@ h5{
 .booksofauthor{
     
     margin:10px;
-}
-.selectt, .ratingg{
-    margin-left:15px;
-}
-::-webkit-scrollbar {
-    width: 2px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888; 
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgb(214, 226, 47); 
-  }
-   
-  .userRatingnum{
-      margin-left:20px;
-  }
-
-  body{
-      /* background-color:rgb(249, 249, 249); */
-  }
-  h3{
-    color: black;
 }

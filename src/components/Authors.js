@@ -24,7 +24,12 @@ class Authors extends Component {
 
     
     GetAuthors()
-    .then(data => { this.setState({ authors: data,});
+    .then(data => {
+    data.forEach(element => {
+        console.log(element);
+    });
+        
+        this.setState({ authors: data,});
     });
   }
 
@@ -37,15 +42,18 @@ class Authors extends Component {
           <h2 style={{'color':'gray'}}>Authors Names</h2> 
           
           {this.state.authors.map((author , index) =>
-            <div className="thumb" key={index}>
+            <div className="Card" key={index}>
             <Card>
-              <img style={{width:250, height:250}}
-                   src={LOCALHOST+author.photo}
+             <center>
+             <img style={{width:500, height:400}}
+                //    src={LOCALHOST+author.photo}
+                src = "https://upload.wikimedia.org/wikipedia/commons/a/a2/Shakespeare.jpg"
                    alt="Card image cap"/>
+             </center>
               <CardBody>
                 <CardTitle>
                   <Link to={'/authors/'+author._id}>
-                    <h3> {author.firstName + " " + author.lastName} </h3>
+                    <h3> {author.firstname + " " + author.lastname} </h3>
                   </Link>
                 </CardTitle>
               </CardBody>
@@ -54,7 +62,7 @@ class Authors extends Component {
           )}
           </center>
         </div>
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
         </div>
     );
   }
