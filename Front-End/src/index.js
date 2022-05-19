@@ -7,6 +7,7 @@ import Home from "./Home/Home";
 import { Provider } from "react-redux";
 import DataStore from "./Redux/store";
 import { BrowserRouter } from "react-router-dom";
+// import VerticalTabs from "./Components/dashboard/SideTabs/SideBarTabs";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,3 +17,6 @@ root.render(
     </BrowserRouter>
   </Provider>
 );
+
+    // <SignUp />
+    // <VerticalTabs />

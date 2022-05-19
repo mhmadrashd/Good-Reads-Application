@@ -39,7 +39,7 @@ const Footer = () => {
                 <div className={styles.left}>
                     <Typography variant="p" className={styles.desc}>Reading books benefits both your physical and mental health,
                         and those benefits can last a lifetime. They begin in early childhood and continue through the senior years.
-                        Here’s a brief explanation of how reading books can change your brain — and your body — for the better</Typography>
+                        Here’s a brief explanation of how reading books can change your brain — and your body — for the better.</Typography>
                     <div className={styles.socailContainer}>
                         <a href='https://www.facebook.com/' className={styles.socailIcon} style={{ backgroundColor: "#3B5999" }}>
                             <Facebook />

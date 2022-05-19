@@ -32,8 +32,9 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { makeStyles } from "@mui/styles";
-import { changeMood } from "../../../Redux/DataSlice";
+import { changeMood, setIsSigned, setUserData } from "../../../Redux/DataSlice";
 import { scroller } from "react-scroll";
+import { useNavigate } from "react-router";
 
 
 const useStyles = makeStyles({
@@ -95,12 +96,13 @@ const Navbar = () => {
   //View page items depend on user or guest
   const { isSigned } = useSelector((state) => state.DataReducer);
   const { userData } = useSelector((state) => state.DataReducer);
+  const navigate = useNavigate();
   let pages, settings;
   if (isSigned === 'true') {
     pages = ["Books", "Categories", "Authors"];
     settings = ["Profile", "Account", "Dashboard", "Logout"];
   } else {
-    pages = ["Home", "Categories", "Books", "Authors"];
+    pages = ["Home", "Books", "Categories", "Authors"];
     settings = ["Login"];
   }
 
@@ -124,6 +126,20 @@ const Navbar = () => {
   const handleDrawerClose = (page) => {
     setOpen(false);
     scrollToSection(page);
+  };
+  const handleDrawerNavigate = (page) => {
+    setAnchorElUser(null);
+    setOpen(false);
+    page = page.toLowerCase();
+    if (page === 'logout') {
+      dispatch(setIsSigned(isSigned));
+      dispatch(setUserData({}));
+      document.cookie = "Authorization=deleted;max-age=0"
+      navigate("/");
+    }
+    else {
+      navigate(page);
+    }
   };
 
   //Go to section after click item from menu in navbar
@@ -242,7 +258,7 @@ const Navbar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleDrawerNavigate(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

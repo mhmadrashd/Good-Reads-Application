@@ -8,7 +8,7 @@ import AuthorsSlider from "../Components/subComponents/authorsSlider";
 import Navbar from "../Components/subComponents/navbar/navbar";
 import BooksSlider from "../Components/subComponents/booksSlider";
 import Footer from "../Components/subComponents/Footer";
-import Main from "../Components/subComponents/main";
+import Main from "../Components/subComponents/homeHeader";
 
 function Home() {
   const { mode } = useSelector((state) => state.DataReducer);
