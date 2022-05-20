@@ -36,26 +36,26 @@ const authorizeAdminsPriv = async (req, res, next) => {
 
 /************************************** Login Authentication ************************/
 
-async function loginName(req, res, next) {
-    try {
-        const token = req.cookies.Authorization;
-        //Get data from token after veify this token
-        const payload = await verifyAsync(token, process.env.SECRET_KEY);
-        return payload.name;
-    } catch (error) {
-        next(error)
-    }
+async function loginName(req, res) {
+    // try {
+    //     const token = req.cookies.Authorization;
+    //     //Get data from token after veify this token
+    //     const payload = await verifyAsync(token, process.env.SECRET_KEY);
+    //     return payload.name;
+    // } catch (error) {
+    //     console.log(error)
+    // }
 
 };
 
-async function loginID(req, res, next) {
-    try {
-        const token = req.cookies.Authorization;
-        //Get data from token after veify this token
-        const payload = await verifyAsync(token, process.env.SECRET_KEY);
-        return payload.id;
-    } catch (error) {
-        next(error)
-    }
+async function loginID(req, res) {
+    // try {
+    //     const token = req.cookies.Authorization;
+    //     //Get data from token after veify this token
+    //     const payload = await verifyAsync(token, process.env.SECRET_KEY);
+    //     return payload.id;
+    // } catch (error) {
+    //     console.log(error)
+    // }
 };
 module.exports = { loginName, authorizeAdminsPriv, loginID }

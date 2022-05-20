@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row'
 
 function DeleteModal(probs) {
-    const confirmDeletion = () => {
+    const confirmDeletion = (e) => {
+        console.log(e);
         console.log("delete", probs.item);
         probs.onClick();
     }

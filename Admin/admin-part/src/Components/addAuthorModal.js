@@ -41,9 +41,15 @@ function AddAuthorModal(probs) {
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref)
         .then((url) => {
-          values.image = url
-          axios.post(`${URLServer}/author`, values)
+          axios.post(`${URLServer}/author`, {
+            fName: values.fname,
+            lName: values.lname,
+            DOB: values.dob,
+            img: url
+          })
             .then((response) => {
+              probs.onClick();
+              window.location.reload()
               console.log(response);
             }).catch((error) => {
               console.log(error);

@@ -26,6 +26,14 @@ async function getBookID() {
   }
 }
 
+booksRouter.get("/", async (req, res, next) => {
+  try {
+    const books = await booksModel.find({});
+    res.send(books);
+  } catch (error) {
+    console.log(error);
+  }
+})
 //Get by Title(Query)
 booksRouter.get("/", async (req, res, next) => {
   const { title } = req.query;

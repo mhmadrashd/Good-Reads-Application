@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col';
 import { useFormik } from 'formik';
 import axios from 'axios';
+const URLServer = "http://localhost:3000";
 
 function EditCategoryModal(probs) {
   // console.log(probs.item);
@@ -15,7 +16,16 @@ function EditCategoryModal(probs) {
   //to handle the submit action with formik
   const onSubmit = values => {
     // console.log(values);
-    // axios.patch(`http://localhost:3001/categories?${item._id}` , values)
+    axios.patch(`${URLServer}/category/${probs.item._id}`, {
+      Name: values.editedCategory,
+    })
+      .then(function (response) {
+        probs.onClick()
+        window.location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     probs.onClick();
   }
 

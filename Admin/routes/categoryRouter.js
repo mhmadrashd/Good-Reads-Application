@@ -2,13 +2,14 @@ const express = require('express');
 const categoryRouter = express.Router();
 const Cateogries = require("../models/categories/categoriesModel")
 
-categoryRouter.get("/",async(req,res,next)=>{
-try {
-    const categories = await Cateogries.find({});
-    res.send(categories);
-} catch (error) {
-    console.log(error);
-}
+categoryRouter.get("/", async (req, res, next) => {
+    try {
+        const categories = await Cateogries.find({});
+        console.log(categories)
+        res.send(categories);
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 // const getLastId =()=>{
@@ -27,4 +28,4 @@ try {
 // })
 
 
-module.exports=categoryRouter;
+module.exports = categoryRouter;

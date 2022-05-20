@@ -15,15 +15,22 @@ function AddCategoryModal(probs) {
   }
 
   //to handle the submit action with formik
-  const onSubmit = values => {
-    console.log(values.Name);
-    axios.post(`${URLServer}/category`, values)
-      .then((response) => {
-        console.log(response);
-      }).catch((error) => {
-        console.log(error);
+  const onSubmit = (values) => {
+    try {
+      axios.post(`${URLServer}/category`, {
+        Name: values.Name,
       })
-    probs.onClick();
+        .then(function (response) {
+          probs.onClick()
+          window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (error) {
+
+      console.log(error)
+    }
   }
 
   //to handle the validations on the inputs with formik

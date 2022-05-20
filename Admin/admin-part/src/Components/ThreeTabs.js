@@ -60,7 +60,7 @@ function ThreeTabs() {
   // get request of the data from authors collection and set its state
   useLayoutEffect(() => {
     axios.get(`${URLServer}/author`)
-      .then(response => console.log(response.data))
+      .then(response => setAuthorsData(response.data))
       .catch(err => console.log(err))
   }, [])
 
@@ -90,7 +90,7 @@ function ThreeTabs() {
         onSelect={(index) => setTabIndex(index)}
       >
 
-        <Tab eventKey="first" title="Categories" tabClassName='tab'>
+        <Tab eventKey="first" title="Categories" tabClassName='tab' >
           <i className=" plusBtn fa fa-plus fa-2x btn btn-danger me-md-2 rounded-circle float-end"
             onClick={categoryModalShow}></i>
           < Table data={categoriesData}

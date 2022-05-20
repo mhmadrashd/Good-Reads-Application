@@ -17,11 +17,8 @@ async function getCategID() {
 
 //Get by Name(Query)
 CategRouter.get("/", async (req, res, next) => {
-  const { Name } = req.query;
   try {
-    const filterdCategs = Name
-      ? await CategModel.find({ Name })
-      : await CategModel.find({});
+    const filterdCategs = await CategModel.find({})
     res.send(filterdCategs);
   } catch (error) {
     next(customError(422, "VALIDATION_ERROR", error));

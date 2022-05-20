@@ -19,17 +19,25 @@ function Table(probs) {
         return (
             <tr>
                 {React.Children.toArray(column.map((columnItem, index) => {
-                    return <td>{`${columnItem.heading}` === "Actions" ?
-                        <Actions table={table} item={item}
-                            categories={probs.categriesData}
-                            authors={probs.authorData} /> :
-                        `${columnItem.heading}` === "Photo" ?
-                            <img src={item[`${columnItem.value}`]}
-                                style={{ width: "30%", height: "100%" }}
-                                className="img-fluid img-thumbnail"
-                                alt="" /> :
-                            item[`${columnItem.value}`]
-                    }</td>
+                    return <td>
+                        {
+                            `${columnItem.heading}` === "Actions"
+                                ?
+                                <Actions table={table} item={item}
+                                    categories={probs.categriesData}
+                                    authors={probs.authorData} />
+                                :
+                                `${columnItem.heading}` === "Photo"
+                                    ?
+                                    <img src={item[`${columnItem.value}`]}
+                                        style={{ width: "30%", height: "100%" }}
+                                        className="img-fluid img-thumbnail"
+                                        alt="" />
+                                    :
+                                    !isNaN(Date.parse(item[columnItem.value])) && !(Number.isInteger(item[columnItem.value])) ?
+                                        new Date(item[columnItem.value]).toDateString()
+                                        : item[columnItem.value]
+                        }</td>
                 }))}
             </tr>)
     }
@@ -38,13 +46,17 @@ function Table(probs) {
             <table className="table table-striped table-hover table-bordered text-center">
                 <thead>
                     <tr>
-                        {React.Children.toArray(columns.map((item) => <TableHeadItem item={item} />))}
+                        {React.Children.toArray(
+                            columns.map((item) => <TableHeadItem item={item} />)
+                        )}
                     </tr>
                 </thead>
                 <tbody>
-                    {React.Children.toArray(data.map((item) => <TableRow item={item}
-                        column={columns}
-                        table={selectedtable} />))}
+                    {React.Children.toArray(
+                        data.map((item) => <TableRow item={item}
+                            column={columns}
+                            table={selectedtable} />)
+                    )}
                 </tbody>
             </table>
         </div>

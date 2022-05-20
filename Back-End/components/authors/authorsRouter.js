@@ -71,7 +71,7 @@ authorsRouter.patch("/:id", authorizeAdminsPriv, async (req, res, next) => {
 });
 
 //Add new Auth
-authorsRouter.post("/", authorizeAdminsPriv, async (req, res, next) => {
+authorsRouter.post("/", async (req, res, next) => {
   const { fName, lName, DOB, info, img } = req.body;
 
   try {
@@ -93,7 +93,7 @@ authorsRouter.post("/", authorizeAdminsPriv, async (req, res, next) => {
       info,
       img,
       created_at: new Date().toGMTString(),
-      created_by: await loginName(req),
+      created_by: "mohamed",
     });
 
     //Increment Auths ID Counter in countersID table
