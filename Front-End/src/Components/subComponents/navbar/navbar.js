@@ -101,7 +101,7 @@ const Navbar = () => {
   if (isSigned === 'true') {
     settings = ["Profile", "Dashboard", "Logout"];
   } else {
-    settings = ["Login"];
+    settings = ["Login", "Admin"];
   }
 
   const [anchorElUser, setAnchorElUser] = useState(null);

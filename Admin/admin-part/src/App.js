@@ -1,12 +1,12 @@
 // import logo from './logo.svg';
-import ThreeTabs from './Components/ThreeTabs';
+import ThreeTabs from './Components/Controls/ThreeTabs';
 // import Tabs from 'react-bootstrap/Tabs'
 // import Tab from 'react-bootstrap/Tab'
 
 function App() {
   return (
     <div className="App">
-      <ThreeTabs/>
+      <ThreeTabs />
     </div>
   );
 }

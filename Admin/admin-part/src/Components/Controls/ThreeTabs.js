@@ -1,6 +1,6 @@
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import "../styles/ThreeTabs.css"
+import "../../styles/ThreeTabs.css"
 import Table from './Table';
 import axios from 'axios';
 import { useState, useLayoutEffect } from 'react';
