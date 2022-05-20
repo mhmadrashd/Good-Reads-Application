@@ -18,7 +18,7 @@ require("./assets/db/dbConnection");
 
 //Midware to convert json from body
 const corsOptions = {
-  origin: 'http://localhost:3001',
+  origin: '*',
   credentials: true,
   optionSuccessStatus: 200,
 }
