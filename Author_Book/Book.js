@@ -25,7 +25,8 @@ export default function Book() {
         category: '',
         reviews: '',
         rate: '',
-        image: ''
+        image: '',
+        stars: 0,
 
   });
 
@@ -45,7 +46,8 @@ export default function Book() {
         category: data.category.Name,
         reviews: data.description,
         rate: data.rating,
-        image: data.img
+        image: data.img,
+        stars: 4
       })
 
     )
@@ -77,7 +79,7 @@ console.log( "First Nmae: " + BookInfo.author_fname);
           <h6 class="authorname"> {BookInfo.author_fname}  {BookInfo.author_lname}</h6>
           <h6 class="category"> {BookInfo.category}</h6>
           <div class="rating">
-            <StarRating /> <span class="userRatingnum">  {BookInfo.rate} ratings</span>
+            <StarRating stars = {BookInfo.stars}/> <span class="userRatingnum">  {BookInfo.rate} ratings</span>
           </div>
           <div class="description">
             <p>
