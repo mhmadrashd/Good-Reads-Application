@@ -22,7 +22,6 @@ const sideBarStyle = makeStyles({
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
-
     return (
         <div
             role="tabpanel"
@@ -32,7 +31,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{ p: 3, marginLeft:30 , marginTop:2}}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -82,22 +81,22 @@ export default function VerticalTabs() {
 
 
             >
-                <Tab label="All" {...a11yProps(0)} />
-                <Tab label="Read" {...a11yProps(1)} />
-                <Tab label="Current Reading" {...a11yProps(2)} />
-                <Tab label="Want to Read" {...a11yProps(3)} />
+                <Tab sx={{color:'white', fontSize:20, fontWeight: 500, fontFamily: 'Oswald' }} label="All" {...a11yProps(0)} />
+                <Tab sx={{color:'white', fontSize:20, fontWeight: 500, fontFamily: 'Oswald' }} label="Read" {...a11yProps(1)} />
+                <Tab sx={{color:'white', fontSize:20, fontWeight: 500, fontFamily: 'Oswald' }} label="Current Reading" {...a11yProps(2)} />
+                <Tab sx={{color:'white', fontSize:20, fontWeight: 500, fontFamily: 'Oswald' }} label="Want to Read" {...a11yProps(3)} />
             </Tabs>
             <TabPanel value={value} index={0}>
-                <StickyHeadTable />
+                <StickyHeadTable value={value} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Read
+                <StickyHeadTable value={value} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Current Reading
+                <StickyHeadTable value={value} />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                Want to Read
+                <StickyHeadTable value={value} />
             </TabPanel>
         </Box>
     );
