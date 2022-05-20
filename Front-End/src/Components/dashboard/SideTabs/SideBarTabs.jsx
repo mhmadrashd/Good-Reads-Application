@@ -5,19 +5,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { makeStyles } from '@mui/styles';
 import StickyHeadTable from '../UserTable/UserTable'
-import { CssBaseline } from '@mui/material';
-
-const sideBarStyle = makeStyles({
-    sideBar: {
-        background: "linear-gradient(45deg, #FE6B8B 60%, #FF8E53 90%)",
-        minWidth: 200,
-        color: 'white',
-        fontSize: 100,
-    },
-
-});
+import { useSelector } from 'react-redux';
 
 
 function TabPanel(props) {
@@ -31,7 +20,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3, marginLeft:30 , marginTop:2}}>
+                <Box sx={{ p: 3, marginTop: 2 }}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -54,12 +43,10 @@ function a11yProps(index) {
 
 export default function VerticalTabs() {
     const [value, setValue] = React.useState(0);
-
+    const { mode } = useSelector((state) => state.DataReducer);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
-    const sideStyle = sideBarStyle({});
 
     return (
         <Box sx={{
@@ -70,21 +57,27 @@ export default function VerticalTabs() {
             width: "100%",
             overflow: 'hidden'
         }} >
-            <CssBaseline />
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
                 value={value}
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
-                className={`${sideStyle.sideBar}`}
+                sx={{
+                    background: mode === 'light' ?
+                        "linear-gradient(45deg, #FE6B8B 60%, #FF8E53 90%)" :
+                        "rgba(38, 40, 51, .5)",
+                    minWidth: 200,
+                    color: 'white',
+                    fontSize: 100,
+                }}
 
 
             >
-                <Tab sx={{color:'white', fontSize:20, fontWeight: 500, fontFamily: 'Oswald' }} label="All" {...a11yProps(0)} />
-                <Tab sx={{color:'white', fontSize:20, fontWeight: 500, fontFamily: 'Oswald' }} label="Read" {...a11yProps(1)} />
-                <Tab sx={{color:'white', fontSize:20, fontWeight: 500, fontFamily: 'Oswald' }} label="Current Reading" {...a11yProps(2)} />
-                <Tab sx={{color:'white', fontSize:20, fontWeight: 500, fontFamily: 'Oswald' }} label="Want to Read" {...a11yProps(3)} />
+                <Tab sx={{ color: 'white', fontSize: 20, fontWeight: 500, fontFamily: 'Oswald' }} label="All" {...a11yProps(0)} />
+                <Tab sx={{ color: 'white', fontSize: 20, fontWeight: 500, fontFamily: 'Oswald' }} label="Read" {...a11yProps(1)} />
+                <Tab sx={{ color: 'white', fontSize: 20, fontWeight: 500, fontFamily: 'Oswald' }} label="Current Reading" {...a11yProps(2)} />
+                <Tab sx={{ color: 'white', fontSize: 20, fontWeight: 500, fontFamily: 'Oswald' }} label="Want to Read" {...a11yProps(3)} />
             </Tabs>
             <TabPanel value={value} index={0}>
                 <StickyHeadTable value={value} />

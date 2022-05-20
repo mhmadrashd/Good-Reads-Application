@@ -60,7 +60,7 @@ export default function Book() {
 
   const { id } = useParams();
 
-  console.log(id);
+  // console.log(id);
 
 
   const [BookInfo, setBookInfo] = useState({
@@ -75,15 +75,14 @@ export default function Book() {
     photo: ''
 
   });
-
+  let refresh = 0;
   useEffect(() => {
 
     GetBook(BookInfo.bookId).then((data) => {
-      console.log(",.,.", data.bookName);
-      console.log("zzzzzzzzz  ", data);
-
-
-
+      console.log("----------");
+      console.log(data.bookName);
+      console.log(data);
+      console.log("----------");
 
       setBookInfo({
         bookID: data._id,
@@ -92,21 +91,19 @@ export default function Book() {
         author_lname: data.auhtor.lName,
 
         category: data.category.Name,
-        reviews: data.description,
-        rate: data.rating,
+        description: data.description,
+
         image: data.img
       });
     })
-
-
-
-  }, []);
+  }, [refresh]);
   const listt = BookInfo.reviews.map((li) => {
     return (
       <div class="booksofauthor">
         <img
           class=" userimg"
           src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+          alt=""
           width="70px"
           height="70px"
         ></img>
@@ -123,7 +120,7 @@ export default function Book() {
 
 
 
-  console.log("bbbbb  ", BookInfo);
+  // console.log("bbbbb  ", BookInfo);
 
   return (
 

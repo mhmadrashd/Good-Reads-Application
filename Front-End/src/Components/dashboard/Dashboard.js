@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from "react-redux";
-import { createTheme, CssBaseline } from "@mui/material";
+import { createTheme } from "@mui/material";
 import Navbar from "../subComponents/navbar/navbar";
 import Footer from "../subComponents/Footer";
 import { ThemeProvider } from '@mui/styles';
@@ -15,7 +15,6 @@ function Dashboard() {
     });
     return (
         <ThemeProvider theme={theme} >
-            <CssBaseline />
             <Navbar />
             <VerticalTabs />
             <Footer />

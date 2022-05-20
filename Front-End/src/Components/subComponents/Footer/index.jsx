@@ -22,7 +22,7 @@ const Footer = () => {
         const root = document.documentElement;
         root?.style.setProperty(
             "--background-color",
-            mode === "dark" ? "#262833" : "#e0e0e0"
+            mode === "dark" ? "rgba(38, 40, 51, 1)" : "rgba(241, 237, 248, 1)"
         );
         root?.style.setProperty("--text-color", mode === "dark" ? "#fff" : "dark");
     }, [mode])

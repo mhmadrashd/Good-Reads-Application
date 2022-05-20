@@ -8,6 +8,8 @@ import { grey, red } from '@mui/material/colors';
 import { useSelector } from "react-redux";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { useNavigate } from "react-router";
+const URL = "http://localhost:3000";
+
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -46,7 +48,7 @@ const AuthorsSlider = () => {
   const [CategoryData, setCategoryData] = useState([]);
   const refresh = 0;
   useLayoutEffect(() => {
-    axios.get('http://localhost:3000/author/')
+    axios.get(`${URL}/author/`)
       .then((response) => {
         setCategoryData(...CategoryData, response.data);
       })
@@ -65,8 +67,7 @@ const AuthorsSlider = () => {
           <Card key={index}
             sx={{ maxWidth: 345 }}
             data-aos="fade-down-left"
-            data-aos-offset="550"
-            data-aos-delay={100 * (index * 2)}
+            data-aos-offset="150"
             data-aos-duration="1000"
           >
             <CardHeader
