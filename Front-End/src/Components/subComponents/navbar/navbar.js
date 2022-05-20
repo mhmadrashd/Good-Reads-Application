@@ -95,14 +95,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Navbar = () => {
   //View page items depend on user or guest
   const { isSigned } = useSelector((state) => state.DataReducer);
-  const { userData } = useSelector((state) => state.DataReducer);
   const navigate = useNavigate();
-  let pages, settings;
+  let pages = ["Home", "Books", "Categories", "Authors"],
+    settings;
   if (isSigned === 'true') {
-    pages = ["Books", "Categories", "Authors"];
-    settings = ["Profile", "Account", "Dashboard", "Logout"];
+    settings = ["Profile", "Dashboard", "Logout"];
   } else {
-    pages = ["Home", "Books", "Categories", "Authors"];
     settings = ["Login"];
   }
 
@@ -131,7 +129,9 @@ const Navbar = () => {
     setAnchorElUser(null);
     setOpen(false);
     page = page.toLowerCase();
-    if (page === 'logout') {
+    if (page === 'profile') {
+      navigate(`/${page}/${localStorage.getItem("id")}`);
+    } else if (page === 'logout') {
       dispatch(setIsSigned(isSigned));
       dispatch(setUserData({}));
       document.cookie = "Authorization=deleted;max-age=0"
@@ -146,6 +146,9 @@ const Navbar = () => {
 
   //Go to section after click item from menu in navbar
   const scrollToSection = (page) => {
+    if (document.location.href !== "http://localhost:3001/") {
+      navigate("/");
+    }
     scroller.scrollTo(page, {
       duration: 500,
       delay: 0,

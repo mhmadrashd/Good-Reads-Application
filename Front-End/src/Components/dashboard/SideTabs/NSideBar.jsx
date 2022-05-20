@@ -20,7 +20,7 @@ const UlList = styled.ul`
     height: auto;
     width: 100%;
     padding:0;
-`; 
+`;
 
 const UnOrderedLi = styled.li`
     /* width: 100%; */
