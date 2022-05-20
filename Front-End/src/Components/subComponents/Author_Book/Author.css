@@ -5,7 +5,7 @@
 
 .beside {
     float:left;
-    color:rgb(218, 226, 103);
+    color:rgb(0, 0, 0);
     margin-left:30px;
     text-align: left;
 }
@@ -18,17 +18,18 @@
     height:300px;
     overflow-x: hidden;
     overflow-y: auto;
-    scrollbar-color: #c56d32 #b69a88;
+    scrollbar-color: #358107 #b69a88;
     scrollbar-width: thin;
     border:solid 0.5px;
     border-radius:5px;
 }
 .description p {
     color:rgb(16, 9, 9);
-    font-family: "New Century Schoolbook", TeX Gyre Schola, serif;
     font-size: 20px;
     padding-top:25px;
     padding-left: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
 }
 
 .authorbooks{
@@ -44,7 +45,7 @@
     
 }
 h5{
-    color:rgb(218, 226, 103);
+    color:rgb(12, 12, 11);
     padding-left: 10px;
     font-family: 'Times New Roman', Times, serif;
 }
@@ -62,3 +63,10 @@ h5{
     
     margin:10px;
 }
+
+.authorname{
+    color: green;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: xx-large;
+}
+

@@ -95,12 +95,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Navbar = () => {
   //View page items depend on user or guest
   const { isSigned } = useSelector((state) => state.DataReducer);
-  const { userData } = useSelector((state) => state.DataReducer);
   const navigate = useNavigate();
   let pages = ["Home", "Books", "Categories", "Authors"],
     settings;
   if (isSigned === 'true') {
-    settings = ["Profile", "Account", "Dashboard", "Logout"];
+    settings = ["Profile", "Dashboard", "Logout"];
   } else {
     settings = ["Login"];
   }
@@ -130,7 +129,9 @@ const Navbar = () => {
     setAnchorElUser(null);
     setOpen(false);
     page = page.toLowerCase();
-    if (page === 'logout') {
+    if (page === 'profile') {
+      navigate(`/${page}/${localStorage.getItem("id")}`);
+    } else if (page === 'logout') {
       dispatch(setIsSigned(isSigned));
       dispatch(setUserData({}));
       document.cookie = "Authorization=deleted;max-age=0"

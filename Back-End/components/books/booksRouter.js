@@ -171,6 +171,19 @@ booksRouter.get("/userBook/:id", async (req, res, next) => {
   }
 });
 
+//Get userBooks by bookID
+booksRouter.get("/userBookBID/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const Book = await userBooksModel.find({ book: id })
+      .populate({ path: "book", select: "title category auhtor img" })
+      .populate({ path: "user", select: "fName lName" }).exec();
+    res.send(Book);
+  } catch (error) {
+    next(customError(error.code, "VALIDATION_ERROR", error));
+  }
+});
+
 //Add new userBook
 booksRouter.post("/userBook", async (req, res, next) => {
   const { book, state, rating, review } = req.body;

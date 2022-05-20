@@ -32,7 +32,7 @@ export default class StarRating extends Component {
         return (
             <>
             <StarRatings
-                rating={this.state.Average}
+                rating={ this.props.stars || this.state.Average}
                 starRatedColor="blue"
                 changeRating={this.changeRating}
                 numberOfStars={5}
