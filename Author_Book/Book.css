@@ -1,0 +1,110 @@
+@import url('http://fonts.cdnfonts.com/css/new-century-schoolbook');
+.parentContainer{
+    margin:20px;
+}
+
+.beside {
+    float:left;
+    margin-left:30px;
+    text-align: left;
+}
+.cardAndrateAndselect{
+    float:left;
+    margin-bottom: 15px;
+}
+.description{
+    margin-top: 20px;
+    margin: 20px;
+    width: 900px;
+    height:300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: #c56d32 #b69a88;
+    scrollbar-width: thin;
+    border:solid 0.5px;
+    border-radius:5px;
+    border-color:rgb(218, 226, 103);
+}
+.description p {
+    color:white;
+    font-family: "New Century Schoolbook", TeX Gyre Schola, serif;
+    font-size: 20px;
+    padding-top:25px;
+    padding-left: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
+}
+.authorname, .category{
+    color:rgb(184,115,51);
+}
+/* .authorname:hover{
+    color:white;
+} */
+
+.authorbooks{
+    
+    height:350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    clear:both;
+    text-align:left;
+    border:solid 1px;
+    border-radius: 10px;
+    
+}
+h5{
+    color:rgb(218, 226, 103);
+    padding-left: 10px;
+    font-family: 'Times New Roman', Times, serif;
+}
+.bookimg{
+    float:left;
+    margin-right: 10px;
+}
+
+.selectandrating{
+    float:right;
+    
+}
+
+.booksofauthor{
+    
+    margin:10px;
+}
+.selectt, .ratingg{
+    margin-left:15px;
+}
+::-webkit-scrollbar {
+    width: 2px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(214, 226, 47); 
+  }
+   
+  .userRatingnum{
+      margin-left:20px;
+  }
+
+  body{
+      /* background-color:#ade0f4; */
+      font-size: larger;
+  }
+  h3{
+    color: black;
+    font-size: larger;
+    font-family: 'Courier New', Courier, monospace;
+
+}

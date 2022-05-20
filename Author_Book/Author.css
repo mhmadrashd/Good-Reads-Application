@@ -1,0 +1,72 @@
+@import url('http://fonts.cdnfonts.com/css/new-century-schoolbook');
+.parentContainer{
+    margin:20px;
+}
+
+.beside {
+    float:left;
+    color:rgb(0, 0, 0);
+    margin-left:30px;
+    text-align: left;
+}
+.card{
+    float:left;
+    margin-bottom: 15px;
+}
+.description{
+    width: 900px;
+    height:300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: #358107 #b69a88;
+    scrollbar-width: thin;
+    border:solid 0.5px;
+    border-radius:5px;
+}
+.description p {
+    color:rgb(16, 9, 9);
+    font-size: 20px;
+    padding-top:25px;
+    padding-left: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
+}
+
+.authorbooks{
+    
+    height:350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    clear:both;
+    text-align:left;
+    border:solid 1px;
+    border-radius: 10px;
+    
+}
+h5{
+    color:rgb(12, 12, 11);
+    padding-left: 10px;
+    font-family: 'Times New Roman', Times, serif;
+}
+.bookimg{
+    float:left;
+    margin-right: 10px;
+}
+
+.selectandrating{
+    float:right;
+    
+}
+
+.booksofauthor{
+    
+    margin:10px;
+}
+
+.authorname{
+    color: green;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: xx-large;
+}
+
