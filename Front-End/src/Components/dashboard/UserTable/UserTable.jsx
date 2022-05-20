@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -55,20 +55,16 @@ console.log(wantToReadBooks);
 */
 
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [rows, setrows] = useState([]);
-    const [shelves, setshelves] = useState(null);
-    const [UserBooks, setUserBooks] = useState(null);
-
-    const handleChange = (event) => {
-        setshelves(event.target.value);
-    };
+    const [shelves, setshelves] = useState([]);
+    const [UserBooks, setUserBooks] = useState([]);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
+    
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
@@ -76,15 +72,14 @@ export default function StickyHeadTable() {
     const refresh = 0;
     useLayoutEffect(() => {
         axios.get(URL + localStorage.getItem("id"))
-            .then((response) => {
-                console.log(response.data)
-                setUserBooks(response.data);
-                let BooksData = response.data.map((bk) => {
-                    return {
-                        id: bk._id,
-                        user: bk.user,
-                        bookID: bk.book._id,
-                        bookTitle: bk.book.title,
+        .then((response) => {
+            setUserBooks(response.data);
+            let BooksData = response.data.map((bk) => {
+                return {
+                    id: bk._id,
+                    user: bk.user,
+                    bookID: bk.book._id,
+                    bookTitle: bk.book.title,
                         state: bk.state,
                         rating: bk.rating,
                         review: bk.review
@@ -98,10 +93,23 @@ export default function StickyHeadTable() {
             .catch((error) => {
                 console.log(error)
             })
-    }, [refresh])
+        }, [refresh])
 
-    return (
-        <Paper sx={{ width: '100%', overflow: "hidden" }}>
+        const handleChange = async(event) => {
+            rows.state= event.target.value;
+            await axios.patch('http://localhost:3000/book/userBook/state/' + event.target.name,{state:rows.state})
+            .then((result) => console.log(result))
+            setshelves(event.target.value);
+        };
+
+        const HandlingRating = async(event) => {
+            rows.rating= event.target.value;
+            await axios.patch('http://localhost:3000/book/userBook/rating/' + event.target.name,{rating:rows.rating})
+            .then((result) => console.log(result))
+        };
+        
+        return (
+            <Paper sx={{ width: '100%', overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: 750 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -118,14 +126,17 @@ export default function StickyHeadTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows
+                    {
+                        rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
-
+                                if(props.value === 0){
                                 return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                                         {columns.map((column) => {
                                             const value = row[column.id];
+                                            console.log(row);
+                                            console.log(value);
                                             if (column.label === "Average Rating") {
                                                 return (
                                                     <TableCell key={column.id} align={column.align}>
@@ -139,26 +150,28 @@ export default function StickyHeadTable() {
                                                 return (
                                                     <TableCell key={column.id} align={column.align}>
                                                         <Stack spacing={1}>
-                                                            <Rating name="half-rating" defaultValue={value} precision={0.5} />
+                                                            <Rating name={row.id} defaultValue={value} precision={0.5} onChange={HandlingRating}/>
                                                         </Stack>
                                                     </TableCell>
                                                 )
                                             }
                                             else if (column.label === "Sheleve") {
+                                                console.log(row);
                                                 return (
                                                     <TableCell key={column.id} align={column.align}>
                                                         <InputLabel id="demo-simple-select-label"></InputLabel>
                                                         <Select
                                                             labelId="demo-simple-select-label"
                                                             id="demo-simple-select"
+                                                            name={row.id}
                                                             value={shelves.id}
-                                                            label="Age"
+                                                            label={row.id}
                                                             defaultValue={value}
                                                             onChange={handleChange} >
 
-                                                            <MenuItem value={"Read"}>Read</MenuItem>
-                                                            <MenuItem value={"Current Reading"}>Current Reading</MenuItem>
-                                                            <MenuItem value={"Want to Read"}>Want to Read</MenuItem>
+                                                            <MenuItem value={0}>Read</MenuItem>
+                                                            <MenuItem value={1}>Current Reading</MenuItem>
+                                                            <MenuItem value={2}>Want to Read</MenuItem>
                                                         </Select>
                                                     </TableCell>
                                                 )
@@ -174,10 +187,188 @@ export default function StickyHeadTable() {
                                         )}
                                     </TableRow>
                                 );
-                            })}
+                            }
+                            else if (props.value === 1 && row.state === 0){
+                                return (
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                        {columns.map((column) => {
+                                            const value = row[column.id];
+                                            console.log(row);
+                                            console.log(value);
+                                            if (column.label === "Average Rating") {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        <Stack spacing={1} align={column.align}>
+                                                            <Rating name="half-rating-read" defaultValue={value} precision={0.5} readOnly />
+                                                        </Stack>
+                                                    </TableCell>
+                                                );
+                                            }
+                                            else if (column.label === "Rating") {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        <Stack spacing={1}>
+                                                            <Rating name={row.id} defaultValue={value} precision={0.5} onChange={HandlingRating}/>
+                                                        </Stack>
+                                                    </TableCell>
+                                                )
+                                            }
+                                            else if (column.label === "Sheleve") {
+                                                console.log(row);
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        <InputLabel id="demo-simple-select-label"></InputLabel>
+                                                        <Select
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            name={row.id}
+                                                            value={shelves.id}
+                                                            label={row.id}
+                                                            defaultValue={value}
+                                                            onChange={handleChange} >
+
+                                                            <MenuItem value={0}>Read</MenuItem>
+                                                            <MenuItem value={1}>Current Reading</MenuItem>
+                                                            <MenuItem value={2}>Want to Read</MenuItem>
+                                                        </Select>
+                                                    </TableCell>
+                                                )
+                                            }
+                                            else {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {value}
+                                                    </TableCell>
+                                                );
+                                            }
+                                        }
+                                        )}
+                                    </TableRow>
+                                );
+                            }
+                            else if(props.value === 2 && row.state === 1){
+                                return (
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                        {columns.map((column) => {
+                                            const value = row[column.id];
+                                            console.log(row);
+                                            console.log(value);
+                                            if (column.label === "Average Rating") {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        <Stack spacing={1} align={column.align}>
+                                                            <Rating name="half-rating-read" defaultValue={value} precision={0.5} readOnly />
+                                                        </Stack>
+                                                    </TableCell>
+                                                );
+                                            }
+                                            else if (column.label === "Rating") {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        <Stack spacing={1}>
+                                                            <Rating name={row.id} defaultValue={value} precision={0.5} onChange={HandlingRating}/>
+                                                        </Stack>
+                                                    </TableCell>
+                                                )
+                                            }
+                                            else if (column.label === "Sheleve") {
+                                                console.log(row);
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        <InputLabel id="demo-simple-select-label"></InputLabel>
+                                                        <Select
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            name={row.id}
+                                                            value={shelves.id}
+                                                            label={row.id}
+                                                            defaultValue={value}
+                                                            onChange={handleChange} >
+
+                                                            <MenuItem value={0}>Read</MenuItem>
+                                                            <MenuItem value={1}>Current Reading</MenuItem>
+                                                            <MenuItem value={2}>Want to Read</MenuItem>
+                                                        </Select>
+                                                    </TableCell>
+                                                )
+                                            }
+                                            else {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {value}
+                                                    </TableCell>
+                                                );
+                                            }
+                                        }
+                                        )}
+                                    </TableRow>
+                                );
+                            }
+                            else if (props.value === 3 && row.state === 2){
+                                return (
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                        {columns.map((column) => {
+                                            const value = row[column.id];
+                                            console.log(row);
+                                            console.log(value);
+                                            if (column.label === "Average Rating") {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        <Stack spacing={1} align={column.align}>
+                                                            <Rating name="half-rating-read" defaultValue={value} precision={0.5} readOnly />
+                                                        </Stack>
+                                                    </TableCell>
+                                                );
+                                            }
+                                            else if (column.label === "Rating") {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        <Stack spacing={1}>
+                                                            <Rating name={row.id} defaultValue={value} precision={0.5} onChange={HandlingRating}/>
+                                                        </Stack>
+                                                    </TableCell>
+                                                )
+                                            }
+                                            else if (column.label === "Sheleve") {
+                                                console.log(row);
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        <InputLabel id="demo-simple-select-label"></InputLabel>
+                                                        <Select
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            name={row.id}
+                                                            value={shelves.id}
+                                                            label={row.id}
+                                                            defaultValue={value}
+                                                            onChange={handleChange} >
+
+                                                            <MenuItem value={0}>Read</MenuItem>
+                                                            <MenuItem value={1}>Current Reading</MenuItem>
+                                                            <MenuItem value={2}>Want to Read</MenuItem>
+                                                        </Select>
+                                                    </TableCell>
+                                                )
+                                            }
+                                            else {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {value}
+                                                    </TableCell>
+                                                );
+                                            }
+                                        }
+                                        )}
+                                    </TableRow>
+                                );
+                            }
+
+                            })
+                        }
                     </TableBody>
                 </Table>
             </TableContainer>
+            
             <TablePagination
                 rowsPerPageOptions={[5, 10, 50]}
                 component="div"
