@@ -43,7 +43,8 @@ function Actions(probs) {
                     onClick={deleteModalShow}></i>
                 {deleteModalIsOpen && <DeleteModal state={deleteModalIsOpen}
                     item={probs.item}
-                    onClick={deleteModalClose} />}
+                    onClick={deleteModalClose} 
+                    table = {currentTable}/>}
             </div>}
 
             {(currentTable === "second") && <div>
@@ -58,20 +59,22 @@ function Actions(probs) {
                     onClick={deleteModalShow}></i>
                 {deleteModalIsOpen && <DeleteModal state={deleteModalIsOpen}
                     item={probs.item}
-                    onClick={deleteModalClose} />}
+                    onClick={deleteModalClose} 
+                    table = {currentTable}/>}
             </div>}
 
             {(currentTable === "third") && <div>
-                <i className="fa fa-highlighter m-2 fa-xl" style={{ color: 'rgb(230, 105, 136)' }}
+                <i className="fa fa-highlighter m-2 fa-xl" style={{ color: 'rgb(230, 105, 136)' , cursor:'pointer' }}
                     onClick={authorModalShow}></i>
                 {authorModalIsOpen && <EditAuthorModal state={authorModalIsOpen}
                     item={probs.item}
                     onClick={authorModalClose} />}
-                <i className="fa fa-trash fa-xl m-2 fa-xl" style={{ color: 'rgb(230, 105, 136)' }}
+                <i className="fa fa-trash fa-xl m-2 fa-xl" style={{ color: 'rgb(230, 105, 136)',cursor:'pointer' }}
                     onClick={deleteModalShow}></i>
                 {deleteModalIsOpen && <DeleteModal state={deleteModalIsOpen}
                     item={probs.item}
-                    onClick={deleteModalClose} />}
+                    onClick={deleteModalClose} 
+                    table = {currentTable}/>}
             </div>}
         </div>
     );

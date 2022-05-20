@@ -18,19 +18,14 @@ function AddAuthorModal(probs) {
   const [imageUpload, setImageUpload] = useState(null);
 
   //this state used to load image to img element after choose image
-  const [imageUrls, setImageUrls] = useState([]);
-
-
-  const uploadFile = () => {
-
-  };
 
   // initial values for formik 
   const initialValues = {
-    fname: '',
-    lname: '',
-    dob: '',
-    image: ''
+    fName: '',
+    lName: '',
+    DOB: '',
+    info:'',
+    img: ''
   }
 
   // to handle the submit action with formik
@@ -42,9 +37,10 @@ function AddAuthorModal(probs) {
       getDownloadURL(snapshot.ref)
         .then((url) => {
           axios.post(`${URLServer}/author`, {
-            fName: values.fname,
-            lName: values.lname,
-            DOB: values.dob,
+            fName: values.fName,
+            lName: values.lName,
+            DOB: values.DOB,
+            info:values.info,
             img: url
           })
             .then((response) => {
@@ -62,14 +58,14 @@ function AddAuthorModal(probs) {
   //to handle the validations on the inputs with formik
   const validate = values => {
     let errors = {};
-    if (!values.fname) {
-      errors.fname = '*Required ..Please Enter First Name';
+    if (!values.fName) {
+      errors.fName = '*Required ..Please Enter First Name';
     }
-    if (!values.lname) {
-      errors.lname = '*Required ..Please Enter Last Name';
+    if (!values.lName) {
+      errors.lName = '*Required ..Please Enter Last Name';
     }
-    if (!values.dob) {
-      errors.dob = '*Required ..Please select date of birth';
+    if (!values.DOB) {
+      errors.DOB = '*Required ..Please select date of birth';
     }
     return errors;
   }
@@ -99,13 +95,13 @@ function AddAuthorModal(probs) {
                   type="text"
                   placeholder="Enter the Author First Name"
                   autoComplete='off'
-                  name='fname'
-                  // value={addedAuthor.fname}
-                  value={formik.values.fname}
+                  name='fName'
+                  // value={addedAuthor.fName}
+                  value={formik.values.fName}
                   onChange={formik.handleChange}
                   autoFocus />
 
-                {formik.errors.fname ? (<span className='error'>{formik.errors.fname}</span>) : null}
+                {formik.errors.fName ? (<span className='error'>{formik.errors.fName}</span>) : null}
               </Col>
             </Form.Group>
 
@@ -118,26 +114,43 @@ function AddAuthorModal(probs) {
                   type="text"
                   placeholder="Enter the Author Last Name"
                   autoComplete='off'
-                  name='lname'
-                  value={formik.values.lname}
+                  name='lName'
+                  value={formik.values.lName}
                   onChange={formik.handleChange}
                 />
-                {formik.errors.lname ? (<span className='error'>{formik.errors.lname}</span>) : null}
+                {formik.errors.lName ? (<span className='error'>{formik.errors.lName}</span>) : null}
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="dob">
+            <Form.Group as={Row} className="mb-3" controlId="DOB">
               <Col sm={2}>
                 <Form.Label>Date of Birth</Form.Label>
               </Col>
               <Col sm={10}>
                 <Form.Control
                   type="date"
-                  name='dob'
-                  value={formik.values.dob}
+                  name='DOB'
+                  value={formik.values.DOB}
                   onChange={formik.handleChange}
                 />
-                {formik.errors.dob ? (<span className='error'>{formik.errors.dob}</span>) : null}
+                {formik.errors.DOB ? (<span className='error'>{formik.errors.DOB}</span>) : null}
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3" controlId="lastName">
+              <Col sm={2}>
+                <Form.Label>Information</Form.Label>
+              </Col>
+              <Col sm={10}>
+                <Form.Control
+                  as="textarea"
+                  placeholder="Enter the Author Info"
+                  autoComplete='off'
+                  name='info'
+                  value={formik.values.info}
+                  onChange={formik.handleChange}
+                />
+                {/* {formik.errors.lName ? (<span className='error'>{formik.errors.lName}</span>) : null} */}
               </Col>
             </Form.Group>
 
