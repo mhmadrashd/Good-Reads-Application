@@ -2,24 +2,14 @@
 
 # dependencies
 /node_modules
-/Front-End/node_modules
-/Back-End/node_modules
-/Admin/node_modules
-/Admin/admin-part/node_modules
 /.pnp
 .pnp.js
 
 # testing
 /coverage
-/Front-End/coverage
-/Back-End/coverage
-/Back-End/.env
-/Front-End/.env
 
 # production
 /build
-/Front-End/build
-/Back-End/build
 
 # misc
 .DS_Store

@@ -1,0 +1,9 @@
+.Card{
+    float: left;
+    text-align: center;
+    margin: 2%;
+}
+
+.list{
+    margin-left: 10%;
+}
