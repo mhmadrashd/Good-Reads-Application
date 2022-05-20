@@ -4,6 +4,8 @@
 /node_modules
 /Front-End/node_modules
 /Back-End/node_modules
+/Admin/node_modules
+/Admin/admin-part/node_modules
 /.pnp
 .pnp.js
 
