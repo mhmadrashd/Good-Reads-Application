@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Card from '../author/Card';
-import Select from '../author/Select';
-import StarRating from '../author/Rating'
+import Card from './Card';
+import Select from './Select';
+import StarRating from './Rating'
 import './Book.css'
 
 const LOCALHOST = 'http://localhost:3000/';
@@ -13,53 +13,118 @@ export default function Book() {
 
   const { id } = useParams();
 
-  console.log("ID "+id);
+  console.log("ID " + id);
 
 
   const [BookInfo, setBookInfo] = useState({
-       
-        bookID: id,
-        bookName: '',
-        author_fname: '',
-        author_lname: '',
-        category: '',
-        reviews: '',
-        rate: '',
-        image: '',
-        stars: 0,
+
+    bookID: id,
+    bookName: '',
+    author_fname: '',
+    author_lname: '',
+    category: '',
+    reviews: [],
+    description: '',
+    rate: '',
+    image: '',
+    stars: 0,
+
+  });
+
+  const [ReviewInfo, setReviewInfo] = useState({
+
+   review: []
 
   });
 
 
+
   useEffect(() => {
     fetch("http://localhost:3000/book/" + id)
-    .then(response => response.json())
-        // 4. Setting *dogImage* to the image url that we received from the response above
-    .then(data => 
+      .then(response => response.json())
+      // 4. Setting *dogImage* to the image url that we received from the response above
+      .then(data =>
 
-         setBookInfo({
-        bookID: data._id,
-        bookName: data.title,
-        author_fname: data.auhtor.fName,
-        author_lname: data.auhtor.lName,
+        setBookInfo({
+          bookID: data._id,
+          bookName: data.title,
+          author_fname: data.auhtor.fName,
+          author_lname: data.auhtor.lName,
 
-        category: data.category.Name,
-        reviews: data.description,
-        rate: data.rating,
-        image: data.img,
-        stars: 4
-      })
+          category: data.category.Name,
+          
+          description: data.description,
+          rate: data.rating,
+          image: data.img,
+          stars: 4
+        })
 
-    )
-  },[])
+      )
 
-console.log( "First Nmae: " + BookInfo.author_fname);
+      
 
- 
+
+
+  }, [])
+
+  useEffect(() => {
+    fetch("http://localhost:3000/book/userBookBID/" + id)
+      .then(response => response.json())
+      // 4. Setting *dogImage* to the image url that we received from the response above
+      .then(data =>{
+
+        // console.log("Data : " + data._id);
+        setReviewInfo({
+          review: data
+        })
+
+        }
+
+      )
+
+      
+
+
+
+  }, [])
+
+
+
+
+  console.log("First Nmae: " + BookInfo.author_fname);
+
+  console.log("Review " + ReviewInfo.review);
+
+
+
 
 
 
   // console.log("bbbbb  ", BookInfo);
+
+  var list = ReviewInfo.review.map((data)=>{
+
+    return (
+      <div  class="booksofauthor"><img class=" bookimg" src="https://www.clipartmax.com/png/middle/72-722180_these-are-some-cats-avatar-i-drew-during-my-free-time-black.png" width="70px" height="70px"></img> 
+      
+      <div class="selectandrating">
+          <div><Select/></div>
+      <div><StarRating stars={data.rating}/></div>
+      </div>
+      <div class="rating">
+          <h6>{data.user.fName} { data.user.lName}</h6>
+          
+          <strong>{data.review}</strong>
+          <br></br>
+          <strong>{data.created_at}</strong>
+          
+      </div>
+      
+       <hr></hr>
+       </div>)
+
+
+  })
 
   return (
 
@@ -79,22 +144,22 @@ console.log( "First Nmae: " + BookInfo.author_fname);
           <h6 class="authorname"> {BookInfo.author_fname}  {BookInfo.author_lname}</h6>
           <h6 class="category"> {BookInfo.category}</h6>
           <div class="rating">
-            <StarRating stars = {BookInfo.stars}/> <span class="userRatingnum">  {BookInfo.rate} ratings</span>
+            <StarRating stars={BookInfo.stars} /> <span class="userRatingnum">  {BookInfo.rate} ratings</span>
           </div>
           <div class="description">
             <p>
-              {BookInfo.reviews}
+              {BookInfo.description}
             </p>
           </div>
         </div>
       </div>
       <div class="authorbooks">
         <h5 class="s">Reviews</h5>
-        {/* <>{listt}</> */}
+        <>{list}</>
       </div>
     </div>
 
-    
+
   );
 
 };

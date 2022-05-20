@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Card from '../author/Card';
+import Card from './Card';
+import Select from './Select';
+import StarRating from './Rating'
 
 import './Author.css'
 
 const LOCALHOST = 'http://localhost:3000/';
 
-
+// http://localhost:3000/book/authBook/:id
 
 export default function Author() {
 
   const { id } = useParams();
 
-  console.log("ID "+id);
+  console.log("ID " + id);
 
 
   const [AuthorInfo, setAuthorInfo] = useState({
-       
+
     ID: id,
     fname: '',
     lname: '',
@@ -26,41 +28,93 @@ export default function Author() {
 
   });
 
+  const [AuthorBook, setAuthorBook] = useState({
+
+    Books: []
+ 
+   });
+
 
   useEffect(() => {
     fetch("http://localhost:3000/author/" + id)
-    .then(response => response.json())
-        // 4. Setting *dogImage* to the image url that we received from the response above
-    .then(data => 
+      .then(response => response.json())
+      // 4. Setting *dogImage* to the image url that we received from the response above
+      .then(data =>
 
-         setAuthorInfo({
-        ID: data._id,
-        fname: data.fName,
-        lname: data.lName,
-        dob: data.DOB,
-        info: data.info,
-        image: data.img,
-      })
+        setAuthorInfo({
+          ID: data._id,
+          fname: data.fName,
+          lname: data.lName,
+          dob: data.DOB,
+          info: data.info,
+          image: data.img,
+        })
 
-    )
-  },[])
+      )
+  }, [])
 
-console.log( "First Nmae: " + AuthorInfo.fname);
 
- 
+  useEffect(() => {
+    fetch("http://localhost:3000/book/authBook/" + id)
+      .then(response => response.json())
+      // 4. Setting *dogImage* to the image url that we received from the response above
+      .then(data =>{
+
+        // console.log("Data : " + data._id);
+        setAuthorBook({
+          Books: data
+        })
+
+        }
+
+      )
+
+      
+
+
+
+  }, [])
+
+  console.log("First Nmae: " + AuthorInfo.fname);
+
+
 
 
 
   // console.log("bbbbb  ", AuthorInfo);
+  var list = AuthorBook.Books.map((data)=>{
 
+    return (
+      <div  class="booksofauthor"><img class=" bookimg" src={data.img} width="70px" height="70px"></img> 
+      
+      <div class="selectandrating">
+          <div><Select/></div>
+      <div><StarRating stars={data.rating}/></div>
+      </div>
+      <div class="rating">
+          <h6>{data.title}</h6>
+          <h6>{data.category.Name}</h6>
+
+          
+     
+          <br></br>
+          <strong>{data.created_at}</strong>
+          
+      </div>
+      
+       <hr></hr>
+       </div>)
+
+
+  })
   return (
 
     <div class="parentContainer">
       <div>
         <div class="cardAndrateAndselect">
           <Card bookname={AuthorInfo.fname + AuthorInfo.lname} photo={AuthorInfo.image} />
-          
-          
+
+
         </div>
         <div class="beside">
           {/* <h3 class="bookname"> {AuthorInfo.bookName}</h3> */}
@@ -77,11 +131,11 @@ console.log( "First Nmae: " + AuthorInfo.fname);
       </div>
       <div class="authorbooks">
         <h5 class="s">Author's Books</h5>
-        {/* <>{listt}</> */}
+        <>{list}</>
       </div>
     </div>
 
-    
+
   );
 
 };

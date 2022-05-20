@@ -1,0 +1,16 @@
+[
+    {
+        "_id": 1,
+        "title": "Clean Code",
+        "category": {
+            "_id": 1,
+            "Name": "Programming"
+        },
+        "auhtor": 1,
+        "description": "Presents the principles, patterns, and practices of writing clean code and challenges programmers to closely read code, discovering whats right and whats wrong with it.",
+        "img": "https://firebasestorage.googleapis.com/v0/b/goodreadsapplication.appspot.com/o/images%2Fbook%2FcleanCode.jpgda757f93-ba25-4b01-bdc5-c86cc7d3b84a?alt=media&token=95e955be-63c8-42f6-b29b-83fdbb70dd14",
+        "created_by": "mohamedrashed",
+        "created_at": "2022-05-17T00:34:38.000Z",
+        "__v": 0
+    }
+]
