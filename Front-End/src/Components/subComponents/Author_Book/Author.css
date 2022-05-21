@@ -1,10 +1,15 @@
 @import url('http://fonts.cdnfonts.com/css/new-century-schoolbook');
+
+
 .parentContainer{
+    min-height: 130vh;
     margin:20px;
+    background-color: rgba(3, 3, 3, 0.32);
 }
 
 .beside {
     float:left;
+    width: 63%;
     color:rgb(0, 0, 0);
     margin-left:30px;
     text-align: left;
@@ -14,40 +19,44 @@
     margin-bottom: 15px;
 }
 .description{
-    width: 900px;
-    height:300px;
+    width: 100%;
+    height:280px;
     overflow-x: hidden;
     overflow-y: auto;
-    scrollbar-color: #358107 #b69a88;
+    scrollbar-color: #c56d32 #b69a88;
     scrollbar-width: thin;
-    border:solid 0.5px;
-    border-radius:5px;
+    background: linear-gradient(to right, rgba(159, 2, 51, 0.393), rgba(3, 99, 41, 0.58));
+    border: 5px solid #efcb00 ;
+    border-radius:10px;
+    color: white;
+    font-size:1.3rem;
+    font-weight: 600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .description p {
-    color:rgb(16, 9, 9);
-    font-size: 20px;
-    padding-top:25px;
-    padding-left: 5px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: medium;
+    padding-top: 15px;
+    padding-left: 10px;
 }
 
 .authorbooks{
-    
+    width: 90%;
     height:350px;
     overflow-y: auto;
     overflow-x: hidden;
-    
+    margin: 1% 4%;
     clear:both;
     text-align:left;
-    border:solid 1px;
     border-radius: 10px;
+    background: linear-gradient(to right, rgba(159, 2, 51, 0.393), rgba(3, 99, 41, 0.58));
+    border: 5px solid #efcb00 ;
+    color: white;
+    font-size:1.3rem;
+    font-weight: 600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     
 }
 h5{
-    color:rgb(12, 12, 11);
     padding-left: 10px;
-    font-family: 'Times New Roman', Times, serif;
 }
 .bookimg{
     float:left;
@@ -65,8 +74,8 @@ h5{
 }
 
 .authorname{
-    color: green;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: xx-large;
+    color: rgb(255, 255, 255);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 3rem;
 }
 

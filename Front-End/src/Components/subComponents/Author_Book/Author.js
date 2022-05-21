@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Card from './Card';
-
 import './Author.css'
-
+import { Box } from '@mui/material';
+import Image from './Images/LibararyBG.jpg'
 const LOCALHOST = 'http://localhost:3000/';
 
 
@@ -48,14 +48,18 @@ export default function Author() {
   console.log("First Nmae: " + AuthorInfo.fname);
 
 
-
-
-
   // console.log("bbbbb  ", AuthorInfo);
 
   return (
-
-    <div class="parentContainer">
+    <Box sx={{ width:"100%",margin:0 ,
+    overflow:"hidden", 
+    backgroundSize:'cover', 
+    backgroundRepeat:"no-repeat", 
+    backgroundPosition:"center" ,
+    backgroundImage: `url(${Image})`,
+    fontFamily: 'Courier New',
+    fontWeight:600}}>
+    <div className='parentContainer' >
       <div>
         <div class="cardAndrateAndselect">
           <Card bookname={AuthorInfo.fname + AuthorInfo.lname} photo={AuthorInfo.image} />
@@ -65,7 +69,11 @@ export default function Author() {
         <div class="beside">
           {/* <h3 class="bookname"> {AuthorInfo.bookName}</h3> */}
           <h6 class="authorname"> {AuthorInfo.fname}  {AuthorInfo.lname}</h6>
-          <h6 class="category"> {AuthorInfo.dob}</h6>
+          <h6 class="category"> {!isNaN(Date.parse(AuthorInfo.dob)) 
+                                && !(Number.isInteger(AuthorInfo.dob)) ?
+                                new Date(AuthorInfo.dob).toDateString()
+                                : AuthorInfo.dob} </h6>
+
           <div class="rating">
           </div>
           <div class="description">
@@ -81,11 +89,10 @@ export default function Author() {
       </div>
     </div>
 
-
+    </Box>
   );
 
 };
-
 
 
 

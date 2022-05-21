@@ -11,11 +11,8 @@ export default function Card(props) {
         <MDBCardBody>
           <MDBCardText>
             <strong>
-            <a> {props.bookname}</a>
+                <a> {props.bookname}</a>
             </strong>
-           
-           
-            
           </MDBCardText>
         </MDBCardBody>
       </MDBCard>

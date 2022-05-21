@@ -1,5 +1,5 @@
 import StarRatings from 'react-star-ratings';
-import React , {Component} from 'react';
+import React , {Component, Fragment} from 'react';
 
 export default class StarRating extends Component {
     
@@ -7,7 +7,7 @@ export default class StarRating extends Component {
     {
         super(props);
 
-        this.state = {Average:6}
+        this.state = {Average:5}
         this.state = {Rate : 5}
 
         this.changeRating = this.changeRating.bind(this)
@@ -30,17 +30,18 @@ export default class StarRating extends Component {
 
     render() {
         return (
-            <>
+            <Fragment>
             <StarRatings
                 rating={ this.props.stars || this.state.Average}
-                starRatedColor="blue"
+                starRatedColor="#FFD902"
                 changeRating={this.changeRating}
                 numberOfStars={5}
-                starDimension="20px"
+                starDimension="30px"
                 starSpacing="3px"
                 name='Average'
+                starHoverColor='#FFD902'
             />
-           </>
+           </Fragment>
         );
     }
 }

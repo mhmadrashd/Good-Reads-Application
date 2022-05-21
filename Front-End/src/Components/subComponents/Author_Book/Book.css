@@ -1,10 +1,15 @@
 @import url('http://fonts.cdnfonts.com/css/new-century-schoolbook');
+
 .parentContainer{
-    margin:20px;
+    min-height: 130vh;
+    margin: 0;
+    background-color: rgba(3, 3, 3, 0.32);
 }
 
 .beside {
     float:left;
+    width: 63%;
+    color:rgb(0, 0, 0);
     margin-left:30px;
     text-align: left;
 }
@@ -13,50 +18,53 @@
     margin-bottom: 15px;
 }
 .description{
-    margin-top: 20px;
-    margin: 20px;
-    width: 900px;
-    height:300px;
+    margin: 10px 20px 20px 10px;
+    width:100%;
+    height:250px;
     overflow-x: hidden;
     overflow-y: auto;
     scrollbar-color: #c56d32 #b69a88;
     scrollbar-width: thin;
-    border:solid 0.5px;
-    border-radius:5px;
+    background: linear-gradient(to right, rgba(159, 2, 51, 0.393), rgba(3, 99, 41, 0.58));
+    border: 5px solid #efcb00 ;
+    border-radius:10px;
     border-color:rgb(218, 226, 103);
+    color: white;
+    font-size:1.3rem;
+    font-weight: 600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .description p {
-    color:white;
-    font-family: "New Century Schoolbook", TeX Gyre Schola, serif;
-    font-size: 20px;
-    padding-top:25px;
-    padding-left: 5px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: medium;
+    padding-top: 15px;
+    padding-left: 10px;
 }
 .authorname, .category{
-    color:rgb(184,115,51);
+    color:rgb(255, 255, 255);
 }
 /* .authorname:hover{
     color:white;
 } */
 
 .authorbooks{
-    
+    width: 90%;
     height:350px;
     overflow-y: auto;
     overflow-x: hidden;
-    
+    margin: 1% 4%;
     clear:both;
     text-align:left;
-    border:solid 1px;
     border-radius: 10px;
+    background: linear-gradient(to right, rgba(159, 2, 51, 0.393), rgba(3, 99, 41, 0.58));
+    border: 5px solid #efcb00 ;
+    color: white;
+    font-size:1.3rem;
+    font-weight: 600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     
 }
 h5{
-    color:rgb(218, 226, 103);
     padding-left: 10px;
-    font-family: 'Times New Roman', Times, serif;
+
 }
 .bookimg{
     float:left;
@@ -96,6 +104,7 @@ h5{
    
   .userRatingnum{
       margin-left:20px;
+      color:#ffffff;
   }
 
   body{
@@ -103,8 +112,15 @@ h5{
       font-size: larger;
   }
   h3{
-    color: black;
-    font-size: larger;
-    font-family: 'Courier New', Courier, monospace;
+    color: rgb(255, 255, 255);
+    font-size: 2rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+    font-weight:900;
 
+}
+a{
+    color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: "bold";
 }

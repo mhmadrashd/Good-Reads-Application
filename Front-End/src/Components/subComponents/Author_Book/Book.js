@@ -4,7 +4,8 @@ import Card from './Card';
 import Select from './Select';
 import StarRating from './Rating'
 import './Book.css'
-
+import { Box } from '@mui/material';
+import Image from './Images/LibararyBG.jpg'
 const LOCALHOST = 'http://localhost:3000/';
 
 
@@ -62,39 +63,45 @@ export default function Book() {
   // console.log("bbbbb  ", BookInfo);
 
   return (
-
-    <div class="parentContainer">
+  <Box sx={{ width:"100%",margin:0 ,
+            overflow:"hidden", 
+            backgroundSize:'cover', 
+            backgroundRepeat:"no-repeat", 
+            backgroundPosition:"center" ,
+            backgroundImage: `url(${Image})`,
+            fontFamily: 'Courier New',
+            fontWeight:600}}>
+    <div className='parentContainer'>
       <div>
-        <div class="cardAndrateAndselect">
+        <div className="cardAndrateAndselect">
           <Card bookname={BookInfo.bookName} photo={BookInfo.image} />
-          <div class="selectt">
+          <div className="selectt">
             <Select />
           </div>
-          <div class="ratingg">
+          <div className="ratingg">
             <StarRating />
           </div>
         </div>
-        <div class="beside">
-          <h3 class="bookname"> {BookInfo.bookName}</h3>
-          <h6 class="authorname"> {BookInfo.author_fname}  {BookInfo.author_lname}</h6>
-          <h6 class="category"> {BookInfo.category}</h6>
-          <div class="rating">
-            <StarRating stars={BookInfo.stars} /> <span class="userRatingnum">  {BookInfo.rate} ratings</span>
+        <div className="beside">
+          <h3 className="bookname"> {BookInfo.bookName}</h3>
+          <h6 className="authorname"> {BookInfo.author_fname}  {BookInfo.author_lname}</h6>
+          <h6 className="category"> {BookInfo.category}</h6>
+          <div className="rating">
+            <StarRating stars={BookInfo.stars} /> <span className="userRatingnum">  {BookInfo.rate} Average Rating</span>
           </div>
-          <div class="description">
+          <div className="description">
             <p>
               {BookInfo.reviews}
             </p>
           </div>
         </div>
       </div>
-      <div class="authorbooks">
-        <h5 class="s">Reviews</h5>
+      <div className="authorbooks">
+        <h5 className="s">Reviews</h5>
         {/* <>{listt}</> */}
       </div>
     </div>
-
-
+    </Box>
   );
 
 };
