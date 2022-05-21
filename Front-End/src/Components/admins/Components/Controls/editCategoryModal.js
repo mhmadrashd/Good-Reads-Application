@@ -18,7 +18,7 @@ function EditCategoryModal(probs) {
     // console.log(values);
     axios.patch(`${URLServer}/category/${probs.item._id}`, {
       Name: values.editedCategory,
-    })
+    }, { withCredentials: true, credentials: 'include' })
       .then(function (response) {
         probs.onClick()
         window.location.reload();

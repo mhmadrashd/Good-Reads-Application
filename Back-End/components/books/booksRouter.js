@@ -51,6 +51,18 @@ booksRouter.get("/", async (req, res, next) => {
   }
 });
 
+//Get Book by auhtorID
+booksRouter.get("/authBook/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const Book = await booksModel.find({ auhtor: id })
+      .populate({ path: "category", select: "Name" }).exec();
+    res.send(Book);
+  } catch (error) {
+    next(customError(error.code, "VALIDATION_ERROR", error));
+  }
+});
+
 //Get Book by ID
 booksRouter.get("/:id", async (req, res, next) => {
   const { id } = req.params;

@@ -7,37 +7,33 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 const URLServer = "http://localhost:3000";
 
-function AddCategoryModal(probs) {
-
-  //initial values for formik
+function EditCategoryModal(probs) {
+  // console.log(probs.item);
   const initialValues = {
-    Name: ''
+    editedCategory: probs.item["Name"]
   }
 
   //to handle the submit action with formik
-  const onSubmit = (values) => {
-    try {
-      axios.post(`${URLServer}/category`, {
-        Name: values.Name,
+  const onSubmit = values => {
+    // console.log(values);
+    axios.patch(`${URLServer}/category/${probs.item._id}`, {
+      Name: values.editedCategory,
+    }, { withCredentials: true, credentials: 'include' })
+      .then(function (response) {
+        probs.onClick()
+        window.location.reload();
       })
-        .then(function (response) {
-          probs.onClick()
-          window.location.reload();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    } catch (error) {
-
-      console.log(error)
-    }
+      .catch(function (error) {
+        console.log(error);
+      });
+    probs.onClick();
   }
 
   //to handle the validations on the inputs with formik
   const validate = values => {
     let errors = {};
-    if (!values.Name) {
-      errors.Name = '*Required .. Please Enter Category Name';
+    if (!values.editedCategory) {
+      errors.editedCategory = '*Required .. Please Enter Category Name';
     }
     return errors;
   }
@@ -47,14 +43,13 @@ function AddCategoryModal(probs) {
     initialValues,
     onSubmit,
     validate
-  })
-
+  });
 
   return (
     <div>
       <Modal show={probs.state} onHide={probs.onClick} size="lg">
         <Modal.Header className="px-4" closeButton>
-          <Modal.Title className="ms-auto">Add Category</Modal.Title>
+          <Modal.Title className="ms-auto">Edit Category</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={formik.handleSubmit}>
@@ -65,23 +60,18 @@ function AddCategoryModal(probs) {
               <Col sm={9}>
                 <Form.Control
                   type="text"
-                  name='Name'
-                  // value={input.Name}
-                  value={formik.values.Name}
+                  name='editedCategory'
+                  // value={input.editedCategory}
                   autoComplete="off"
-                  // onChange={handleChange}
+                  value={formik.values.editedCategory}
                   onChange={formik.handleChange}
-                  placeholder="Enter the Category Name"
                   autoFocus />
-                {formik.errors.Name ? (<span className='error'>{formik.errors.Name}</span>)
-                  : null}
+                {formik.errors.editedCategory ? (<span className='error'>{formik.errors.editedCategory}</span>) : null}
               </Col>
             </Form.Group>
             <div className='text-center'>
-              <Button variant="outline-dark"
-                // onClick={handleClick} 
-                type="submit ">
-                Add Category
+              <Button variant="outline-dark" type="submit ">
+                Edit Category
               </Button>
             </div>
           </Form>
@@ -91,4 +81,4 @@ function AddCategoryModal(probs) {
   );
 }
 
-export default AddCategoryModal;
+export default EditCategoryModal;

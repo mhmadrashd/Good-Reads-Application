@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Card from './Card';
+import Select from './Select';
+import StarRating from './Rating'
 import './Author.css'
 import { Box } from '@mui/material';
 import Image from './Images/LibararyBG.jpg'
 const LOCALHOST = 'http://localhost:3000/';
 
-
+// http://localhost:3000/book/authBook/:id
 
 export default function Author() {
 
@@ -25,6 +27,12 @@ export default function Author() {
     image: '',
 
   });
+
+  const [AuthorBook, setAuthorBook] = useState({
+
+    Books: []
+ 
+   });
 
 
   useEffect(() => {
@@ -45,11 +53,57 @@ export default function Author() {
       )
   }, [])
 
+
+  useEffect(() => {
+    fetch("http://localhost:3000/book/authBook/" + id)
+      .then(response => response.json())
+      // 4. Setting *dogImage* to the image url that we received from the response above
+      .then(data =>{
+
+        // console.log("Data : " + data._id);
+        setAuthorBook({
+          Books: data
+        })
+
+        }
+
+      )
+
+      
+
+
+
+  }, [])
+
   console.log("First Nmae: " + AuthorInfo.fname);
 
 
   // console.log("bbbbb  ", AuthorInfo);
+  var list = AuthorBook.Books.map((data)=>{
 
+    return (
+      <div  class="booksofauthor"><img class=" bookimg" src={data.img} width="70px" height="70px"></img> 
+      
+      <div class="selectandrating">
+          <div><Select/></div>
+      <div><StarRating stars={data.rating}/></div>
+      </div>
+      <div class="rating">
+          <h6>{data.title}</h6>
+          <h6>{data.category.Name}</h6>
+
+          
+     
+          <br></br>
+          <strong>{data.created_at}</strong>
+          
+      </div>
+      
+       <hr></hr>
+       </div>)
+
+
+  })
   return (
     <Box sx={{ width:"100%",margin:0 ,
     overflow:"hidden", 
@@ -85,7 +139,7 @@ export default function Author() {
       </div>
       <div class="authorbooks">
         <h5 class="s">Author's Books</h5>
-        {/* <>{listt}</> */}
+        <>{list}</>
       </div>
     </div>
 

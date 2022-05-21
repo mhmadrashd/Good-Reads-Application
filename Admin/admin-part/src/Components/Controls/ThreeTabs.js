@@ -1,6 +1,6 @@
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import "../styles/ThreeTabs.css"
+import "../../styles/ThreeTabs.css"
 import Table from './Table';
 import axios from 'axios';
 import { useState, useLayoutEffect } from 'react';
@@ -45,21 +45,21 @@ function ThreeTabs() {
 
   // get request of the data from categories collection and set its state
   useLayoutEffect(() => {
-    axios.get(`${URLServer}/category`)
+    axios.get(`${URLServer}/category`, { withCredentials: true, credentials: 'include' })
       .then(response => setCategoriesData(response.data))
       .catch(err => console.log(err))
   }, [])
 
   // get request of the data from books collection and set its state
   useLayoutEffect(() => {
-    axios.get(`${URLServer}/book`)
+    axios.get(`${URLServer}/book`, { withCredentials: true, credentials: 'include' })
       .then(response => setBooksData(response.data))
       .catch(err => console.log(err))
   }, [])
 
   // get request of the data from authors collection and set its state
   useLayoutEffect(() => {
-    axios.get(`${URLServer}/author`)
+    axios.get(`${URLServer}/author`, { withCredentials: true, credentials: 'include' })
       .then(response => setAuthorsData(response.data))
       .catch(err => console.log(err))
   }, [])
