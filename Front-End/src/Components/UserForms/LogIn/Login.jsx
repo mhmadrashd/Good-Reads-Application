@@ -18,49 +18,29 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
     const { isSigned } = useSelector((state) => state.DataReducer);
     const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        try {
-            await axios.post(`${LOGIN_URL}/user/login`,
-                JSON.stringify({ email, password }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true,
-                }
-            ).then((response) => {
-                dispatch(setIsSigned(isSigned));
-                dispatch(setUserData(response.data));
-                navigate("/");
-                setEmail('');
-                setPassword('');
-                setSuccess(true);
-            }).catch((error) => {
-                console.log(error)
-            })
-            // console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
-            // const accessToken = response?.data?.accessToken;
-            // const roles = response?.data?.roles;
-            // setAuth({ email, password, roles, accessToken });
-
-        } catch (err) {
-            if (!err?.response) {
-                setErrMsg('No Server Response');
-            } else if (err.response?.status === 400) {
-                setErrMsg('Missing Email or Password');
-            } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
-            } else {
-                setErrMsg('Login Failed');
+        await axios.post(`${LOGIN_URL}/user/login`,
+            JSON.stringify({ email, password }),
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
             }
+        ).then((response) => {
+            dispatch(setIsSigned(isSigned));
+            dispatch(setUserData(response.data));
+            navigate("/");
+            setEmail('');
+            setPassword('');
+        }).catch((error) => {
+            setErrMsg(error.response?.data.message);
             errRef.current.focus();
-        }
+        })
+
     }
 
     useEffect(() => {

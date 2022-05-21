@@ -7,7 +7,6 @@ import { useState, useLayoutEffect } from 'react';
 import AddCategoryModal from './addCategoryModal';
 import AddBookModal from './addBookModal';
 import AddAuthorModal from './addAuthorModal';
-import { Button } from '@mui/material';
 import { useNavigate } from 'react-router'
 const URLServer = "http://localhost:3000";
 
@@ -83,15 +82,15 @@ function ThreeTabs() {
   const authorModalShow = () => setAuthorModal(true);
   const navigate = useNavigate();
   const logout = () => {
-    navigate("/admin");
+    navigate("/home");
     document.cookie = "Authorization=deleted;max-age=0"
     console.log("asdsads")
   }
 
   return (
     <div className="threeTabs">
-      <Button onClick={() => { logout() }} className="logout">Logout</Button>
-      <i className=" plusBtn fa fa-plus fa-2x btn btn-danger me-md-2 rounded-circle float-end"
+      <button className="logout btn btn-danger" onClick={() => { logout() }}>Logout</button>
+      <i className=" plusBtn fa fa-plus fa-1x btn btn-danger me-md-2 rounded-circle float-end"
         onClick={categoryModalShow}></i>
 
       <Tabs

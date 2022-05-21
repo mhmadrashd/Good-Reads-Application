@@ -25,7 +25,6 @@ const userBooksSchema = new mongoose.Schema({
   },
   review: {
     type: String,
-    required: [true, "Please enter Your review"]
   },
   created_at: {
     type: Date,

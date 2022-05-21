@@ -5,7 +5,8 @@ export const DataSlice = createSlice({
   initialState: {
     mode: localStorage.getItem('mode') || "light",
     isSigned: localStorage.getItem('isSigned') || 'false',
-    userData: {}
+    userData: {},
+    openDialog: false,
   },
   reducers: {
     changeMood: (state, action) => {
@@ -20,8 +21,11 @@ export const DataSlice = createSlice({
       state.userData = action.payload;
       localStorage.setItem("img", action.payload.img)
       localStorage.setItem("id", action.payload.id)
+    },
+    setOpenDialog: (state, action) => {
+      state.openDialog = action.payload;
     }
   },
 });
-export const { changeMood, setIsSigned, setUserData } = DataSlice.actions;
+export const { changeMood, setIsSigned, setUserData, setOpenDialog } = DataSlice.actions;
 export default DataSlice.reducer;

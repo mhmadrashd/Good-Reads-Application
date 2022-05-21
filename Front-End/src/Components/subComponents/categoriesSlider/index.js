@@ -94,12 +94,12 @@ const CategoriesSlider = () => {
                 {currItem.Name}
               </Typography>
             </CardContent>
-            <CardActions>
+            {/*<CardActions>
               <IconButton aria-label="Show" size="small" color={btnColor} onClick={() => navigate(`category/${currItem._id}`)}>
                 <ArrowCircleRightIcon />
                 Show
               </IconButton>
-            </CardActions>
+          </CardActions>*/}
           </Card>
         ))}
       </Carousel>

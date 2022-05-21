@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../firbase/firebase";
 import { v4 } from "uuid";
+import ErrorDialogs from '../../../assets/handleErrors';
 
 
 const InputFile = styled.input`
@@ -141,11 +142,6 @@ const SignUpForm = () => {
     }, [fname, lname, email, pwd, matchPwd, img])
 
     const [imageUpload, setImageUpload] = useState(null);
-    //this function to upload file after click upload btn
-    const uploadFile = () => {
-        //if no image uploaded return
-
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -189,6 +185,14 @@ const SignUpForm = () => {
                         setMatchPwd('');
                         setImg('');
                     }).catch((error) => {
+                        //{props.open}
+                        //{props.title}
+                        //{props.msg}
+                        <ErrorDialogs
+                            open={true}
+                            title={"Error"}
+                            msg={error.message}
+                        />
                         console.log(error);
                     })
                 });

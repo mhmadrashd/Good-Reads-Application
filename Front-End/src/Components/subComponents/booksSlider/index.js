@@ -46,7 +46,7 @@ const BooksSlider = () => {
             <div className={styles.infoContainer}>
               <h1 className={styles.title}>{item.title}</h1>
               <p className={styles.desc}>{item.description}</p>
-              <button onClick={() => navigate(`book/${item._id}`)}>Show Now</button>
+              <button onClick={() => navigate(`/book/${item._id}`)}>Show Now</button>
             </div>
           </div>
         ))}

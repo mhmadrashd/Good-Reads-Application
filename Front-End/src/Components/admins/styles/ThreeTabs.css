@@ -1,12 +1,15 @@
 .plusBtn{
     background-color:rgb(230, 105, 136);
     position: absolute;
-    top: 8%;
+    top: 9.5%;
     right: 0;
+    cursor: pointer;
 }
 .logout{
     position: absolute;
-    top: 7%;
+    top: 1%;
+    right: 1%;
+    cursor: pointer;
 }
 .nav-tabs{
     background-color: rgb(219, 207, 207);

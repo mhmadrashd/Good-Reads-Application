@@ -17,10 +17,33 @@
     float:left;
     margin-bottom: 15px;
 }
+.mainbtn{
+    border-radius: 20px;
+    background-color: #04df16;
+    padding: 14px 48px;
+    color: #fff;
+    outline: none;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 20px;
+    position: absolute;
+    left:230px;
+    top: 110%;
+}
+.mainbtn:hover{
+    transition: all 0.2s ease-in-out;
+    background-color: #04663d;
+}
+.mainicon{
+font-size: 30px;
+}
 .description{
-    margin: 10px 20px 20px 10px;
-    width:100%;
+    position: absolute;
+    top:20%;
+    left: 30%;
+    width:65%;
     height:250px;
+    margin: 10px 20px 20px 10px;
     overflow-x: hidden;
     overflow-y: auto;
     scrollbar-color: #c56d32 #b69a88;
@@ -60,7 +83,7 @@
     font-size:1.3rem;
     font-weight: 600;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    
+    margin-top: 20px;
 }
 h5{
     padding-left: 10px;
@@ -80,8 +103,20 @@ h5{
     
     margin:10px;
 }
-.selectt, .ratingg{
-    margin-left:15px;
+.selectt{
+    margin-top: 570px;
+    margin-left: 15px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+    width: 450px;
+}
+.ratingg{
+    margin-left: 15px;
+    background-color: #fff;
+    border-radius: 0px 0px 20px 20px;
+    width: 450px;
+    height: 200px;
 }
 ::-webkit-scrollbar {
     width: 2px;

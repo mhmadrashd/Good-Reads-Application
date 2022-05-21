@@ -95,7 +95,7 @@ const AuthorsSlider = () => {
                 aria-label="Show"
                 size="small"
                 color={btnColor}
-                onClick={() => navigate(`author/${currItem._id}`)}
+                onClick={() => navigate(`/author/${currItem._id}`)}
               >
                 <ArrowCircleRightIcon />
                 Show
