@@ -113,10 +113,7 @@ AdminRouter.post("/login", async (req, res, next) => {
       },
       process.env.SECRET_KEY
     );
-
-    //Send token to browser
-    res.cookie("Authorization", token, { httpOnly: true });
-
+    res.cookie("Authorization", token, { httpOnly: true, secure: false });
     res.send({ success: 200 });
   } catch (error) {
     next(error);

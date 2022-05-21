@@ -7,68 +7,75 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../../firebase";
+import { storage } from "../../../../firbase/firebase";
 import { v4 } from "uuid";
 import axios from 'axios';
 const URLServer = "http://localhost:3000";
 
-function AddBookModal(probs) {
 
+function EditBookModal(probs) {
   //this state used to get image from input type=(file) to upload it to firebase
   const [imageUpload, setImageUpload] = useState(null);
 
   //this state used to load image to img element after choose image
 
-  //initial values for formik 
+  const item = probs.item;
+
+  // initial values for formik
   const initialValues = {
-    title: '',
-    category: '',
-    auhtor: '',
-    description: '',
-    img: ''
+    title: item.title,
+    category: (probs.categriesData.filter(category => category._id === item.category))[0]["Name"],
+    auhtor: (probs.authorData.filter(author => author._id === item.auhtor))[0]['fName'] + " " + (probs.authorData.filter(author => author._id === item.auhtor))[0]['lName'],
+    description: item.description,
+    img: item.img
   }
 
-  // to handle the submit action with formik
+
+  //to handle the submit action with formik
   const onSubmit = values => {
+    // const varx  = {
+    //   title: values.title,
+    //           category: (probs.categriesData.filter(category => category.Name=== values.category))[0]["_id"],
+    //           auhtor:(probs.authorData.filter(author => `${author.fName} ${author.lName}`=== values.auhtor))[0]["_id"],
+    //           description: values.description
+    // }
+    // console.log(varx);
     if (imageUpload == null) return;
-    const imageRef = ref(storage, `images/book/${imageUpload.name + v4()}`);
+    const imageRef = ref(storage, `images/author/${imageUpload.name + v4()}`);
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref)
         .then((url) => {
-          values.image = url;
-          axios.post(`${URLServer}/book`, {
+          axios.patch(`${URLServer}/book/${item._id}`, {
             title: values.title,
             category: (probs.categriesData.filter(category => category.Name === values.category))[0]["_id"],
             auhtor: (probs.authorData.filter(author => `${author.fName} ${author.lName}` === values.auhtor))[0]["_id"],
             description: values.description,
             img: url
-          }, { withCredentials: true, credentials: 'include' }).then((response) => {
-            console.log(response);
-            probs.onClick();
-          }).catch((error) => {
-            console.log(error);
-          })
-          return url;
+          }, { withCredentials: true, credentials: 'include' })
+            .then((response) => {
+              probs.onClick();
+              window.location.reload()
+              console.log(response);
+            }).catch((error) => {
+              console.log(error);
+            })
         })
     });
-    console.log(values);
-    console.log((probs.authorData.filter(author => `${author.fName} ${author.lName}` === values.auhtor))[0]["_id"]);
-    console.log((probs.categriesData.filter(category => category.Name === values.category))[0]["_id"]);
-
-
+    probs.onClick();
   }
 
-  // to handle the validations on the inputs with formik
+
+  //to handle the validations on the inputs with formik
   const validate = values => {
     let errors = {};
     if (!values.title) {
       errors.title = '*Required .. Please Enter Book Name';
     }
     if (!values.category) {
-      errors.category = '*Required .. Please select Category Name';
+      errors.category = '*Required .. Please Enter Category Name';
     }
     if (!values.auhtor) {
-      errors.auhtor = '*Required .. Please select Author Name';
+      errors.auhtor = '*Required .. Please Enter Author';
     }
     return errors;
   }
@@ -82,9 +89,9 @@ function AddBookModal(probs) {
 
   return (
     <div>
-      <Modal show={probs.state} onHide={probs.onClick} size="lg" >
+      <Modal show={probs.state} onHide={probs.onClick} size="lg">
         <Modal.Header className="px-4" closeButton>
-          <Modal.Title className="ms-auto">Add Book</Modal.Title>
+          <Modal.Title className="ms-auto">Edit Book</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={formik.handleSubmit}>
@@ -95,15 +102,12 @@ function AddBookModal(probs) {
               <Col sm={10}>
                 <Form.Control
                   type="text"
-                  placeholder="Enter the Book Name"
                   autoComplete='off'
                   name='title'
-                  // value={addedBook.title}
                   value={formik.values.title}
                   onChange={formik.handleChange}
                   autoFocus />
-                {formik.errors.title ? (<span className='error'>{formik.errors.title}</span>)
-                  : null}
+                {formik.errors.title ? (<span className='error'>{formik.errors.title}</span>) : null}
               </Col>
             </Form.Group>
 
@@ -115,17 +119,15 @@ function AddBookModal(probs) {
                 <Form.Select name='category'
                   value={formik.values.category}
                   onChange={formik.handleChange}>
-                  <option></option>
                   {React.Children.toArray(probs.categriesData.map((item) => {
                     return <option>{item['Name'].toString()}</option>
                   }))}
                 </Form.Select>
-                {formik.errors.category ? (<span className='error'>{formik.errors.category}</span>)
-                  : null}
+                {formik.errors.category ? (<span className='error'>{formik.errors.category}</span>) : null}
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="auhtor">
+            <Form.Group as={Row} className="mb-3" controlId="author">
               <Col sm={2}>
                 <Form.Label>Author</Form.Label>
               </Col>
@@ -133,7 +135,6 @@ function AddBookModal(probs) {
                 <Form.Select name='auhtor'
                   value={formik.values.auhtor}
                   onChange={formik.handleChange}>
-                  <option></option>
                   {React.Children.toArray(probs.authorData.map((item) => {
                     return <option>{item['fName'].toString() + ' ' + item['lName'].toString()}</option>
                   }))}
@@ -159,8 +160,7 @@ function AddBookModal(probs) {
               </Col>
             </Form.Group>
 
-
-            <Form.Group as={Row} className="mb-3" controlId="file-upload">
+            <Form.Group as={Row} className="mb-3" controlId="image">
               <Col sm={2}>
                 <Form.Label>Image</Form.Label>
               </Col>
@@ -173,13 +173,11 @@ function AddBookModal(probs) {
                     setImageUpload(event.target.files[0]);
                   }}
                 />
-
               </Col>
             </Form.Group>
-
             <div className='text-center'>
               <Button variant="outline-dark" type="submit">
-                Add Book
+                Edit Book
               </Button>
             </div>
           </Form>
@@ -189,4 +187,4 @@ function AddBookModal(probs) {
   );
 }
 
-export default AddBookModal;
+export default EditBookModal;

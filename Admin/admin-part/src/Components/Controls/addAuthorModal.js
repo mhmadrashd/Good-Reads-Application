@@ -42,7 +42,7 @@ function AddAuthorModal(probs) {
             DOB: values.DOB,
             info: values.info,
             img: url
-          })
+          }, { withCredentials: true, credentials: 'include' })
             .then((response) => {
               probs.onClick();
               window.location.reload()

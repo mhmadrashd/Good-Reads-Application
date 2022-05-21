@@ -27,12 +27,11 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            console.log(LOGIN_URL);
             await axios.post(`${LOGIN_URL}/user/login`,
                 JSON.stringify({ email, password }),
                 {
                     headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
+                    withCredentials: true,
                 }
             ).then((response) => {
                 dispatch(setIsSigned(isSigned));

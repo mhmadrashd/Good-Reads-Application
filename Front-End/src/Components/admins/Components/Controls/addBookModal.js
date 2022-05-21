@@ -7,7 +7,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../../firebase";
+import { storage } from "../../../../firbase/firebase";
 import { v4 } from "uuid";
 import axios from 'axios';
 const URLServer = "http://localhost:3000";
