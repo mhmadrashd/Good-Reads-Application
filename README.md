@@ -68,7 +68,9 @@ As a User you can :
 ## Authors
 * [Mohamed Elymany Rashed](https://github.com/mhmadrashd)
 * [Mohamed Adel Salah Gouda](https://github.com/Mohamedadelsaleh)
+* [Amany Bahaa El-Din](https://github.com/AmanyBahaaEldin)
 * [Rofida  Reda Muhammed](https://github.com/RofidaReda1067)
+* [Ahmed Shafey](https://github.com/shafey01)
 
 ## Built With
 * NodeJS
