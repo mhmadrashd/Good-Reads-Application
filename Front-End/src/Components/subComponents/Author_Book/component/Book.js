@@ -44,7 +44,7 @@ export default function Book() {
 
   const handleChange = (event) => {
     setState(event.target.value);
-    setDisable(false)
+    if (state !== '' && strValue !== 0 && revValue !== "") setDisable(false)
   };
 
   const handleClose = () => {
@@ -57,6 +57,7 @@ export default function Book() {
 
   const handleRevChange = (event) => {
     setRevValue(event.target.value);
+    if (state !== '' && strValue !== 0 && revValue !== "") setDisable(false)
   };
 
   //End Select
@@ -76,6 +77,9 @@ export default function Book() {
   const [ReviewInfo, setReviewInfo] = useState({
     review: []
   });
+  //1 Add To list
+  //2 Add review
+  const [DialogState, setDialogState] = useState(1);
 
   const refresh = 0;
   useEffect(() => {
@@ -110,6 +114,7 @@ export default function Book() {
 
   const dispatch = useDispatch();
   const { openDialog } = useSelector((state) => state.DataReducer);
+
   const addToList = () => {
     axios.post(`${LOCALHOST}book/userBook`, {
       "book": BookInfo.bookID,
@@ -118,7 +123,30 @@ export default function Book() {
       "review": ""
     }, { withCredentials: true, credentials: 'include' })
       .then(function (response) {
+        setDialogState(1)
         dispatch(setOpenDialog(true))
+        // window.location.reload()
+        // setReviewInfo({ review: [...ReviewInfo.review, revValue] })
+      })
+      .catch(function (error) {
+        if (error.response.data === 555) {
+          setDialogState(4)
+          dispatch(setOpenDialog(true))
+        }
+      });
+  }
+
+  const addToReview = () => {
+    axios.patch(`${LOCALHOST}book/userBook`, {
+      "book": BookInfo.bookID,
+      "state": state,
+      "rating": strValue || 0,
+      "review": revValue || ""
+    }, { withCredentials: true, credentials: 'include' })
+      .then(function (response) {
+        response.data === 222 ? setDialogState(2) : setDialogState(3)
+        dispatch(setOpenDialog(true))
+
         // window.location.reload()
         // setReviewInfo({ review: [...ReviewInfo.review, revValue] })
       })
@@ -126,18 +154,7 @@ export default function Book() {
         console.log(error);
       });
   }
-  // axios.post(`${LOCALHOST}book/userBook`, {
-  //   "book": BookInfo.bookID,
-  //   "state": state,
-  //   "rating": strValue || 0,
-  //   "review": revValue || ""
-  // }, { withCredentials: true, credentials: 'include' })
-  //   .then(function (response) {
-  //     window.location.reload()
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
+
   var list = ReviewInfo.review.map((data, index) => {
     if (data.review === "") return;
     return (
@@ -163,7 +180,6 @@ export default function Book() {
               new Date(data.created_at).toLocaleString()
               : data.created_at}
           </strong>
-
         </div>
 
         <hr></hr>
@@ -192,6 +208,7 @@ export default function Book() {
               >
                 <InputLabel id="stateLable">State</InputLabel>
                 <Select
+                  required
                   labelId="selectState"
                   id="selectState"
                   open={open}
@@ -203,14 +220,14 @@ export default function Book() {
                 >
                   <MenuItem value={0}>Read</MenuItem>
                   <MenuItem value={1}>Currently Reading</MenuItem>
-                  <MenuItem value={2}>Want To Read</MenuItem>
                 </Select>
               </FormControl>
               <button
-                onClick={() => { addToList() }}
+                onClick={() => { addToReview() }}
                 className={"mainbtn"}
+                disabled={disable}
               >
-                Add To List <AddIcon className={"mainicon"} />
+                Add Review <AddIcon className={"mainicon"} />
               </button>
             </div>
             <div className="ratingg" >
@@ -225,11 +242,13 @@ export default function Book() {
                   sx={{ marginLeft: "10px" }}
                   name="hover-feedback"
                   size="large"
+                  required
                   value={strValue}
                   precision={0.5}
                   getLabelText={getLabelText}
                   onChange={(event, newValue) => {
                     setStrValue(newValue);
+                    if (state !== '' && strValue !== 0 && revValue !== "") setDisable(false);
                   }}
                   onChangeActive={(event, newHover) => {
                     setHover(newHover);
@@ -244,8 +263,11 @@ export default function Book() {
                 id="outlined-multiline-static"
                 label="Review"
                 multiline
+                required
                 rows={4}
-                onChange={handleRevChange}
+                onChange={
+                  handleRevChange
+                }
                 sx={{ marginLeft: "10px", width: "420px", marginTop: "10px" }}
               />
 
@@ -257,6 +279,12 @@ export default function Book() {
             <div className="rating">
               <StarRating stars={BookInfo.stars} /> <span className="userRatingnum">  {BookInfo.rate} Average Rating</span>
             </div>
+            <button
+              onClick={() => { addToList() }}
+              className={"addToListBtn"}
+            >
+              Add To List <AddIcon className={"mainicon"} />
+            </button>
             <div className="description">
               <p>
                 {BookInfo.description}
@@ -269,9 +297,15 @@ export default function Book() {
           <>{list}</>
         </div>
       </div>
-      {openDialog ?
-        <MsgDialogs title="Add Book To List" msg={"Book Added Successfully"} state={1} />
-        : ""}
+      {openDialog && DialogState === 1 ?
+        <MsgDialogs title="Add To List" msg={"Book Added Successfully"} state={1} />
+        : openDialog && DialogState === 2 ?
+          <MsgDialogs title="Add Review" msg={"Review Added Successfully"} state={1} />
+          : openDialog && DialogState === 3 ?
+            <MsgDialogs title="Add Review" msg={"Review Failed"} state={2} />
+            : openDialog && DialogState === 4 ?
+              <MsgDialogs title="Add To List" msg={"Book in list"} state={2} />
+              : ""}
     </Box>
   );
 

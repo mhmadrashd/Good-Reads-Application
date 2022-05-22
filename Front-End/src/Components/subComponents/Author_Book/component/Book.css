@@ -19,7 +19,7 @@
 }
 .description{
     position: absolute;
-    top:35%;
+    top:45%;
     left: 30%;
     width:65%;
     height:250px;
@@ -95,6 +95,17 @@ h5{
     position: absolute;
     left:190px;
     top:25px
+}
+.addToListBtn{
+    border-radius: 20px;
+    margin-top: 20px;
+    background-color: #04df16;
+    padding: 14px 48px;
+    color: #fff;
+    outline: none;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 20px;
 }
 .mainbtn:hover{
     transition: all 0.2s ease-in-out;

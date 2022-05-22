@@ -76,6 +76,27 @@ booksRouter.get("/:id", async (req, res, next) => {
   }
 });
 
+//Edit UserBook state by userBookID
+booksRouter.patch("/userBook", async (req, res, next) => {
+  const user = await loginID(req, res);
+  const { book, state, rating, review } = req.body;
+  try {
+    const findState = await userBooksModel.updateMany({ user: user, book: book }, {
+      "$set": {
+        state,
+        rating,
+        review,
+        updated_at: new Date().toGMTString(),
+      },
+    });
+    if (findState) res.sendStatus(222);
+    else res.sendStatus(555);
+
+  } catch (error) {
+    next(customError(422, "VALIDATION_ERROR", error));
+  }
+});
+
 //Edit Book by ID
 booksRouter.patch("/:id", authorizeAdminsPriv, async (req, res, next) => {
   const { id } = req.params;
@@ -196,44 +217,52 @@ booksRouter.get("/userBookBID/:id", async (req, res, next) => {
   }
 });
 
+
+
 //Add new userBook
 booksRouter.post("/userBook", async (req, res, next) => {
   const { book, state, rating, review } = req.body;
   try {
     //Check valid Data
-    await userBooksValidator.validateAsync({
-      user: await loginID(req),
-      book,
-      state,
-      rating,
-      review,
-    });
+    const Book = await userBooksModel.find({ book: book });
+    if (!book) {
+      await userBooksValidator.validateAsync({
+        user: await loginID(req),
+        book,
+        state,
+        rating,
+        review,
+      });
 
-    //Add Book data to BookTable
-    await userBooksModel.create({
-      _id: await getUserBookID(),
-      user: await UserModel.findById({ _id: await loginID(req) }),
-      book: await booksModel.findById({ _id: book }),
-      state,
-      rating,
-      review,
-      created_at: new Date().toGMTString(),
-    });
+      //Add Book data to BookTable
+      await userBooksModel.create({
+        _id: await getUserBookID(),
+        user: await UserModel.findById({ _id: await loginID(req) }),
+        book: await booksModel.findById({ _id: book }),
+        state,
+        rating,
+        review,
+        created_at: new Date().toGMTString(),
+      });
 
-    //Increment Books ID Counter in countersID table
-    await countersModel.findByIdAndUpdate(1, {
-      $inc: {
-        usrBook_ID: 1,
-      },
-    });
+      //Increment Books ID Counter in countersID table
+      await countersModel.findByIdAndUpdate(1, {
+        $inc: {
+          usrBook_ID: 1,
+        },
+      });
 
-    res.send({ success: true });
+      res.send({ success: true });
+    }
+    else {
+      res.sendStatus(555);
+    }
   } catch (error) {
     next(customError(422, "VALIDATION_ERROR", error));
   }
 });
 
-//Edit UserBook state by userBookID
+
 booksRouter.patch("/userBook/state/:id", async (req, res, next) => {
   const { id } = req.params;
   const { state } = req.body;
