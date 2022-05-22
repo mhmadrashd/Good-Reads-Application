@@ -1,0 +1,83 @@
+@import url('http://fonts.cdnfonts.com/css/new-century-schoolbook');
+
+
+.parentContainer{
+    min-height: 130vh;
+    margin:20px;
+    background-color: rgba(3, 3, 3, 0.32);
+}
+
+.beside {
+    float:left;
+    width: 63%;
+    color:rgb(0, 0, 0);
+    margin-left:30px;
+    text-align: left;
+}
+.card{
+    float:left;
+    margin-bottom: 15px;
+}
+.description{
+    position: absolute;
+    top:30%;
+    left: 30%;
+    width:65%;
+    height:250px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: #c56d32 #b69a88;
+    scrollbar-width: thin;
+    background: linear-gradient(to right, rgba(159, 2, 51, 0.393), rgba(3, 99, 41, 0.58));
+    border: 5px solid #efcb00 ;
+    border-radius:10px;
+    color: white;
+    font-size:1.3rem;
+    font-weight: 600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.description p {
+    padding-top: 15px;
+    padding-left: 10px;
+}
+
+.authorbooks{
+    width: 90%;
+    height:350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 1% 4%;
+    clear:both;
+    text-align:left;
+    border-radius: 10px;
+    background: linear-gradient(to right, rgba(159, 2, 51, 0.393), rgba(3, 99, 41, 0.58));
+    border: 5px solid #efcb00 ;
+    color: white;
+    font-size:1.3rem;
+    font-weight: 600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+h5{
+    padding-left: 10px;
+}
+.bookimg{
+    float:left;
+    margin-right: 10px;
+}
+
+.selectandrating{
+    float:right;
+    
+}
+
+.booksofauthor{
+    
+    margin:10px;
+}
+
+.authorname{
+    color: rgb(255, 255, 255);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 3rem;
+}
+
