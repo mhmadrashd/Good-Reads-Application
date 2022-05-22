@@ -89,7 +89,8 @@ booksRouter.patch("/userBook", async (req, res, next) => {
         updated_at: new Date().toGMTString(),
       },
     });
-    if (findState) res.sendStatus(222);
+    console.log(findState)
+    if (findState.modifiedCount !== 0) res.sendStatus(222);
     else res.sendStatus(555);
 
   } catch (error) {
@@ -222,10 +223,11 @@ booksRouter.get("/userBookBID/:id", async (req, res, next) => {
 //Add new userBook
 booksRouter.post("/userBook", async (req, res, next) => {
   const { book, state, rating, review } = req.body;
+  const user = await loginID(req, res);
   try {
     //Check valid Data
-    const Book = await userBooksModel.find({ book: book });
-    if (!book) {
+    const Book = await userBooksModel.find({ book: book, user: user });
+    if (Book.length === 0) {
       await userBooksValidator.validateAsync({
         user: await loginID(req),
         book,

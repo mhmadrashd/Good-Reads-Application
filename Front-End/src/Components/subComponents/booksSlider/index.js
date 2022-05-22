@@ -7,27 +7,29 @@ import axios from "axios";
 const BooksSlider = () => {
   const navigate = useNavigate();
   const [slideIndex, setSlideIndex] = useState(0);
+  const [BooksData, setBooksData] = useState([]);
   const handleClick = (direction) => {
     if (direction === "left") {
       setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
     } else {
-      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+      setSlideIndex(slideIndex < BooksData.length ? slideIndex + 1 : 0);
     }
   };
   const wrapper = {
     transform: `translateX(${slideIndex * -100}vw)`,
   };
-  const [BooksData, setBooksData] = useState([]);
   const refresh = 0;
   useLayoutEffect(() => {
     axios.get('http://localhost:3000/book/', { withCredentials: true, credentials: 'include' })
       .then((response) => {
         setBooksData(...BooksData, response.data);
+        console.log(response.data)
       })
       .catch((error) => {
         console.log(error)
       })
   }, [refresh])
+
   return (
     <div className={`${styles.container} Books`} >
       <div className={styles.arrowLeft} onClick={() => handleClick("left")}>

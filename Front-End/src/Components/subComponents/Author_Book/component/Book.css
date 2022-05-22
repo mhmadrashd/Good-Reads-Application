@@ -94,7 +94,7 @@ h5{
     margin-bottom: 20px;
     position: absolute;
     left:190px;
-    top:25px
+    top:10px
 }
 .addToListBtn{
     border-radius: 20px;
@@ -116,15 +116,17 @@ font-size: 30px;
 }
 .selectt{
     position: relative;
-    margin-top: 570px;
-    margin-left: 15px;
-    height: 100px;
+    margin-top: 500px;
+    margin-left: 100%;
+    height: 60px;
     background-color: #fff;
     border-radius: 20px 20px 0 0;
     width: 450px;
+    z-index: 2;
 }
 .ratingg{
-    margin-left: 15px;
+    position: relative;
+    margin-left: 100%;
     background-color: #fff;
     border-radius: 0px 0px 20px 20px;
     width: 450px;
