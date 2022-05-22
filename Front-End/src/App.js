@@ -16,15 +16,23 @@ import BookPage from "./Components/subComponents/Author_Book/Book";
 
 import { PrivateRoute } from "./assets/handleErrors";
 import AccSettings from "./Components/UserForms/AccSettings";
+import { useSelector } from "react-redux";
 
 
 function App() {
+    const { loginState } = useSelector((state) => state.DataReducer);
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/home" element={<Home />} />
-                <Route path="/login" element={<SignUp />} />
-                <Route path="/admin" element={<Login />} />
+                {!loginState ?
+                    <Route path="/login" element={<SignUp />} /> :
+                    <Route path="/home" element={<Home />} />
+                }
+                {!loginState ?
+                    <Route path="/admin" element={<Login />} /> :
+                    <Route path="/home" element={<Home />} />
+                }
 
                 <Route path="/admin/dashboard" element={<PrivateRoute><ThreeTabs /></PrivateRoute>} />
                 <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
