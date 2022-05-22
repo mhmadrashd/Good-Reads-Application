@@ -8,6 +8,7 @@ const util = require("util");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { authorizeUser } = require('./middlewares');
+const { loginID } = require("../../assets/helpers/checkPrivilege");
 
 const signAsync = util.promisify(jwt.sign);
 
@@ -21,11 +22,10 @@ async function getUserID() {
 }
 
 //Get user by ID
-userRouter.get("/:id", authorizeUser, async (req, res, next) => {
-  const { id } = req.params;
+userRouter.get("/", authorizeUser, async (req, res, next) => {
   try {
-    // await schema.validateAsync({ id: id });
-    const user = await UserModel.findById(id);
+    const id = await loginID(req, res);
+    const user = await UserModel.findById(id).select("fName lName email img");
     res.send(user);
   } catch (error) {
     next(customError(error.code, "VALIDATION_ERROR", error));
@@ -33,8 +33,8 @@ userRouter.get("/:id", authorizeUser, async (req, res, next) => {
 });
 
 //Edit user by ID
-userRouter.patch("/:id", authorizeUser, async (req, res, next) => {
-  const { id } = req.params;
+userRouter.patch("/", authorizeUser, async (req, res, next) => {
+  const id = await loginID();
   const { fName, lName, email, password, img } = req.body;
   try {
     //Check valid Data
@@ -121,7 +121,7 @@ userRouter.post("/login", async (req, res, next) => {
     );
 
     //Send token to browser
-    res.cookie("Authorization", token, { httpOnly: true });
+    res.cookie("Authorization", token, { maxAge: 24 * 60 * 60 * 1000 });
 
     res.send({ id: user._id, name: user.fName + " " + user.lName, img: user.img });
   } catch (error) {

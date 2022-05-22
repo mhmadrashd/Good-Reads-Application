@@ -1,8 +1,8 @@
 .plusBtn{
     background-color:rgb(230, 105, 136);
     position: absolute;
-    top: 9.5%;
-    right: 0;
+    top: 1.5%;
+    right: 8%;
     cursor: pointer;
 }
 .logout{

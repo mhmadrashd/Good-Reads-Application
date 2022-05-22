@@ -1,0 +1,74 @@
+.cont {
+    display: block;
+    margin-top: 3%;
+    margin-left: 7%;
+    margin-bottom: 50px;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    border-radius: 15px;
+    padding: 30px;
+    padding-top: 140px;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 20px 20px 50px 15px grey;
+    /* Small Screens */
+    @media screen and (min-width: 768px) {
+        width: 750px;
+    }
+    /* Medium Screens */
+    @media screen and (min-width: 992px) {
+        width: 970px;
+    }
+    /* Large Screens */
+    @media screen and (min-width: 1200px) {
+        width: 1170px;
+    }
+    .divAvtar{
+        position: absolute;
+        top: 20%;
+        left: calc(50% - 70px);
+        height: 30%;
+        width: 30%;
+    }
+    .avtar{
+        width: 30%;
+        height: 55%;
+        min-width: 80px;
+        min-height: 50px;
+    }
+    .inputFile{
+        padding-left: 20px;
+    }
+    .divInputFile{
+        text-align: center;
+    }
+    
+    .btnSubmit{
+        cursor: pointer;
+        border-radius: 20px;
+        margin-top: 15px;
+        background-color: #01BF71;
+        padding: 14px 48px;
+        color: #fff;
+        outline: none;
+        border: none;
+        transition: all 0.2s ease-in-out;
+        &:hover{
+            transition: all 0.2s ease-in-out;
+            background-color: #04663d;
+        }
+        .mainicon{
+            font-size: 20px;
+            @media screen and (max-width:786px){
+                font-size: 15px;
+            }
+            @media screen and (max-width:480px){
+                font-size: 10px;
+            }
+        }
+    }
+}
+
+

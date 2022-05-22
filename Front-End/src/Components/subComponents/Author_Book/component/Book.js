@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Card from './Card';
 // import Select from './Select';
@@ -6,16 +6,16 @@ import StarRating from './Rating'
 import './Book.css'
 import { Box, Rating, TextField } from '@mui/material';
 import Image from './Images/LibararyBG.jpg'
-import { Button } from 'react-scroll';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
-import { useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import StarIcon from '@mui/icons-material/Star';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOpenDialog } from "../../../../Redux/DataSlice";
+import MsgDialogs from '../../../../assets/handleErrors';
 
 const LOCALHOST = 'http://localhost:3000/';
 function getLabelText(value) {
@@ -108,21 +108,36 @@ export default function Book() {
       )
   }, [refresh])
 
-
+  const dispatch = useDispatch();
+  const { openDialog } = useSelector((state) => state.DataReducer);
   const addToList = () => {
     axios.post(`${LOCALHOST}book/userBook`, {
       "book": BookInfo.bookID,
-      "state": state,
-      "rating": strValue || 0,
-      "review": revValue || ""
+      "state": 2,
+      "rating": 0,
+      "review": ""
     }, { withCredentials: true, credentials: 'include' })
       .then(function (response) {
-        window.location.reload()
+        dispatch(setOpenDialog(true))
+        // window.location.reload()
+        // setReviewInfo({ review: [...ReviewInfo.review, revValue] })
       })
       .catch(function (error) {
         console.log(error);
       });
   }
+  // axios.post(`${LOCALHOST}book/userBook`, {
+  //   "book": BookInfo.bookID,
+  //   "state": state,
+  //   "rating": strValue || 0,
+  //   "review": revValue || ""
+  // }, { withCredentials: true, credentials: 'include' })
+  //   .then(function (response) {
+  //     window.location.reload()
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
   var list = ReviewInfo.review.map((data, index) => {
     if (data.review === "") return;
     return (
@@ -191,6 +206,12 @@ export default function Book() {
                   <MenuItem value={2}>Want To Read</MenuItem>
                 </Select>
               </FormControl>
+              <button
+                onClick={() => { addToList() }}
+                className={"mainbtn"}
+              >
+                Add To List <AddIcon className={"mainicon"} />
+              </button>
             </div>
             <div className="ratingg" >
               <Box
@@ -227,18 +248,12 @@ export default function Book() {
                 onChange={handleRevChange}
                 sx={{ marginLeft: "10px", width: "420px", marginTop: "10px" }}
               />
+
             </div>
-            <button
-              onClick={() => { addToList() }}
-              className={"mainbtn"}
-              disabled={disable}
-            >
-              Add To List <AddIcon className={"mainicon"} />
-            </button>
           </div>
           <div className="beside">
-            <h6 className="authorname"> {BookInfo.author_fname}  {BookInfo.author_lname}</h6>
-            <h6 className="category"> {BookInfo.category}</h6>
+            <h6 className="authorname"> Author: {BookInfo.author_fname}  {BookInfo.author_lname}</h6>
+            <h5 className="category"> {BookInfo.category}</h5>
             <div className="rating">
               <StarRating stars={BookInfo.stars} /> <span className="userRatingnum">  {BookInfo.rate} Average Rating</span>
             </div>
@@ -254,6 +269,9 @@ export default function Book() {
           <>{list}</>
         </div>
       </div>
+      {openDialog ?
+        <MsgDialogs title="Add Book To List" msg={"Book Added Successfully"} state={1} />
+        : ""}
     </Box>
   );
 

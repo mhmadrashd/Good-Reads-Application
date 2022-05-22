@@ -12,7 +12,7 @@ import Main from "../Components/subComponents/homeHeader";
 
 function Home() {
   const { mode } = useSelector((state) => state.DataReducer);
-  const { isSigned } = useSelector((state) => state.DataReducer);
+  const { loginState } = useSelector((state) => state.DataReducer);
   const theme = createTheme({
     palette: {
       mode: mode || "light",
@@ -23,7 +23,7 @@ function Home() {
     <ThemeProvider theme={theme} >
       <CssBaseline />
       <Navbar />
-      {isSigned === 'false' ? <Main /> : ""}
+      {!loginState ? <Main /> : ""}
       <BooksSlider />
       <CategoriesSlider />
       <AuthorsSlider />

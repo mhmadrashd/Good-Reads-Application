@@ -43,7 +43,6 @@ function AddBookModal(probs) {
             description: values.description,
             img: url
           }, { withCredentials: true, credentials: 'include' }).then((response) => {
-            console.log(response);
             probs.onClick();
           }).catch((error) => {
             console.log(error);
@@ -51,9 +50,9 @@ function AddBookModal(probs) {
           return url;
         })
     });
-    console.log(values);
-    console.log((probs.authorData.filter(author => `${author.fName} ${author.lName}` === values.auhtor))[0]["_id"]);
-    console.log((probs.categriesData.filter(category => category.Name === values.category))[0]["_id"]);
+    // console.log(values);
+    // console.log((probs.authorData.filter(author => `${author.fName} ${author.lName}` === values.auhtor))[0]["_id"]);
+    // console.log((probs.categriesData.filter(category => category.Name === values.category))[0]["_id"]);
 
 
   }

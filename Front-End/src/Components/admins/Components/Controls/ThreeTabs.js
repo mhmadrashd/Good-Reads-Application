@@ -82,16 +82,16 @@ function ThreeTabs() {
   const authorModalShow = () => setAuthorModal(true);
   const navigate = useNavigate();
   const logout = () => {
+
     navigate("/home");
     document.cookie = "Authorization=deleted;max-age=0"
-    console.log("asdsads")
+    sessionStorage.setItem("loginState", false);
   }
 
   return (
     <div className="threeTabs">
       <button className="logout btn btn-danger" onClick={() => { logout() }}>Logout</button>
-      <i className=" plusBtn fa fa-plus fa-1x btn btn-danger me-md-2 rounded-circle float-end"
-        onClick={categoryModalShow}></i>
+
 
       <Tabs
         defaultActiveKey="first"
@@ -102,6 +102,8 @@ function ThreeTabs() {
       >
 
         <Tab eventKey="first" title="Categories" tabClassName='tab' >
+          <i className=" plusBtn fa fa-plus fa-1x btn btn-danger me-md-2 rounded-circle float-end"
+            onClick={categoryModalShow}></i>
           < Table data={categoriesData}
             column={categoryColumns}
             table={tabIndex} />
@@ -109,8 +111,8 @@ function ThreeTabs() {
             onClick={categoryModalClose} />}
         </Tab>
 
-        <Tab eventKey="second" title="Books" >
-          <i className="fa fa-plus fa-2x btn btn-danger me-md-2 rounded-circle float-end"
+        <Tab eventKey="second" title="Books" tabClassName='tab' >
+          <i className=" plusBtn fa fa-plus fa-1x btn btn-danger me-md-2 rounded-circle float-end"
             onClick={bookModalShow}></i>
           <Table data={booksData}
             column={bookColumns}
@@ -121,7 +123,7 @@ function ThreeTabs() {
         </Tab>
 
         <Tab eventKey="third" title="Authors" >
-          <i className="fa fa-plus fa-2x btn btn-danger me-md-2 rounded-circle float-end"
+          <i className="plusBtn fa fa-plus fa-1x btn btn-danger me-md-2 rounded-circle float-end"
             onClick={authorModalShow}></i>
           <Table data={authorsData}
             column={authorsColumn}

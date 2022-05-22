@@ -48,7 +48,7 @@ const AuthorsSlider = () => {
   const [CategoryData, setCategoryData] = useState([]);
   const refresh = 0;
   useLayoutEffect(() => {
-    axios.get(`${URL}/author/`)
+    axios.get(`${URL}/author/`, { withCredentials: true, credentials: 'include' })
       .then((response) => {
         setCategoryData(...CategoryData, response.data);
       })

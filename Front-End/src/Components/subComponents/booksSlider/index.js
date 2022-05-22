@@ -20,7 +20,7 @@ const BooksSlider = () => {
   const [BooksData, setBooksData] = useState([]);
   const refresh = 0;
   useLayoutEffect(() => {
-    axios.get('http://localhost:3000/book/')
+    axios.get('http://localhost:3000/book/', { withCredentials: true, credentials: 'include' })
       .then((response) => {
         setBooksData(...BooksData, response.data);
       })

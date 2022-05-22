@@ -4,18 +4,14 @@ export const DataSlice = createSlice({
   name: "DataSlice",
   initialState: {
     mode: localStorage.getItem('mode') || "light",
-    isSigned: localStorage.getItem('isSigned') || 'false',
     userData: {},
     openDialog: false,
+    loginState: sessionStorage.getItem("loginState") || false,
   },
   reducers: {
     changeMood: (state, action) => {
       state.mode = action.payload === "light" ? "dark" : "light";
       localStorage.setItem('mode', state.mode);
-    },
-    setIsSigned: (state, action) => {
-      state.isSigned = action.payload === 'true' ? 'false' : 'true';
-      localStorage.setItem('isSigned', state.isSigned);
     },
     setUserData: (state, action) => {
       state.userData = action.payload;
@@ -24,8 +20,11 @@ export const DataSlice = createSlice({
     },
     setOpenDialog: (state, action) => {
       state.openDialog = action.payload;
-    }
+    },
+    setloginState: (state, action) => {
+      state.loginState = action.payload;
+    },
   },
 });
-export const { changeMood, setIsSigned, setUserData, setOpenDialog } = DataSlice.actions;
+export const { changeMood, setUserData, setOpenDialog, setloginState } = DataSlice.actions;
 export default DataSlice.reducer;

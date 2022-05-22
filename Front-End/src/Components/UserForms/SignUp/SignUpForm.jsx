@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../firbase/firebase";
 import { v4 } from "uuid";
-import ErrorDialogs from '../../../assets/handleErrors';
+import MsgDialogs from '../../../assets/handleErrors';
 
 
 const InputFile = styled.input`
@@ -62,7 +62,7 @@ const PWD_REGEX = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
 const IMG_REGEX = /\.(jpg|jpeg|png|gif)$/;
 const REGISTER_URL = 'http://localhost:3000';
 
-const SignUpForm = () => {
+const SignUpForm = (props) => {
 
     const { switchToSignIn } = useContext(AccountContext)
 
@@ -156,60 +156,46 @@ const SignUpForm = () => {
             setErrMsg("Invalid Entry");
             return;
         }
-        try {
 
-            if (imageUpload == null) return;
-            const imageRef = ref(storage, `images/user/${imageUpload.name + v4()}`);
-            uploadBytes(imageRef, imageUpload)
-                .then((snapshot) => {
-                    getDownloadURL(snapshot.ref).then((url) => {
-                        //send this url with data
-                        return url;
-                    }).then((url) => {
-                        axios.post(`${REGISTER_URL}/user`,
-                            {
-                                fName: fname,
-                                lName: lname,
-                                email,
-                                password: pwd,
-                                img: url,
-                            }
-                        )
-                    }).then(function () {
-                        window.location.reload();
-                        setSuccess(true);
-                        setFname('');
-                        setLname('');
-                        setEmail('');
-                        setPwd('');
-                        setMatchPwd('');
-                        setImg('');
-                    }).catch((error) => {
-                        //{props.open}
-                        //{props.title}
-                        //{props.msg}
-                        <ErrorDialogs
-                            open={true}
-                            title={"Error"}
-                            msg={error.message}
-                        />
-                        console.log(error);
-                    })
-                });
+        if (imageUpload == null) return;
+        const imageRef = ref(storage, `images/user/${imageUpload.name + v4()}`);
+        uploadBytes(imageRef, imageUpload)
+            .then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((url) => {
+                    //send this url with data
+                    return url;
+                }).then((url) => {
+                    axios.post(`${REGISTER_URL}/user`,
+                        {
+                            fName: fname,
+                            lName: lname,
+                            email,
+                            password: pwd,
+                            img: url,
+                        }
+                    )
+                }).then(function () {
+                    window.location.reload();
+                    setSuccess(true);
+                    setFname('');
+                    setLname('');
+                    setEmail('');
+                    setPwd('');
+                    setMatchPwd('');
+                    setImg('');
+                }).catch((error) => {
+                    if (!error?.response) {
+                        setErrMsg('No Server Response');
+                    } else if (error.response?.status === 409) {
+                        setErrMsg('Email Taken');
+                    } else {
+                        setErrMsg('Registration Failed')
+                    }
+                    errRef.current.focus();
 
-            /* clear state and controlled inputs
-             * need value attrib on inputs for this 
-             */
-        } catch (err) {
-            if (!err?.response) {
-                setErrMsg('No Server Response');
-            } else if (err.response?.status === 409) {
-                setErrMsg('Email Taken');
-            } else {
-                setErrMsg('Registration Failed')
-            }
-            errRef.current.focus();
-        }
+                    console.log(error);
+                })
+            });
     }
 
     /* Ending of New Work */
@@ -307,7 +293,12 @@ const SignUpForm = () => {
             <Marginer direction="vertical" margin={5} />
             <SubmitBTN onClick={handleSubmit} type="submit" disabled={!validFName || !validLname || !validEmail || !validPwd || !validMatch || !validImg ? true : false} >SIGN UP</SubmitBTN>
             <Marginer direction="vertical" margin="1em" />
-            <MutedLink href="#" >Already have an account? <BoldLink href='#' onClick={switchToSignIn}>SIGN IN</BoldLink></MutedLink>
+            {props.default ?
+                <MutedLink href="#" >
+                    Already have an account?
+                    <BoldLink href='#' onClick={switchToSignIn}>SIGN IN</BoldLink>
+                </MutedLink>
+                : ""}
         </BoxContainer>
     )
 }

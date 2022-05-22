@@ -59,7 +59,7 @@ function EditAuthorModal(probs) {
             .then((response) => {
               probs.onClick();
               window.location.reload()
-              console.log(response);
+              // console.log(response);
             }).catch((error) => {
               console.log(error);
             })

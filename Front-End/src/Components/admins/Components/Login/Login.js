@@ -4,6 +4,8 @@ import { AuthContext } from "../../store/context";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import "./Login.css";
+import { setloginState } from "../../../../Redux/DataSlice";
+import { useDispatch } from "react-redux";
 
 
 const Login = (props) => {
@@ -11,13 +13,13 @@ const Login = (props) => {
 
   const { handleChange, handleSubmit, values, resetForm } = LoginForm(submit);
   const setCurrentUserInfo = useContext(AuthContext);
-
+  const dispatch = useDispatch();
   async function submit(values) {
     try {
-      console.log(values)
       await axios.post(`http://localhost:3000/admin/login`, values, { withCredentials: true, credentials: 'include' })
         .then((response) => {
-          console.log({ msgBody: "Welcome to GoodrReads App", response });
+          dispatch(setloginState(true));
+          sessionStorage.setItem("loginState", true)
           navigate("/admin/dashboard");
         }).catch((error) => {
           console.log(error)
@@ -51,18 +53,21 @@ const Login = (props) => {
   return (
     <section className="text-center gradient">
       {/* <!-- BackgroundImage --> */}
+      <div className="p-5 bg-image Background"></div>
+
+      <div className="card mx-4 mx-md-5 shadow-5-strong Shadow"></div>
 
       <div className="card-body   ">
         <div className="row d-flex justify-content-center login">
-          <div className="col-lg-8 ">
+          <div className="col-lg-8">
             {/* <!-- 2 column grid layout with text inputs for the first and last names --> */}
 
             <div className="container">
               <h2 className="fw-bold mb-5 fwForm">Welcome To Admin Panel</h2>
 
               <form onSubmit={handleSubmit} className="form">
-                <div className="row card  formEdit">
-                  <div className="col mb-4">
+                <div className="row card  formEdit ">
+                  <div className="col mb-4 ">
                     <div className="form-outline btnlogin mb-3 ">
                       <input
                         type="text"
@@ -99,7 +104,7 @@ const Login = (props) => {
                     {/* <!-- Checkbox --> */}
                     <div className="form-check d-flex justify-content-center mb-4 btnlogin button">
                       <input
-                        className="form-check-input me-2"
+                        className="form-check-input me-2 mt-3"
                         type="checkbox"
                         value=""
                         id="form2Example33"

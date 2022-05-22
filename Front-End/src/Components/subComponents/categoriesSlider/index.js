@@ -55,7 +55,7 @@ const CategoriesSlider = () => {
   const refresh = 0;
   const navigate = useNavigate();
   useLayoutEffect(() => {
-    axios.get('http://localhost:3000/category/')
+    axios.get('http://localhost:3000/category/', { withCredentials: true, credentials: 'include' })
       .then((response) => {
         setCategoryData(...CategoryData, response.data);
       })

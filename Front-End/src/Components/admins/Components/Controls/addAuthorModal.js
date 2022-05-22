@@ -30,7 +30,6 @@ function AddAuthorModal(probs) {
 
   // to handle the submit action with formik
   const onSubmit = values => {
-    console.log(values);
     if (imageUpload == null) return;
     const imageRef = ref(storage, `images/author/${imageUpload.name + v4()}`);
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
@@ -46,7 +45,6 @@ function AddAuthorModal(probs) {
             .then((response) => {
               probs.onClick();
               window.location.reload()
-              console.log(response);
             }).catch((error) => {
               console.log(error);
             })

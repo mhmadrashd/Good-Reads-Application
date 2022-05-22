@@ -41,7 +41,7 @@ function DeleteModal(probs) {
                     console.log(error);
                 });
         }
-        console.log("delete", probs.item);
+        // console.log("delete", probs.item);
         probs.onClick();
     }
     const cancelDeletion = () => {

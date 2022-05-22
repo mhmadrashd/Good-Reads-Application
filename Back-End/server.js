@@ -6,6 +6,7 @@ const categoriesRouter = require("./components/categories/categoriesRouter");
 const adminsRouter = require("./components/admins/adminsRouter");
 const booksRouter = require("./components/books/booksRouter");
 const cookieParser = require('cookie-parser');
+const jwt = require("jsonwebtoken");
 require('express-async-errors');
 const app = express();
 const port = 3000;
@@ -40,6 +41,34 @@ app.use("/category", categoriesRouter);
 
 //Route Books to categoriesRouter
 app.use("/book", booksRouter);
+
+//Get userBooks by userID
+app.get("/isLoged", async (req, res, next) => {
+  try {
+    const token = req.cookies.Authorization;
+    console.log(req.cookies)
+    if (token) {
+      await jwt.verify(token, process.env.SECRET_KEY, (err, decodeToken) => {
+
+        if (err) {
+          res.redirect('/login');
+          res.sendStatus(555);
+          console.log("1")
+        } else {
+          console.log("2")
+          res.sendStatus(222);
+          next();
+        }
+      });
+    }
+    else {
+      console.log("333")
+      res.sendStatus(555);
+    }
+  } catch (error) {
+    next(customError(error.code, "VALIDATION_ERROR", error));
+  }
+});
 
 //Error MiddelWare must declared with 4 parameters
 app.use((err, req, res, next) => {

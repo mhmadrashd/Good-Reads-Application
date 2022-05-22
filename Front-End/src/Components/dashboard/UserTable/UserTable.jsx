@@ -85,7 +85,7 @@ export default function StickyHeadTable(props) {
     };
     const refresh = 0;
     useLayoutEffect(() => {
-        axios.get(URL + localStorage.getItem("id"))
+        axios.get(URL + localStorage.getItem("id"), { withCredentials: true, credentials: 'include' })
             .then((response) => {
                 setUserBooks(response.data);
                 let BooksData = response.data.map((bk) => {
@@ -113,7 +113,7 @@ export default function StickyHeadTable(props) {
     const handleChange = async (event) => {
         rows.state = event.target.value;
         await axios.patch(`${URL}state/` + event.target.name, { state: rows.state })
-            .then((result) => console.log(result))
+        // .then((result) => console.log(result))
         setshelves(event.target.value);
     };
 

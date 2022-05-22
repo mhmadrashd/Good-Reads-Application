@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Marginer from '../accountBox/Marginer'
 import { AccountContext } from '../accountBox/AccountContext'
-import { BoldLink, BoxContainer, FormContainer, Input, MutedLink, SubmitBTN } from '../accountBox/Common'
+import { BoldLink, BoxContainer, Input, MutedLink, SubmitBTN } from '../accountBox/Common'
 import axios from '../accountBox/axiosWork';
-import { setIsSigned, setUserData } from "../../../Redux/DataSlice";
-import { useDispatch, useSelector } from 'react-redux';
+import { setloginState, setUserData } from "../../../Redux/DataSlice";
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import './Login.css'
 
 const LOGIN_URL = `http://localhost:3000`;
 
@@ -19,7 +20,6 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const navigate = useNavigate();
-    const { isSigned } = useSelector((state) => state.DataReducer);
     const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
@@ -31,7 +31,8 @@ const Login = () => {
                 withCredentials: true,
             }
         ).then((response) => {
-            dispatch(setIsSigned(isSigned));
+            dispatch(setloginState(true));
+            sessionStorage.setItem("loginState", true)
             dispatch(setUserData(response.data));
             navigate("/");
             setEmail('');
@@ -55,7 +56,7 @@ const Login = () => {
         <BoxContainer>
 
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-            <FormContainer onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="FormContainer">
                 <br />
                 <Input type="email" placeholder="Enter Your Email"
                     id="username"
@@ -70,14 +71,15 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                     required />
-            </FormContainer>
-            <Marginer direction="vertical" margin={5} />
-            <MutedLink href="#" >Forget your password?</MutedLink>
-            <Marginer direction="vertical" margin="1.8em" />
-            <br></br>
-            <SubmitBTN type="submit" onClick={handleSubmit}>SIGN IN</SubmitBTN>
-            <Marginer direction="vertical" margin="1em" />
-            <MutedLink href="#" >Don't have an account? <BoldLink href='#' onClick={switchToSignUp}>SIGN UP</BoldLink></MutedLink>
+                <Marginer direction="vertical" margin={5} />
+                <MutedLink href="#" >Forget your password?</MutedLink>
+                <Marginer direction="vertical" margin="1.8em" />
+                <br></br>
+                <SubmitBTN type="submit" onClick={handleSubmit}>SIGN IN</SubmitBTN>
+                <Marginer direction="vertical" margin="1em" />
+                <MutedLink href="#" >Don't have an account? <BoldLink href='#' onClick={switchToSignUp}>SIGN UP</BoldLink></MutedLink>
+            </form>
+
         </BoxContainer>
     )
 }

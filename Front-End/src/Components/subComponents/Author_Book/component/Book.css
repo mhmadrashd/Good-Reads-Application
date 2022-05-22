@@ -17,29 +17,9 @@
     float:left;
     margin-bottom: 15px;
 }
-.mainbtn{
-    border-radius: 20px;
-    background-color: #04df16;
-    padding: 14px 48px;
-    color: #fff;
-    outline: none;
-    border: none;
-    transition: all 0.2s ease-in-out;
-    margin-bottom: 20px;
-    position: absolute;
-    left:230px;
-    top: 110%;
-}
-.mainbtn:hover{
-    transition: all 0.2s ease-in-out;
-    background-color: #04663d;
-}
-.mainicon{
-font-size: 30px;
-}
 .description{
     position: absolute;
-    top:20%;
+    top:35%;
     left: 30%;
     width:65%;
     height:250px;
@@ -103,7 +83,28 @@ h5{
     
     margin:10px;
 }
+.mainbtn{
+    border-radius: 20px;
+    background-color: #04df16;
+    padding: 14px 48px;
+    color: #fff;
+    outline: none;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 20px;
+    position: absolute;
+    left:190px;
+    top:25px
+}
+.mainbtn:hover{
+    transition: all 0.2s ease-in-out;
+    background-color: #04663d;
+}
+.mainicon{
+font-size: 30px;
+}
 .selectt{
+    position: relative;
     margin-top: 570px;
     margin-left: 15px;
     height: 100px;

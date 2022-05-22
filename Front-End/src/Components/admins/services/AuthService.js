@@ -9,8 +9,8 @@ const AuthFetch = {
     })
       .then((res) => {
         const resJson = res.json();
-        console.log(resJson);
-        console.log("test")
+        // console.log(resJson);
+        // console.log("test")
         return resJson;
       })
       .catch((err) => console.log(err));

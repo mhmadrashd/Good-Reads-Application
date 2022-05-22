@@ -19,6 +19,31 @@ const authorizeAdminsPriv = async (req, res, next) => {
     }
     next();
 };
+const requireAuth = async (req, res, next) => {
+    try {
+        const token = req.cookies.Authorization;
+        if (token) {
+            const payload = await verifyAsync(token, process.env.SECRET_KEY);
+            if (payload.admin === false) {
+                res.redirect('/login');
+                console.log("1")
+            } else {
+                next();
+                console.log("2")
+            }
+        }
+        else {
+            res.redirect('/login');
+            console.log("3")
+        }
+    } catch (error) {
+        next(authorizationError);
+        console.log(error.message)
+        console.log("4")
+    }
+    console.log("5")
+    next();
+};
 
 /************************** Users Authorization *********************************/
 
@@ -58,4 +83,4 @@ async function loginID(req, res) {
         console.log(error)
     }
 };
-module.exports = { loginName, authorizeAdminsPriv, loginID }
+module.exports = { loginName, authorizeAdminsPriv, loginID, requireAuth }

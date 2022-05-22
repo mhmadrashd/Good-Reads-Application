@@ -32,7 +32,7 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { makeStyles } from "@mui/styles";
-import { changeMood, setIsSigned, setUserData } from "../../../Redux/DataSlice";
+import { changeMood, setloginState, setUserData } from "../../../Redux/DataSlice";
 import { scroller } from "react-scroll";
 import { useNavigate } from "react-router";
 
@@ -94,11 +94,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Navbar = () => {
   //View page items depend on user or guest
-  const { isSigned } = useSelector((state) => state.DataReducer);
+  const { loginState } = useSelector((state) => state.DataReducer);
   const navigate = useNavigate();
   let pages = ["Home", "Books", "Categories", "Authors"],
     settings;
-  if (isSigned === 'true') {
+  if (loginState) {
     settings = ["Profile", "Dashboard", "Logout"];
   } else {
     settings = ["Login", "Admin"];
@@ -132,9 +132,10 @@ const Navbar = () => {
     if (page === 'profile') {
       navigate(`/${page}/${localStorage.getItem("id")}`);
     } else if (page === 'logout') {
-      dispatch(setIsSigned(isSigned));
+      dispatch(setloginState(false));
+      sessionStorage.clear()
       dispatch(setUserData({}));
-      document.cookie = "Authorization=deleted;max-age=0"
+      document.cookie = "Authorization=;Max-Age=0;secure"
       localStorage.removeItem("img");
       localStorage.removeItem("id");
       navigate("/");
