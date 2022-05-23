@@ -49,21 +49,14 @@ function ThreeTabs() {
     axios.get(`${URLServer}/category`, { withCredentials: true, credentials: 'include' })
       .then(response => setCategoriesData(response.data))
       .catch(err => console.log(err))
-  }, [])
-
-  // get request of the data from books collection and set its state
-  useLayoutEffect(() => {
     axios.get(`${URLServer}/book`, { withCredentials: true, credentials: 'include' })
       .then(response => setBooksData(response.data))
       .catch(err => console.log(err))
-  }, [])
-
-  // get request of the data from authors collection and set its state
-  useLayoutEffect(() => {
     axios.get(`${URLServer}/author`, { withCredentials: true, credentials: 'include' })
       .then(response => setAuthorsData(response.data))
       .catch(err => console.log(err))
   }, [])
+
 
   // defining the state of the modals
   // defining the state of the addCategoryModal
