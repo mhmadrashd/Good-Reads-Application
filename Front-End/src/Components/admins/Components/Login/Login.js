@@ -16,7 +16,7 @@ const Login = (props) => {
   const dispatch = useDispatch();
   async function submit(values) {
     try {
-      await axios.post(`http://localhost:3000/admin/login`, values, { withCredentials: true, credentials: 'include' })
+      await axios.post(`https://goodread-backend.herokuapp.com/admin/login`, values, { withCredentials: true, credentials: 'include' })
         .then((response) => {
           dispatch(setloginState(true));
           sessionStorage.setItem("loginState", true)

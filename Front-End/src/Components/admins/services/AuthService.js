@@ -1,6 +1,6 @@
 const AuthFetch = {
   login: (user) => {
-    return fetch("http://localhost:3000/admin/login", {
+    return fetch("https://goodread-backend.herokuapp.com/admin/login", {
       method: "post",
       body: JSON.stringify(user),
       headers: {

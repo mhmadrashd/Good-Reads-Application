@@ -64,7 +64,7 @@ export default function AccountSettings() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         await uploadFile();
-        axios.patch(`http://localhost:3000/user`, {
+        axios.patch(`https://goodread-backend.herokuapp.com/user`, {
             fName: fname,
             lName: lname,
             email: eml,
@@ -83,7 +83,7 @@ export default function AccountSettings() {
 
     const refresh = 0;
     React.useEffect(() => {
-        axios.get(`http://localhost:3000/user`, { withCredentials: true, credentials: 'include' })
+        axios.get(`https://goodread-backend.herokuapp.com/user`, { withCredentials: true, credentials: 'include' })
             .then((response) => {
                 setFname(response.data.fName);
                 setLname(response.data.lName);

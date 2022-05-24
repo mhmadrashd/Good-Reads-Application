@@ -7,11 +7,9 @@ import { BoldLink, BoxContainer, FormContainer, Input, MutedLink, SubmitBTN } fr
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from '../accountBox/axiosWork';
-import { useNavigate } from 'react-router';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../firbase/firebase";
 import { v4 } from "uuid";
-import MsgDialogs from '../../../assets/handleErrors';
 
 
 const InputFile = styled.input`
@@ -60,7 +58,7 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{2,19}$/;
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 const PWD_REGEX = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
 const IMG_REGEX = /\.(jpg|jpeg|png|gif)$/;
-const REGISTER_URL = 'http://localhost:3000';
+const REGISTER_URL = 'https://goodread-backend.herokuapp.com';
 
 const SignUpForm = (props) => {
 
@@ -101,7 +99,6 @@ const SignUpForm = (props) => {
 
     /* Output Message for Success and Error messages */
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     /* Submit Focusing when Component Load */
     useEffect(() => {
@@ -176,7 +173,6 @@ const SignUpForm = (props) => {
                     )
                 }).then(function () {
                     window.location.reload();
-                    setSuccess(true);
                     setFname('');
                     setLname('');
                     setEmail('');
@@ -293,12 +289,10 @@ const SignUpForm = (props) => {
             <Marginer direction="vertical" margin={5} />
             <SubmitBTN onClick={handleSubmit} type="submit" disabled={!validFName || !validLname || !validEmail || !validPwd || !validMatch || !validImg ? true : false} >SIGN UP</SubmitBTN>
             <Marginer direction="vertical" margin="1em" />
-            {props.default ?
-                <MutedLink href="#" >
-                    Already have an account?
-                    <BoldLink href='#' onClick={switchToSignIn}>SIGN IN</BoldLink>
-                </MutedLink>
-                : ""}
+            <MutedLink href="#" >
+                Already have an account?
+                <BoldLink href='#' onClick={switchToSignIn}>SIGN IN</BoldLink>
+            </MutedLink>
         </BoxContainer>
     )
 }

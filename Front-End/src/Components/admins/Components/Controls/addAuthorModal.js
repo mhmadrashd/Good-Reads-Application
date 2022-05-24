@@ -10,7 +10,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../../firbase/firebase";
 import { v4 } from "uuid";
 import axios from 'axios';
-const URLServer = "http://localhost:3000";
+const URLServer = "https://goodread-backend.herokuapp.com";
 
 function AddAuthorModal(probs) {
 

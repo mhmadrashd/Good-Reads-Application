@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setOpenDialog } from "../../../../Redux/DataSlice";
 import MsgDialogs from '../../../../assets/handleErrors';
 
-const LOCALHOST = 'http://localhost:3000/';
+const LOCALHOST = 'https://goodread-backend.herokuapp.com/';
 function getLabelText(value) {
   return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }

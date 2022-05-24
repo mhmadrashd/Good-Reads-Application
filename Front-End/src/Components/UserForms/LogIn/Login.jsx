@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import './Login.css'
 
-const LOGIN_URL = `http://localhost:3000`;
+const LOGIN_URL = `https://goodread-backend.herokuapp.com`;
 
 const Login = () => {
 

@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col';
 import { useFormik } from 'formik';
 import axios from 'axios';
-const URLServer = "http://localhost:3000";
+const URLServer = "https://goodread-backend.herokuapp.com";
 
 function AddCategoryModal(probs) {
 

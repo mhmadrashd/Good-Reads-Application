@@ -8,7 +8,7 @@ import { grey, red } from '@mui/material/colors';
 import { useSelector } from "react-redux";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { useNavigate } from "react-router";
-const URL = "http://localhost:3000";
+const URL = "https://goodread-backend.herokuapp.com";
 
 const responsive = {
   superLargeDesktop: {

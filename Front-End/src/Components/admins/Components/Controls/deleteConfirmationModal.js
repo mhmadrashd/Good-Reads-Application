@@ -2,7 +2,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
-const URLServer = "http://localhost:3000";
+const URLServer = "https://goodread-backend.herokuapp.com";
 
 function DeleteModal(probs) {
     const currentTable = probs.table;
