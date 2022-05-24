@@ -19,10 +19,7 @@
     margin-bottom: 15px;
 }
 .description{
-    position: absolute;
-    top:30%;
-    left: 30%;
-    width:65%;
+    width:100%;
     height:250px;
     overflow-x: hidden;
     overflow-y: auto;
