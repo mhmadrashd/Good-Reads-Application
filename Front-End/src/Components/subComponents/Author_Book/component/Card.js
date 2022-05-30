@@ -6,7 +6,7 @@ import { Bloodtype } from '@mui/icons-material';
 export default function Card(props) {
   return (
     <div className="Card" >
-      <MDBCard style={{ width: '23rem' }}>
+      <MDBCard style={{ width: '20rem' }}>
         <MDBCardImage src={props.photo} alt='...' position='top' />
         <MDBCardBody>
           <MDBCardText>

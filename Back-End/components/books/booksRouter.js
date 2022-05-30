@@ -89,7 +89,6 @@ booksRouter.patch("/userBook", async (req, res, next) => {
         updated_at: new Date().toGMTString(),
       },
     });
-    console.log(findState)
     if (findState.modifiedCount !== 0) res.sendStatus(222);
     else res.sendStatus(555);
 

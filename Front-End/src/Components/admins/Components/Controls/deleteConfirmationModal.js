@@ -2,18 +2,26 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setRefreshAdmin } from '../../../../Redux/DataSlice';
 const URLServer = "https://goodread-backend.herokuapp.com";
 
 function DeleteModal(probs) {
     const currentTable = probs.table;
+    const dispatch = useDispatch();
     const confirmDeletion = (e) => {
         // console.log(e);
         if (currentTable === "first") {
             // console.log("first");
-            axios.delete(`${URLServer}/category/${probs.item._id}`, { withCredentials: true, credentials: 'include' })
+            axios.delete(`${URLServer}/category/${probs.item._id}`, {
+                headers: {
+                    token: sessionStorage.getItem("Authorization")
+                }
+            })
                 .then(function (response) {
                     probs.onClick()
-                    window.location.reload();
+                    dispatch(setRefreshAdmin(1))
+                    // window.location.reload();
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -21,10 +29,15 @@ function DeleteModal(probs) {
         }
         else if (currentTable === "second") {
             // console.log(currentTable);
-            axios.delete(`${URLServer}/book/${probs.item._id}`, { withCredentials: true, credentials: 'include' })
+            axios.delete(`${URLServer}/book/${probs.item._id}`, {
+                headers: {
+                    token: sessionStorage.getItem("Authorization")
+                }
+            })
                 .then(function (response) {
                     probs.onClick()
-                    window.location.reload();
+                    dispatch(setRefreshAdmin(1))
+                    // window.location.reload();
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -32,10 +45,15 @@ function DeleteModal(probs) {
         }
         else if (currentTable === "third") {
             // console.log(currentTable);
-            axios.delete(`${URLServer}/author/${probs.item._id}`, { withCredentials: true, credentials: 'include' })
+            axios.delete(`${URLServer}/author/${probs.item._id}`, {
+                headers: {
+                    token: sessionStorage.getItem("Authorization")
+                }
+            })
                 .then(function (response) {
                     probs.onClick()
-                    window.location.reload();
+                    dispatch(setRefreshAdmin(1))
+                    // window.location.reload();
                 })
                 .catch(function (error) {
                     console.log(error);

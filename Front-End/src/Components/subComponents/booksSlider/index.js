@@ -12,7 +12,7 @@ const BooksSlider = () => {
     if (direction === "left") {
       setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
     } else {
-      setSlideIndex(slideIndex < BooksData.length ? slideIndex + 1 : 0);
+      setSlideIndex(slideIndex < BooksData.length - 1 ? slideIndex + 1 : 0);
     }
   };
   const wrapper = {
@@ -20,10 +20,15 @@ const BooksSlider = () => {
   };
   const refresh = 0;
   useLayoutEffect(() => {
-    axios.get('https://goodread-backend.herokuapp.com/book/', { withCredentials: true, credentials: 'include' })
+    axios.get('https://goodread-backend.herokuapp.com/book/', {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
       .then((response) => {
         setBooksData(...BooksData, response.data);
-        console.log(response.data)
+        sessionStorage.setItem("BooksData", JSON.stringify(response.data))
+        // console.log(response.data)
       })
       .catch((error) => {
         console.log(error)
@@ -31,7 +36,7 @@ const BooksSlider = () => {
   }, [refresh])
 
   return (
-    <div className={`${styles.container} Books`} >
+    <div className={`${styles.container} Books topPage`} >
       <div className={styles.arrowLeft} onClick={() => handleClick("left")}>
         <ArrowLeftOutlined />
       </div>

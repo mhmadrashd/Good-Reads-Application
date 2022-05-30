@@ -6,6 +6,7 @@ import StarRating from './Rating'
 import './Author.css'
 import { Box } from '@mui/material';
 import Image from './Images/LibararyBG.jpg'
+import axios from 'axios';
 const LOCALHOST = 'https://goodread-backend.herokuapp.com/';
 
 export default function Author() {
@@ -22,40 +23,45 @@ export default function Author() {
     Books: []
   });
   useEffect(() => {
-    fetch(`${LOCALHOST}author/` + id)
-      .then(response => response.json())
-      // 4. Setting *dogImage* to the image url that we received from the response above
-      .then(data =>
+    axios.get(`${LOCALHOST}author/` + id, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
+      .then(response =>
         setAuthorInfo({
-          ID: data._id,
-          fname: data.fName,
-          lname: data.lName,
-          dob: data.DOB,
-          info: data.info,
-          image: data.img,
+          ID: response.data._id,
+          fname: response.data.fName,
+          lname: response.data.lName,
+          dob: response.data.DOB,
+          info: response.data.info,
+          image: response.data.img,
         })
       )
   }, [])
   useEffect(() => {
-    fetch(`${LOCALHOST}book/authBook/` + id)
-      .then(response => response.json())
-      // 4. Setting *dogImage* to the image url that we received from the response above
-      .then(data => {
+    axios.get(`${LOCALHOST}book/authBook/` + id, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
+      .then(response => {
         setAuthorBook({
-          Books: data
+          Books: response.data
         })
       }
       )
   }, [])
 
-  var list = AuthorBook.Books.map((data) => {
+  var list = AuthorBook.Books.map((data, index) => {
 
     return (
-      <div class="booksofauthor"><img alt="" class=" bookimg" src={data.img} width="70px" height="70px"></img>
-        <div class="selectandrating">
+      <div className="booksofauthor" key={index}>
+        <img alt="" className=" bookimg" src={data.img} width="100px" height="100px" />
+        <div className="selectandrating">
           <div><StarRating stars={data.rating} /></div>
         </div>
-        <div class="rating">
+        <div className="rating">
           <h6>{data.title}</h6>
           <h6>{data.category.Name}</h6>
           <br></br>
@@ -67,6 +73,7 @@ export default function Author() {
       </div>)
   })
   return (
+
     <Box sx={{
       width: "100%", margin: 0,
       overflow: "hidden",
@@ -79,31 +86,31 @@ export default function Author() {
     }}>
       <div className='parentContainer' >
         <div>
-          <div class="cardAndrateAndselect">
+          <div className="cardAndrateAndselect">
             <Card bookname={AuthorInfo.fname + AuthorInfo.lname} photo={AuthorInfo.image} />
           </div>
-          <div class="beside">
-            {/* <h3 class="bookname"> {AuthorInfo.bookName}</h3> */}
-            <h6 class="authorname"> {AuthorInfo.fname}  {AuthorInfo.lname}</h6>
-            <h6 class="category"> {!isNaN(Date.parse(AuthorInfo.dob))
+          <div className="beside">
+            {/* <h3 className="bookname"> {AuthorInfo.bookName}</h3> */}
+            <h6 className="authorname"> {AuthorInfo.fname}  {AuthorInfo.lname}</h6>
+            <h6 className="category"> {!isNaN(Date.parse(AuthorInfo.dob))
               && !(Number.isInteger(AuthorInfo.dob)) ?
               new Date(AuthorInfo.dob).toDateString()
               : AuthorInfo.dob} </h6>
-            <div class="rating">
+            <div className="rating">
             </div>
-            <div class="description">
+            <div className="description">
               <p>
                 {AuthorInfo.info}
               </p>
             </div>
           </div>
         </div>
-        <div class="authorbooks">
-          <h5 class="s">Author's Books</h5>
+        <div className="authorbooks">
+          <h5 className="s">Author's Books</h5>
           <>{list}</>
         </div>
       </div>
-
+      {window.scrollTo(0, 0)}
     </Box>
   );
 

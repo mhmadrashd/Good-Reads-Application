@@ -83,13 +83,18 @@
         .right {
             flex: 1;
             padding: 20px;
-            @media screen and (max-width:380px) {
-                background-color: #fff8f8;
-            }
+            // @media screen and (max-width:380px) {
+            //     background-color: #fff8f8;
+            // }
             .ContactItem {
                 margin-bottom: 20px;
                 display: flex;
                 align-items: center;
+                a {
+                    text-decoration: none;
+                    font-size: medium;
+                    color: inherit;
+                }
             }
         }
     }
@@ -100,15 +105,25 @@
         justify-content: center;
         flex-wrap: wrap;
         row-gap: 15px;
-        padding: 15px 15px 30px 15px;
+        padding: 15px 15px 50px 15px;
         border-top: 1px solid #eee ;
         max-width: 1240px;
         width: 100%;
         margin: auto;
+        @media screen and (max-width: 992px) {
+            padding: 15px 15px 60px 15px;
+        }
+        @media screen and (max-width: 768px) {
+            padding: 15px 15px 60px 15px;
+        }
+        @media screen and (max-width:480px){
+            padding: 15px 15px 100px 15px;
+        }
         a {
             color: green;
             font-weight: bold;
             text-decoration: none;
+            color: inherit;
         }
     }
 }

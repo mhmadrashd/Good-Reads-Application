@@ -16,11 +16,22 @@ const Login = (props) => {
   const dispatch = useDispatch();
   async function submit(values) {
     try {
-      await axios.post(`https://goodread-backend.herokuapp.com/admin/login`, values, { withCredentials: true, credentials: 'include' })
+
+      await axios.post(`https://goodread-backend.herokuapp.com/admin/login`, values, {
+        headers: {
+          token: sessionStorage.getItem("Authorization")
+        }
+      })
         .then((response) => {
           dispatch(setloginState(true));
           sessionStorage.setItem("loginState", true)
+          // console.log(response.data)
+          // document.cookie = `Authorization=${response.data.Authorization};maxAge: 24 * 60 * 60 * 1000`
+          sessionStorage.setItem("Authorization", response.data.Authorization);
           navigate("/admin/dashboard");
+          // console.log(response)
+          // console.log("Done")
+          // console.log(sessionStorage.getItem("Authorization"))
         }).catch((error) => {
           console.log(error)
         })

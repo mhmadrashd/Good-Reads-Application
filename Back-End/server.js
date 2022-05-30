@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require("jsonwebtoken");
 require('express-async-errors');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 /*
 Use require directly when we not export 
 any methods from file(db file in this case)
@@ -45,24 +45,20 @@ app.use("/book", booksRouter);
 //Get userBooks by userID
 app.get("/isLoged", async (req, res, next) => {
   try {
-    const token = req.cookies.Authorization;
-    console.log(req.cookies)
+    const { token } = req.headers;
     if (token) {
       await jwt.verify(token, process.env.SECRET_KEY, (err, decodeToken) => {
 
         if (err) {
           res.redirect('/login');
           res.sendStatus(555);
-          console.log("1")
         } else {
-          console.log("2")
           res.sendStatus(222);
           next();
         }
       });
     }
     else {
-      console.log("333")
       res.sendStatus(555);
     }
   } catch (error) {

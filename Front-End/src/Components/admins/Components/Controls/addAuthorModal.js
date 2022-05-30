@@ -10,6 +10,8 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../../firbase/firebase";
 import { v4 } from "uuid";
 import axios from 'axios';
+import { setRefreshAdmin } from '../../../../Redux/DataSlice';
+import { useDispatch } from 'react-redux';
 const URLServer = "https://goodread-backend.herokuapp.com";
 
 function AddAuthorModal(probs) {
@@ -27,7 +29,7 @@ function AddAuthorModal(probs) {
     info: '',
     img: ''
   }
-
+  const dispatch = useDispatch();
   // to handle the submit action with formik
   const onSubmit = values => {
     if (imageUpload == null) return;
@@ -41,10 +43,15 @@ function AddAuthorModal(probs) {
             DOB: values.DOB,
             info: values.info,
             img: url
-          }, { withCredentials: true, credentials: 'include' })
+          }, {
+            headers: {
+              token: sessionStorage.getItem("Authorization")
+            }
+          })
             .then((response) => {
               probs.onClick();
-              window.location.reload()
+              dispatch(setRefreshAdmin(1))
+              // window.location.reload()
             }).catch((error) => {
               console.log(error);
             })
@@ -77,7 +84,7 @@ function AddAuthorModal(probs) {
 
   return (
     <div>
-      <Modal show={probs.state} onHide={probs.onClick} size="lg">
+      <Modal show={probs.state} onHide={probs.close} size="lg">
         <Modal.Header className="px-4" closeButton>
           <Modal.Title className="ms-auto">Add Author</Modal.Title>
         </Modal.Header>

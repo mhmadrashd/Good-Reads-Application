@@ -45,12 +45,18 @@ const AuthorsSlider = () => {
     fontClr = "dark";
     btnColor = "success";
   }
-  const [CategoryData, setCategoryData] = useState([]);
+  const [AuthorsData, setAuthorsData] = useState([]);
   const refresh = 0;
   useLayoutEffect(() => {
-    axios.get(`${URL}/author/`, { withCredentials: true, credentials: 'include' })
+    axios.get(`${URL}/author/`, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
       .then((response) => {
-        setCategoryData(...CategoryData, response.data);
+        setAuthorsData(...AuthorsData, response.data);
+        sessionStorage.setItem("AuthorsData", JSON.stringify(response.data))
+        // console.log(response.data)
       })
       .catch((error) => {
         console.log(error)
@@ -63,12 +69,15 @@ const AuthorsSlider = () => {
         className="p-8"
         showDots={true}
         transitionDuration={50}>
-        {CategoryData.map((currItem, index) => (
+        {AuthorsData.map((currItem, index) => (
           <Card key={index}
             sx={{ maxWidth: 345 }}
             data-aos="fade-down-left"
             data-aos-offset="150"
-            data-aos-duration="1000"
+            variant="outlined"
+            data-aos-easing="linear"
+            data-aos-duration="700"
+            data-aos-delay={100 * (index * 2)}
           >
             <CardHeader
               avatar={

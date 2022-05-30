@@ -5,6 +5,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setRefreshAdmin } from '../../../../Redux/DataSlice';
 const URLServer = "https://goodread-backend.herokuapp.com";
 
 function AddCategoryModal(probs) {
@@ -13,16 +15,22 @@ function AddCategoryModal(probs) {
   const initialValues = {
     Name: ''
   }
+  const dispatch = useDispatch();
 
   //to handle the submit action with formik
   const onSubmit = (values) => {
     try {
-      axios.post(`${URLServer}/category`, {
-        Name: values.Name,
-      }, { withCredentials: true, credentials: 'include' })
+      axios.post(`${URLServer}/category`, { Name: values.Name, },
+        {
+          headers: {
+            token: sessionStorage.getItem("Authorization")
+          }
+        })
         .then(function (response) {
+
           probs.onClick()
-          window.location.reload();
+          dispatch(setRefreshAdmin(1))
+          // window.location.reload();
         })
         .catch(function (error) {
           console.log(error);
@@ -31,6 +39,7 @@ function AddCategoryModal(probs) {
 
       console.log(error)
     }
+
   }
 
   //to handle the validations on the inputs with formik
@@ -52,7 +61,7 @@ function AddCategoryModal(probs) {
 
   return (
     <div>
-      <Modal show={probs.state} onHide={probs.onClick} size="lg">
+      <Modal show={probs.state} onHide={probs.close} size="lg">
         <Modal.Header className="px-4" closeButton>
           <Modal.Title className="ms-auto">Add Category</Modal.Title>
         </Modal.Header>
@@ -87,6 +96,7 @@ function AddCategoryModal(probs) {
           </Form>
         </Modal.Body>
       </Modal>
+
     </div>
   );
 }

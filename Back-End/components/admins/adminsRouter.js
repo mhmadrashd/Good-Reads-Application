@@ -95,6 +95,10 @@ AdminRouter.post("/", async (req, res, next) => {
 //Login Admin
 AdminRouter.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
+  // const { token } = req.headers.Authorization;
+  // console.log(token)
+  // // console.log(req.header)
+  // console.log(req.headers)
   try {
     //Find if Admin exist or not
     const admin = await AdminsModel.findOne({ email });
@@ -113,8 +117,8 @@ AdminRouter.post("/login", async (req, res, next) => {
       },
       process.env.SECRET_KEY
     );
-    res.cookie("Authorization", token, { httpOnly: true, secure: false });
-    res.send({ success: 200 });
+    // res.cookie("Authorization", token, { maxAge: 24 * 60 * 60 * 1000 });
+    res.send({ Authorization: token });
   } catch (error) {
     next(error);
   }

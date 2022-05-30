@@ -8,6 +8,9 @@ import AddCategoryModal from './addCategoryModal';
 import AddBookModal from './addBookModal';
 import AddAuthorModal from './addAuthorModal';
 import { useNavigate } from 'react-router'
+import { setloginState, setOpenDialog, setRefreshAdmin } from '../../../../Redux/DataSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import MsgDialogs from '../../../../assets/handleErrors';
 const URLServer = "https://goodread-backend.herokuapp.com";
 
 function ThreeTabs() {
@@ -43,27 +46,51 @@ function ThreeTabs() {
     { heading: "Photo", value: 'img' },
     { heading: "Actions" }
   ]
-
+  const { refreshAdmin } = useSelector((state) => state.DataReducer);
+  const dispatch = useDispatch();
   // get request of the data from categories collection and set its state
   useLayoutEffect(() => {
-    axios.get(`${URLServer}/category`, { withCredentials: true, credentials: 'include' })
-      .then(response => setCategoriesData(response.data))
+    axios.get(`${URLServer}/category`, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
+      .then(response => {
+        setCategoriesData(response.data);
+        dispatch(setRefreshAdmin(0))
+      })
       .catch(err => console.log(err))
-  }, [])
+  }, [refreshAdmin])
 
   // get request of the data from books collection and set its state
   useLayoutEffect(() => {
-    axios.get(`${URLServer}/book`, { withCredentials: true, credentials: 'include' })
-      .then(response => setBooksData(response.data))
+    axios.get(`${URLServer}/book`, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
+      .then(response => {
+        setBooksData(response.data)
+        dispatch(setRefreshAdmin(0))
+      })
       .catch(err => console.log(err))
-  }, [])
+  }, [refreshAdmin])
 
   // get request of the data from authors collection and set its state
   useLayoutEffect(() => {
-    axios.get(`${URLServer}/author`, { withCredentials: true, credentials: 'include' })
-      .then(response => setAuthorsData(response.data))
+    axios.get(`${URLServer}/author`, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
+      .then(response => {
+        setAuthorsData(response.data)
+        dispatch(setRefreshAdmin(0))
+      })
       .catch(err => console.log(err))
-  }, [])
+  }, [refreshAdmin])
+
+  const { openDialog } = useSelector((state) => state.DataReducer);
 
   // defining the state of the modals
   // defining the state of the addCategoryModal
@@ -82,17 +109,15 @@ function ThreeTabs() {
   const authorModalShow = () => setAuthorModal(true);
   const navigate = useNavigate();
   const logout = () => {
-
+    dispatch(setloginState(false));
+    sessionStorage.clear()
+    // document.cookie = "Authorization=deleted;max-age=0"
     navigate("/home");
-    document.cookie = "Authorization=deleted;max-age=0"
-    sessionStorage.setItem("loginState", false);
   }
 
   return (
     <div className="threeTabs">
       <button className="logout btn btn-danger" onClick={() => { logout() }}>Logout</button>
-
-
       <Tabs
         defaultActiveKey="first"
         transition={false}
@@ -107,8 +132,14 @@ function ThreeTabs() {
           < Table data={categoriesData}
             column={categoryColumns}
             table={tabIndex} />
-          {categoryModalIsOpen && <AddCategoryModal state={categoryModalIsOpen}
-            onClick={categoryModalClose} />}
+          {categoryModalIsOpen && <AddCategoryModal
+            state={categoryModalIsOpen}
+            close={categoryModalClose}
+            onClick={() => { categoryModalClose(); /*dispatch(setOpenDialog(true))*/ }} />}
+          {/*console.log(openDialog, categoryModalIsOpen)*/}
+          {/*openDialog && !categoryModalIsOpen ?
+            <MsgDialogs title="Add Category" msg={"Category added successfully"} state={1} />
+          : ""*/}
         </Tab>
 
         <Tab eventKey="second" title="Books" tabClassName='tab' >
@@ -118,8 +149,15 @@ function ThreeTabs() {
             column={bookColumns}
             table={tabIndex}
             categriesData={categoriesData} authorData={authorsData} />
-          {bookModalIsOpen && <AddBookModal state={bookModalIsOpen} onClick={bookModalClose}
-            categriesData={categoriesData} authorData={authorsData} />}
+          {bookModalIsOpen && <AddBookModal
+            state={bookModalIsOpen}
+            onClick={() => { bookModalClose(); /*dispatch(setOpenDialog(true))*/ }}
+            close={bookModalClose}
+            categriesData={categoriesData}
+            authorData={authorsData} />}
+          {/*openDialog && !bookModalIsOpen ?
+            <MsgDialogs title="Add Book" msg={"Book added successfully"} state={1} />
+          : ""*/}
         </Tab>
 
         <Tab eventKey="third" title="Authors" >
@@ -128,8 +166,14 @@ function ThreeTabs() {
           <Table data={authorsData}
             column={authorsColumn}
             table={tabIndex} />
-          {authorModalIsOpen && <AddAuthorModal state={authorModalIsOpen} onClick={authorModalClose} />}
-
+          {authorModalIsOpen &&
+            <AddAuthorModal
+              state={authorModalIsOpen}
+              close={authorModalClose}
+              onClick={() => { authorModalClose(); /*dispatch(setOpenDialog(true)) */ }} />}
+          {/*openDialog && !authorModalIsOpen ?
+            <MsgDialogs title="Add Author" msg={"Author added successfully"} state={1} />
+          : ""*/}
         </Tab>
       </Tabs>
     </div>

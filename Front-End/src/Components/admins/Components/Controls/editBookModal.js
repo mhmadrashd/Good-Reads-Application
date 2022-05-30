@@ -10,13 +10,15 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../../firbase/firebase";
 import { v4 } from "uuid";
 import axios from 'axios';
+import { setRefreshAdmin } from '../../../../Redux/DataSlice';
+import { useDispatch } from 'react-redux';
 const URLServer = "https://goodread-backend.herokuapp.com";
 
 
 function EditBookModal(probs) {
   //this state used to get image from input type=(file) to upload it to firebase
   const [imageUpload, setImageUpload] = useState(null);
-
+  const dispatch = useDispatch();
   //this state used to load image to img element after choose image
 
   const item = probs.item;
@@ -51,10 +53,15 @@ function EditBookModal(probs) {
             auhtor: (probs.authorData.filter(author => `${author.fName} ${author.lName}` === values.auhtor))[0]["_id"],
             description: values.description,
             img: url
-          }, { withCredentials: true, credentials: 'include' })
+          }, {
+            headers: {
+              token: sessionStorage.getItem("Authorization")
+            }
+          })
             .then((response) => {
               probs.onClick();
-              window.location.reload()
+              dispatch(setRefreshAdmin(1))
+              // window.location.reload()
               // console.log(response);
             }).catch((error) => {
               console.log(error);

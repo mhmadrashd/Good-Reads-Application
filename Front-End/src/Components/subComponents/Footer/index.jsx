@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Typography } from '@mui/material'
 import { scroller } from 'react-scroll/modules'
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 const Footer = () => {
     const { mode } = useSelector((state) => state.DataReducer);
 
@@ -58,18 +59,33 @@ const Footer = () => {
                     </ul>
                 </div>
                 <div className={styles.right}>
-                    <Typography variant="h6" className={styles.title}>Contact</Typography>
+                    <Typography variant="h6" className={styles.title}>Contacts</Typography>
                     <div className={styles.ContactItem}>
-                        <Phone style={{ marginRight: "10px" }} /> +20-100-000-0000
+                        <a href='https://www.linkedin.com/in/mhmadrashd/' target={"_blank"} rel="noreferrer">
+                            <LinkedInIcon style={{ marginRight: "5px", color: "#2196f3" }} />Mohamed Elymany Rashed
+                        </a>
+
                     </div>
                     <div className={styles.ContactItem}>
-                        <MailOutline style={{ marginRight: "10px" }} /> Team3@ITI-IOT-Intak42.eg
+                        <a href='https://www.linkedin.com/in/mohamed-adel-saleh/' target={"_blank"} rel="noreferrer">
+                            <LinkedInIcon style={{ marginRight: "5px", color: "#2196f3" }} /> Mohamed Adel Saleh
+                        </a>
+                    </div>
+                    <div className={styles.ContactItem}>
+                        <a href='https://www.linkedin.com/in/amany-bahaa-el-din-5b1455151/' target={"_blank"} rel="noreferrer">
+                            <LinkedInIcon style={{ marginRight: "5px", color: "#2196f3" }} /> Amany Bahaa El-din
+                        </a>
+                    </div>
+                    <div className={styles.ContactItem}>
+                        <a href='https://www.linkedin.com/in/rofida-reda/' target={"_blank"} rel="noreferrer">
+                            <LinkedInIcon style={{ marginRight: "5px", color: "#2196f3" }} /> Rofida Reda
+                        </a>
                     </div>
                 </div>
             </div>
             <div className={styles.lowerFotter}>
                 <div className={styles.left}>
-                    @2022 <Link to={currentLocation}>Team 3</Link> - Reactjs Nodejs MongoDB Readx-Toolkit MUI AOS Tailwindcss Formik
+                    @2022 <Link to={currentLocation}>Team 3</Link> - Reactjs Nodejs MongoDB Readx-Toolkit MUI AOS Tailwindcss bootstrap Formik
                 </div>
             </div>
         </div>

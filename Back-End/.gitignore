@@ -9,7 +9,8 @@
 /coverage
 /.env
 
-./build
+# production
+/build
 
 
 # misc

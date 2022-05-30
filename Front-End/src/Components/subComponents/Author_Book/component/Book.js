@@ -8,10 +8,6 @@ import { Box, Rating, TextField } from '@mui/material';
 import Image from './Images/LibararyBG.jpg'
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import StarIcon from '@mui/icons-material/Star';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenDialog } from "../../../../Redux/DataSlice";
@@ -19,20 +15,21 @@ import MsgDialogs from '../../../../assets/handleErrors';
 
 const LOCALHOST = 'https://goodread-backend.herokuapp.com/';
 function getLabelText(value) {
-  return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+  return `${value} Star${value !== 1 ? 's' : ''}`;
+  // return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
-const labels = {
-  0.5: 'Useless',
-  1: 'Useless+',
-  1.5: 'Poor',
-  2: 'Poor+',
-  2.5: 'Ok',
-  3: 'Ok+',
-  3.5: 'Good',
-  4: 'Good+',
-  4.5: 'Excellent',
-  5: 'Excellent+',
-};
+// const labels = {
+//   0.5: 'Useless',
+//   1: 'Useless+',
+//   1.5: 'Poor',
+//   2: 'Poor+',
+//   2.5: 'Ok',
+//   3: 'Ok+',
+//   3.5: 'Good',
+//   4: 'Good+',
+//   4.5: 'Excellent',
+//   5: 'Excellent+',
+// };
 export default function Book() {
   //Select
   // const [state, setState] = React.useState('');
@@ -80,34 +77,41 @@ export default function Book() {
   //1 Add To list
   //2 Add review
   const [DialogState, setDialogState] = useState(1);
+  const [refresh, setRefresh] = useState(0);
 
-  const refresh = 0;
   useEffect(() => {
-    fetch(`${LOCALHOST}book/` + id)
-      .then(response => response.json())
-      // 4. Setting *dogImage* to the image url that we received from the response above
-      .then(data =>
+    axios.get(`${LOCALHOST}book/` + id, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
+      .then(response => {
         setBookInfo({
-          bookID: data._id,
-          bookName: data.title,
-          author_fname: data.auhtor.fName,
-          author_lname: data.auhtor.lName,
-          category: data.category.Name,
-          description: data.description,
-          rate: data.rating,
-          image: data.img,
+          bookID: response.data._id,
+          bookName: response.data.title,
+          author_fname: response.data.auhtor.fName,
+          author_lname: response.data.auhtor.lName,
+          category: response.data.category.Name,
+          description: response.data.description,
+          rate: response.data.rating,
+          image: response.data.img,
           stars: 4
         })
+      }
       )
+    setRefresh(0);
   }, [refresh])
   useEffect(() => {
-    fetch(`${LOCALHOST}book/userBookBID/` + id)
-      .then(response => response.json())
-      // 4. Setting *dogImage* to the image url that we received from the response above
-      .then(data => {
+    axios.get(`${LOCALHOST}book/userBookBID/` + id, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
+      .then(response => {
         setReviewInfo({
-          review: data
-        })
+          review: response.data
+        });
+        setRefresh(0);
       }
       )
   }, [refresh])
@@ -121,7 +125,11 @@ export default function Book() {
       "state": 2,
       "rating": 0,
       "review": ""
-    }, { withCredentials: true, credentials: 'include' })
+    }, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
       .then(function (response) {
         setDialogState(1)
         dispatch(setOpenDialog(true))
@@ -141,11 +149,16 @@ export default function Book() {
       "book": BookInfo.bookID,
       "rating": strValue || 0,
       "review": revValue || ""
-    }, { withCredentials: true, credentials: 'include' })
+    }, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
       .then(function (response) {
         response.data === 222 ? setDialogState(2) : setDialogState(3)
         dispatch(setOpenDialog(true))
-        console.log(response);
+        setRefresh(1);
+        // console.log(response);
         // window.location.reload()
         // setReviewInfo({ review: [...ReviewInfo.review, revValue] })
       })
@@ -158,13 +171,15 @@ export default function Book() {
   }
 
   var list = ReviewInfo.review.map((data, index) => {
+    console.log(ReviewInfo.review)
     if (data.review === "") return;
+    if (data.user === null) return;
     return (
       <div className="booksofauthor" key={index}>
         <img
-          className=" bookimg"
+          className="bookimg"
           alt=""
-          src="https://www.clipartmax.com/png/middle/72-722180_these-are-some-cats-avatar-i-drew-during-my-free-time-black.png"
+          src={data.user.img}
           width="70px"
           height="70px" />
 
@@ -174,7 +189,7 @@ export default function Book() {
           </div>
         </div>
         <div className="rating">
-          <h6>{data.user.fName} {data.user.lName}</h6>
+          <h6>{data.user.fName || " "} {data.user.lName || " "}</h6>
           <strong>{data.review}</strong>
           <br />
           <strong>
@@ -204,59 +219,6 @@ export default function Book() {
         <div>
           <div className="cardAndrateAndselect">
             <Card bookname={BookInfo.bookName} photo={BookInfo.image} />
-            <div className="selectt">
-
-              <button
-                onClick={() => { addToReview() }}
-                className={"mainbtn"}
-                disabled={disable}
-              >
-                Add Review <AddIcon className={"mainicon"} />
-              </button>
-            </div>
-            <div className="ratingg" >
-
-              <Box
-                sx={{
-                  width: 200,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <Rating
-                  sx={{ marginLeft: "10px" }}
-                  name="hover-feedback"
-                  size="large"
-                  required
-                  value={strValue}
-                  precision={0.5}
-                  getLabelText={getLabelText}
-                  onChange={(event, newValue) => {
-                    setStrValue(newValue);
-                    if (strValue !== 0 && revValue !== "") setDisable(false); else setDisable(true);
-                  }}
-                  onChangeActive={(event, newHover) => {
-                    setHover(newHover);
-                  }}
-                  emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                />
-                {strValue !== null && (
-                  <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : strValue]}</Box>
-                )}
-              </Box>
-              <TextField
-                id="outlined-multiline-static"
-                label="Review"
-                multiline
-                required
-                rows={4}
-                onChange={
-                  handleRevChange
-                }
-                sx={{ marginLeft: "10px", width: "420px", marginTop: "10px" }}
-              />
-
-            </div>
           </div>
           <div className="beside">
             <h6 className="authorname"> Author: {BookInfo.author_fname}  {BookInfo.author_lname}</h6>
@@ -276,6 +238,58 @@ export default function Book() {
               </p>
             </div>
           </div>
+          <div className="ratingg" >
+
+            <Box
+              sx={{
+                width: 200,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Rating
+                sx={{ marginLeft: "10px" }}
+                name="hover-feedback"
+                size="large"
+                required
+                value={strValue}
+
+                precision={0.5}
+                getLabelText={getLabelText}
+                onChange={(event, newValue) => {
+                  setStrValue(newValue);
+                  if (strValue !== 0 && revValue !== "") setDisable(false); else setDisable(true);
+                }}
+                onChangeActive={(event, newHover) => {
+                  setHover(newHover);
+                }}
+                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+              />
+              {strValue !== null && (
+                <Box sx={{ ml: 2 }}>{[hover !== -1 ? hover : strValue]}</Box>
+              )}
+              <button
+                onClick={() => { addToReview() }}
+                className={"mainbtn"}
+                disabled={disable}
+              >
+                Add Review <AddIcon className={"mainicon"} />
+              </button>
+            </Box>
+            <TextField
+              id="outlined-multiline-static"
+              label="Review"
+              multiline
+              required
+              rows={4}
+              onChange={
+                handleRevChange
+              }
+              sx={{ marginLeft: "10px", width: "420px", marginTop: "10px" }}
+            />
+
+          </div>
+
         </div>
         <div className="authorbooks">
           <h5 className="s">Reviews</h5>

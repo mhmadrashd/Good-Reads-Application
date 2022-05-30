@@ -40,3 +40,9 @@
   #menu-toggle:checked + #menu {
     display: block;
   }
+
+  .searchBtn{
+    cursor: pointer;
+    color: aqua;
+    background-color: blue;
+  }

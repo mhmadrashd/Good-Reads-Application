@@ -3,7 +3,7 @@ import "./index.css";
 import Home from "./Home/Home";
 import SignUp from './Components/UserForms/SignUp'
 import { BrowserRouter } from "react-router-dom";
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 import 'bootstrap/dist/css/bootstrap.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from "./Components/dashboard/Dashboard";
@@ -25,22 +25,25 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/home" element={<Home />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/front-end" element={<Home />} />
+                {/*<Route path="/" element={<PrivateRoute2><Home /></PrivateRoute2>} />*/}
+                <Route path="/admin/dashboard" element={<PrivateRoute><ThreeTabs /></PrivateRoute>} />
+                <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                <Route path="/book/:id" element={<PrivateRoute><BookPage /></PrivateRoute>} />
+                <Route path="/author/:id" element={<PrivateRoute><AuthorPage /></PrivateRoute>} />
+                <Route path="/profile/:id" element={<PrivateRoute><AccSettings /></PrivateRoute>} />
                 {!loginState ?
                     <Route path="/login" element={<SignUp />} /> :
                     <Route path="/home" element={<Home />} />
                 }
                 {!loginState ?
                     <Route path="/admin" element={<Login />} /> :
-                    <Route path="/home" element={<Home />} />
+                    <Route path="/admin/dashboard" element={<PrivateRoute><ThreeTabs /></PrivateRoute>} />
                 }
 
-                <Route path="/admin/dashboard" element={<PrivateRoute><ThreeTabs /></PrivateRoute>} />
-                <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-                <Route path="/book/:id" element={<PrivateRoute><BookPage /></PrivateRoute>} />
-                <Route path="/author/:id" element={<PrivateRoute><AuthorPage /></PrivateRoute>} />
-                <Route path="/profile/:id" element={<PrivateRoute><AccSettings /></PrivateRoute>} />
 
-                <Route path="/*" element={<Navigate to="/home" />} />
+                {/*<Route path="/*" element={<Navigate to="/home" />} />*/}
             </Routes>
         </BrowserRouter>
     )

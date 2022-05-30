@@ -31,15 +31,51 @@
         left: calc(50% - 70px);
         height: 30%;
         width: 30%;
+        /* Medium Screens */
+        @media screen and (max-width: 992px) {
+            top: 10%;
+            left: calc(50% - 40px);
+        }
+        @media screen and (max-width: 768px) {
+            top: 15%;
+            left: calc(50% - 40px);
+        }
+        @media screen and (max-width:480px){
+            top: 12%;
+            left: calc(50% - 40px);
+        }
     }
     .avtar{
-        width: 30%;
-        height: 55%;
+        width: 25%;
+        height: 60%;
         min-width: 80px;
         min-height: 50px;
+        border-radius: 50%;
+        @media screen and (max-width: 992px) {
+            width: 30%;
+            height: 35%;
+        }
+        @media screen and (max-width: 768px) {
+            width: 25%;
+            height: 60%;
+        }
+        @media screen and (max-width:480px){
+            width: 25%;
+            height: 55%;
+        }
     }
     .inputFile{
         padding-left: 20px;
+        /* Medium Screens */
+        @media screen and (max-width: 992px) {
+            padding-left: 20px;
+        }
+        @media screen and (max-width: 768px) {
+            padding-left: 20px;
+        }
+        @media screen and (max-width:480px){
+            padding-left: 70px;
+        }
     }
     .divInputFile{
         text-align: center;

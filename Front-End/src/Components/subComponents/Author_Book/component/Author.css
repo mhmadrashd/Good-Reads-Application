@@ -1,6 +1,3 @@
-@import url('http://fonts.cdnfonts.com/css/new-century-schoolbook');
-
-
 .parentContainer{
     min-height: 130vh;
     margin:20px;
@@ -19,10 +16,7 @@
     margin-bottom: 15px;
 }
 .description{
-    position: absolute;
-    top:30%;
-    left: 30%;
-    width:65%;
+    width:100%;
     height:250px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -80,4 +74,3 @@ h5{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 3rem;
 }
-

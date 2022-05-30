@@ -6,8 +6,7 @@ const { loginID } = require("../../assets/helpers/checkPrivilege");
 const verifyAsync = util.promisify(jwt.verify);
 
 exports.authorizeUser = async (req, res, next) => {
-    //Get authorizion and id from header
-    const token = req.cookies.Authorization;
+    const { token } = req.headers;
     const id = await loginID(req, res);
     try {
         //Get data from token after veify this token

@@ -28,13 +28,13 @@ import ClassIcon from "@mui/icons-material/Class";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
+import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
-import { changeMood, setloginState, setUserData } from "../../../Redux/DataSlice";
+import { changeMood, setloginState, setOpenSearchDialog, setUserData } from "../../../Redux/DataSlice";
 import { scroller } from "react-scroll";
 import { useNavigate } from "react-router";
+import SearchIcon from '@mui/icons-material/Search';
+import { SearchDialog } from "../../../assets/handleErrors";
 
 
 const useStyles = makeStyles({
@@ -50,47 +50,7 @@ const useStyles = makeStyles({
 });
 
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
 
 const Navbar = () => {
   //View page items depend on user or guest
@@ -123,33 +83,37 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const handleDrawerClose = (page) => {
     setOpen(false);
-    scrollToSection(page);
+    if (page !== "")
+      scrollToSection(page);
   };
   const handleDrawerNavigate = (page) => {
     setAnchorElUser(null);
     setOpen(false);
     page = page.toLowerCase();
     if (page === 'profile') {
-      navigate(`/${page}/${localStorage.getItem("id")}`);
+      navigate(`/${page}/${sessionStorage.getItem("id")}`);
     } else if (page === 'logout') {
       dispatch(setloginState(false));
       sessionStorage.clear()
       dispatch(setUserData({}));
-      document.cookie = "Authorization=;Max-Age=0;secure"
-      localStorage.removeItem("img");
-      localStorage.removeItem("id");
+      // document.cookie = "Authorization=;Max-Age=0;secure"
+      sessionStorage.removeItem("img");
+      sessionStorage.removeItem("id");
       navigate("/");
+      scrollToSection("Home")
     }
     else {
       navigate(`/${page}`);
     }
   };
 
+  const { openSearchDialog } = useSelector((state) => state.DataReducer);
   //Go to section after click item from menu in navbar
   const scrollToSection = (page) => {
     if (document.location.href !== "http://localhost:3001/") {
       navigate("/");
     }
+    page = page === "Home" ? "topPage" : page;
     scroller.scrollTo(page, {
       duration: 500,
       delay: 0,
@@ -172,8 +136,8 @@ const Navbar = () => {
   const classes = useStyles();
 
   return (
-    <AppBar position="sticky" className={classes.navbar}>
-      <Container maxWidth="xl">
+    <AppBar position="sticky" className={`${classes.navbar}`}>
+      <Container maxWidth="xl" >
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -231,20 +195,21 @@ const Navbar = () => {
           </Box>
 
           {/* Search box */}
-          <Search className="mr-3 max-w-[20%] ">
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          <IconButton
+            size="small"
+            sx={{ marginRight: "10px", marginLeft: "7px" }}
+            color="inherit"
+            aria-label="Search"
+            onClick={() => dispatch(setOpenSearchDialog(true))}
+          >
+            <SearchIcon />
+          </IconButton>
+
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User" src={localStorage.getItem("img") || ""} />
+                <Avatar alt="User" src={sessionStorage.getItem("img") || ""} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -293,19 +258,20 @@ const Navbar = () => {
               )}
             </IconButton>
           </DrawerHeader>
+          {openSearchDialog ? <SearchDialog /> : ""}
           <Divider />
           <List>
-            {["Home", "Categories", "Books", "Authors"].map((text, index) => (
+            {["Home", "Books", "Categories", "Authors"].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
                   {index === 0 ? (
-                    <HomeIcon />
+                    <HomeIcon onClick={() => handleDrawerClose("Home")} />
                   ) : index === 1 ? (
-                    <ClassIcon />
+                    <MenuBookIcon onClick={() => handleDrawerClose("Books")} />
                   ) : index === 2 ? (
-                    <MenuBookIcon />
+                    <ClassIcon onClick={() => handleDrawerClose("Categories")} />
                   ) : index === 3 ? (
-                    <AccountCircleIcon />
+                    <AccountCircleIcon onClick={() => handleDrawerClose("Authors")} />
                   ) : null}
                 </ListItemIcon>
                 <ListItemText primary={text} />

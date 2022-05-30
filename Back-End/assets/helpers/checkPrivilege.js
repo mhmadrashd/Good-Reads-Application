@@ -8,7 +8,7 @@ const verifyAsync = util.promisify(jwt.verify);
 
 const authorizeAdminsPriv = async (req, res, next) => {
     //Get authorizion from header
-    const token = req.cookies.Authorization;
+    const { token } = req.headers;
     try {
         //Get data from token after veify this token
         const payload = await verifyAsync(token, process.env.SECRET_KEY);
@@ -21,27 +21,22 @@ const authorizeAdminsPriv = async (req, res, next) => {
 };
 const requireAuth = async (req, res, next) => {
     try {
-        const token = req.cookies.Authorization;
+        const { token } = req.headers;
         if (token) {
             const payload = await verifyAsync(token, process.env.SECRET_KEY);
             if (payload.admin === false) {
                 res.redirect('/login');
-                console.log("1")
             } else {
                 next();
-                console.log("2")
             }
         }
         else {
             res.redirect('/login');
-            console.log("3")
         }
     } catch (error) {
         next(authorizationError);
         console.log(error.message)
-        console.log("4")
     }
-    console.log("5")
     next();
 };
 
@@ -63,7 +58,7 @@ const requireAuth = async (req, res, next) => {
 
 async function loginName(req, res) {
     try {
-        const token = req.cookies.Authorization;
+        const { token } = req.headers;
         //Get data from token after veify this token
         const payload = await verifyAsync(token, process.env.SECRET_KEY);
         return payload.name;
@@ -75,7 +70,7 @@ async function loginName(req, res) {
 
 async function loginID(req, res) {
     try {
-        const token = req.cookies.Authorization;
+        const { token } = req.headers;
         //Get data from token after veify this token
         const payload = await verifyAsync(token, process.env.SECRET_KEY);
         return payload.id;

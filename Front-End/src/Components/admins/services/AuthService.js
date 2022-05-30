@@ -1,11 +1,11 @@
+import axios from "axios";
+
 const AuthFetch = {
   login: (user) => {
-    return fetch("https://goodread-backend.herokuapp.com/admin/login", {
-      method: "post",
-      body: JSON.stringify(user),
+    return axios.post("https://goodread-backend.herokuapp.com/admin/login", user, {
       headers: {
-        "Content-Type": "application/json",
-      },
+        token: sessionStorage.getItem("Authorization")
+      }
     })
       .then((res) => {
         const resJson = res.json();

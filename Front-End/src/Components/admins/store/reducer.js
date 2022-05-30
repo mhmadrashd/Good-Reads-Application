@@ -3,7 +3,7 @@ import { initialState } from "./context";
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "Login":
-      localStorage.setItem(
+      sessionStorage.setItem(
         "currentUserInfo",
         JSON.stringify(action.payload.user)
       );
@@ -15,7 +15,7 @@ const reducer = (state = initialState, action) => {
       };
 
     case "Logout":
-      localStorage.clear();
+      sessionStorage.clear();
       return {
         ...state,
         isAuthenticated: false,

@@ -6,8 +6,7 @@ const { authorizationError } = require("../../assets/helpers/customError");
 const verifyAsync = util.promisify(jwt.verify);
 
 exports.authorizeAdmin = async (req, res, next) => {
-    //Get authorizion and id from header
-    const token = req.cookies.Authorization;
+    const { token } = req.headers;
     const { id } = req.params;
     try {
         //Get data from token after veify this token

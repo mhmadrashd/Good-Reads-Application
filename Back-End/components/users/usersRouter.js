@@ -101,6 +101,7 @@ userRouter.post("/", async (req, res, next) => {
 //Login user
 userRouter.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
+
   try {
     //Find if user exist or not
     const user = await UserModel.findOne({ email });
@@ -122,8 +123,7 @@ userRouter.post("/login", async (req, res, next) => {
 
     //Send token to browser
     res.cookie("Authorization", token, { maxAge: 24 * 60 * 60 * 1000 });
-
-    res.send({ id: user._id, name: user.fName + " " + user.lName, img: user.img });
+    res.send({ id: user._id, name: user.fName + " " + user.lName, img: user.img, Authorization: token });
   } catch (error) {
     next(error);
   }

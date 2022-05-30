@@ -16,7 +16,7 @@ const Main = () => {
     });
   };
   return (
-    <div className={`${styles.container} Home`} >
+    <div className={`${styles.container} Home topPage`} >
       <div className={`${styles.vd}`}>
         <video
           src="https://firebasestorage.googleapis.com/v0/b/goodreadsapplication.appspot.com/o/main.mp4?alt=media&token=0127f931-be55-41f8-9695-d41f0460e905"

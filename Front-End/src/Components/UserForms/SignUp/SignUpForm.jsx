@@ -10,6 +10,8 @@ import axios from '../accountBox/axiosWork';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../firbase/firebase";
 import { v4 } from "uuid";
+import { NavigateBeforeOutlined } from '@mui/icons-material';
+import { useNavigate } from 'react-router';
 
 
 const InputFile = styled.input`
@@ -139,6 +141,7 @@ const SignUpForm = (props) => {
     }, [fname, lname, email, pwd, matchPwd, img])
 
     const [imageUpload, setImageUpload] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -169,16 +172,21 @@ const SignUpForm = (props) => {
                             email,
                             password: pwd,
                             img: url,
+                        }, {
+                        headers: {
+                            token: sessionStorage.getItem("Authorization")
                         }
+                    }
                     )
                 }).then(function () {
-                    window.location.reload();
+                    // window.location.reload();
                     setFname('');
                     setLname('');
                     setEmail('');
                     setPwd('');
                     setMatchPwd('');
                     setImg('');
+                    switchToSignIn()
                 }).catch((error) => {
                     if (!error?.response) {
                         setErrMsg('No Server Response');

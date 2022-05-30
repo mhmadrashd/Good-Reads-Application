@@ -5,6 +5,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setRefreshAdmin } from '../../../../Redux/DataSlice';
 const URLServer = "https://goodread-backend.herokuapp.com";
 
 function EditCategoryModal(probs) {
@@ -12,16 +14,21 @@ function EditCategoryModal(probs) {
   const initialValues = {
     editedCategory: probs.item["Name"]
   }
-
+  const dispatch = useDispatch();
   //to handle the submit action with formik
   const onSubmit = values => {
     // console.log(values);
     axios.patch(`${URLServer}/category/${probs.item._id}`, {
       Name: values.editedCategory,
-    }, { withCredentials: true, credentials: 'include' })
+    }, {
+      headers: {
+        token: sessionStorage.getItem("Authorization")
+      }
+    })
       .then(function (response) {
         probs.onClick()
-        window.location.reload();
+        dispatch(setRefreshAdmin(1))
+        // window.location.reload();
       })
       .catch(function (error) {
         console.log(error);
