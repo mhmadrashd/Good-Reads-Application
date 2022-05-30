@@ -177,6 +177,7 @@ export const PrivateRoute = ({ children }) => {
             <MsgDialogs title="Open Page" msg={"You Can't open this page before login!"} state={2} navigation={1} />
         </>;
 }
+
 export const PrivateRoute2 = ({ children }) => {
     return <Navigate to="/front-end" />;
 }

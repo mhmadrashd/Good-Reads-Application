@@ -79,7 +79,7 @@ const Login = (props) => {
               <form onSubmit={handleSubmit} className="form">
                 <div className="row card  formEdit ">
                   <div className="col mb-4 ">
-                    <div className="form-outline btnlogin mb-3 ">
+                    <div className="form-outline btnlogin mb-3">
                       <input
                         type="text"
                         name="email"
@@ -93,7 +93,7 @@ const Login = (props) => {
                       <br />
                     </div>
 
-                    <div className="col-5 btnlogin ">
+                    <div className="form-outline btnlogin mb-3 ">
                       <input
                         type="password"
                         name="password"
@@ -103,13 +103,15 @@ const Login = (props) => {
                         placeholder="password"
                         autoComplete="off"
                       />
-                      <div className="col-2">
-                        <input
-                          type="submit"
-                          value="Sign in"
-                          className="gr-button gr-button--dark login-btn Currbtn"
-                        />
-                      </div>
+
+                    </div>
+
+                    <div className="form-outline btnlogin mb-3">
+                      <input
+                        type="submit"
+                        value="Sign in"
+                        className="gr-button gr-button--dark login-btn Currbtn"
+                      />
                     </div>
                     <br />
                     {/* <!-- Checkbox --> */}

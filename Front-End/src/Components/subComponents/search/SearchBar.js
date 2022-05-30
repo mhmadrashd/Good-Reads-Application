@@ -90,7 +90,7 @@ function SearchBar(props) {
   return (
     <div className="search">
       <div className="searchInputs">
-        <Search className="mr-3 max-w-[100%] ">
+        <Search className="mr-3 max-w-[100%] border-1">
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
