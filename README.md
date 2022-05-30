@@ -21,9 +21,8 @@ GoodReads Website With MERN Stack
 
 ## Live Demo
 
-```bash
 [Demo Live Link](https://mhmadrashd.github.io/front-end/)
-```
+
 
 ## Setup
 
