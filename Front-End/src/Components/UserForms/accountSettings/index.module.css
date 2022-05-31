@@ -1,0 +1,142 @@
+.cont {
+  display: block;
+  margin-top: 3%;
+  margin-left: 7%;
+  margin-bottom: 50px;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  border-radius: 15px;
+  padding: 30px;
+  padding-top: 140px;
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-box-shadow: 20px 20px 50px 15px grey;
+          box-shadow: 20px 20px 50px 15px grey;
+  /* Small Screens */
+  /* Medium Screens */
+  /* Large Screens */
+}
+
+@media screen and (min-width: 768px) {
+  .cont {
+    width: 750px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .cont {
+    width: 970px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .cont {
+    width: 1170px;
+  }
+}
+
+.cont .divAvtar {
+  position: absolute;
+  top: 20%;
+  left: calc(50% - 70px);
+  height: 30%;
+  width: 30%;
+  /* Medium Screens */
+}
+
+@media screen and (max-width: 992px) {
+  .cont .divAvtar {
+    top: 10%;
+    left: calc(50% - 40px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cont .divAvtar {
+    top: 15%;
+    left: calc(50% - 40px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .cont .divAvtar {
+    top: 13%;
+    left: calc(50% - 40px);
+  }
+}
+
+.cont .avtar {
+  width: 70px;
+  height: 90px;
+  min-width: 80px;
+  min-height: 50px;
+  border-radius: 50%;
+}
+
+.cont .inputFile {
+  padding-left: 20px;
+  /* Medium Screens */
+}
+
+@media screen and (max-width: 992px) {
+  .cont .inputFile {
+    padding-left: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cont .inputFile {
+    padding-left: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .cont .inputFile {
+    padding-left: 70px;
+  }
+}
+
+.cont .divInputFile {
+  text-align: center;
+}
+
+.cont .btnSubmit {
+  cursor: pointer;
+  border-radius: 20px;
+  margin-top: 15px;
+  background-color: #01BF71;
+  padding: 14px 48px;
+  color: #fff;
+  outline: none;
+  border: none;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.cont .btnSubmit:hover {
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  background-color: #04663d;
+}
+
+.cont .btnSubmit .mainicon {
+  font-size: 20px;
+}
+
+@media screen and (max-width: 786px) {
+  .cont .btnSubmit .mainicon {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .cont .btnSubmit .mainicon {
+    font-size: 10px;
+  }
+}
+/*# sourceMappingURL=index.module.css.map */

@@ -21,6 +21,9 @@
     width: 350px;
     margin-left: 10px;
 }
+.cardAndrateAndselect img{
+    max-height: 370px;
+}
 .description{
     
     width:100%;

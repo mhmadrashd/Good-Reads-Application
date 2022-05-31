@@ -210,7 +210,7 @@ booksRouter.get("/userBookBID/:id", async (req, res, next) => {
   try {
     const Book = await userBooksModel.find({ book: id })
       .populate({ path: "book", select: "title category auhtor img" })
-      .populate({ path: "user", select: "fName lName" }).exec();
+      .populate({ path: "user", select: "fName lName img" }).exec();
     res.send(Book);
   } catch (error) {
     next(customError(error.code, "VALIDATION_ERROR", error));
@@ -228,7 +228,7 @@ booksRouter.post("/userBook", async (req, res, next) => {
     const Book = await userBooksModel.find({ book: book, user: user });
     if (Book.length === 0) {
       await userBooksValidator.validateAsync({
-        user: await loginID(req),
+        user: await loginID(req, res),
         book,
         state,
         rating,

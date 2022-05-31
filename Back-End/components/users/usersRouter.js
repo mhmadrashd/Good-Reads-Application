@@ -34,7 +34,7 @@ userRouter.get("/", authorizeUser, async (req, res, next) => {
 
 //Edit user by ID
 userRouter.patch("/", authorizeUser, async (req, res, next) => {
-  const id = await loginID();
+  const id = await loginID(req, res);
   const { fName, lName, email, password, img } = req.body;
   try {
     //Check valid Data

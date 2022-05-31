@@ -41,28 +41,17 @@
             left: calc(50% - 40px);
         }
         @media screen and (max-width:480px){
-            top: 12%;
+            top: 13%;
             left: calc(50% - 40px);
         }
     }
     .avtar{
-        width: 25%;
-        height: 60%;
+        width: 70px;
+        height: 90px;
         min-width: 80px;
         min-height: 50px;
         border-radius: 50%;
-        @media screen and (max-width: 992px) {
-            width: 30%;
-            height: 35%;
-        }
-        @media screen and (max-width: 768px) {
-            width: 25%;
-            height: 60%;
-        }
-        @media screen and (max-width:480px){
-            width: 25%;
-            height: 55%;
-        }
+        
     }
     .inputFile{
         padding-left: 20px;

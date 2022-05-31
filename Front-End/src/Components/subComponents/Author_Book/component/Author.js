@@ -57,7 +57,7 @@ export default function Author() {
 
     return (
       <div className="booksofauthor" key={index}>
-        <img alt="" className=" bookimg" src={data.img} width="100px" height="100px" />
+        <img alt="" className=" bookimg" src={data.img} width="70px" height="70px" />
         <div className="selectandrating">
           <div><StarRating stars={data.rating} /></div>
         </div>

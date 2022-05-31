@@ -31,13 +31,7 @@ export default function AccountSettings() {
     const dispatch = useDispatch();
     const { openDialog } = useSelector((state) => state.DataReducer);
     const uploadFile = () => {
-        if (imageUpload == null) return;
-        const imageRef = ref(storage, `images/author/${imageUpload.name + v4()}`);
-        uploadBytes(imageRef, imageUpload).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((url) => {
-                setImageUrl(url);
-            });
-        });
+
     };
 
     const handleClickShowPassword = () => {
@@ -61,28 +55,41 @@ export default function AccountSettings() {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        await uploadFile();
-        axios.patch(`https://goodread-backend.herokuapp.com/user`, {
-            fName: fname,
-            lName: lname,
-            email: eml,
-            password: pwd,
-            img: imageUrl
-        }, {
-            headers: {
-                token: sessionStorage.getItem("Authorization")
-            }
-        })
-            .then((response) => {
-                dispatch(setOpenDialog(true))
-                setUpdateState(1)
-            })
-            .catch((error) => {
-                dispatch(setOpenDialog(true))
-                setUpdateState(0)
-            })
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (imageUpload == null) {
+            dispatch(setOpenDialog(true))
+            setUpdateState(0)
+            return;
+        }
+        const imageRef = ref(storage, `images/author/${imageUpload.name + v4()}`);
+        uploadBytes(imageRef, imageUpload)
+            .then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((url) => {
+                    setImageUrl(url);
+                });
+                return snapshot.ref;
+            }).then((url) => {
+                axios.patch(`https://goodread-backend.herokuapp.com/user`, {
+                    fName: fname,
+                    lName: lname,
+                    email: eml,
+                    password: pwd,
+                    img: imageUrl
+                }, {
+                    headers: {
+                        token: sessionStorage.getItem("Authorization")
+                    }
+                })
+                    .then((response) => {
+                        dispatch(setOpenDialog(true))
+                        setUpdateState(1)
+                    })
+                    .catch((error) => {
+                        dispatch(setOpenDialog(true))
+                        setUpdateState(0)
+                    })
+            });
     }
 
     const refresh = 0;
